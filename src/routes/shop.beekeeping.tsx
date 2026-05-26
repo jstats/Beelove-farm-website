@@ -16,7 +16,7 @@ import frameFeederImg from "@/assets/shop-honey-rows.jpg";
 import uncappingForkImg from "@/assets/prod-uncapping-fork.jpg";
 import extractorImg from "@/assets/honey-products.jpg";
 import strainerImg from "@/assets/prod-honey-strainer.jpg";
-import honey150gImg from "@/assets/prod-honey-150g.jpg";
+import honey150gImg from "@/assets/prod-honey-bottle-kenya.jpg";
 import honey1kgImg from "@/assets/prod-honey-1kg.jpg";
 
 export const Route = createFileRoute("/shop/beekeeping")({

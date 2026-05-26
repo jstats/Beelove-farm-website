@@ -13,7 +13,13 @@ import honeycombImg from "@/assets/honeycomb-closeup.jpg";
 import honeyProductsImg from "@/assets/honey-products.jpg";
 import training2 from "@/assets/training2.jpg";
 import prodHoney1kg from "@/assets/prod-honey-1kg.jpg";
-import mapLandscapeImg from "@/assets/map-acacia-tree.jpg";
+import mapLandscapeImg from "@/assets/map-acacia-landscape.jpg";
+import trainingCommunity from "@/assets/training-community.jpg";
+import trainingCircle from "@/assets/training-circle.jpg";
+import beekeeperApiary from "@/assets/beekeeper-apiary.jpg";
+import beeShopFront from "@/assets/bee-shop-front.jpg";
+import catfishHarvestFresh from "@/assets/catfish-harvest-fresh.jpg";
+import honeyBottleKenya from "@/assets/prod-honey-bottle-kenya.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -297,13 +303,13 @@ function HomePage() {
             <p className="text-umber/75 max-w-2xl mx-auto">Real moments from our apiaries, training sessions, and honey harvests across Kenya.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[180px]">
-            <div className="row-span-2 rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={hero1} alt="CEO with honey" className="w-full h-full object-cover" /></div>
-            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={hero2} alt="Beelove hive" className="w-full h-full object-cover" /></div>
-            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={fishImg} alt="Fish harvest" className="w-full h-full object-cover" /></div>
+            <div className="row-span-2 rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={beekeeperApiary} alt="Beelove beekeeper inspecting hive" className="w-full h-full object-cover" /></div>
+            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={trainingCommunity} alt="Community beekeeping training in the field" className="w-full h-full object-cover" /></div>
+            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={catfishHarvestFresh} alt="Fresh catfish harvest" className="w-full h-full object-cover" /></div>
             <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={honeycombImg} alt="Honeycomb" className="w-full h-full object-cover" /></div>
-            <div className="col-span-2 rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={training2} alt="Women beekeeping training" className="w-full h-full object-cover" /></div>
-            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={honeyProductsImg} alt="Honey products" className="w-full h-full object-cover" /></div>
-            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={prodHoney1kg} alt="Beelove raw honey" className="w-full h-full object-cover" /></div>
+            <div className="col-span-2 rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={trainingCircle} alt="Women farmers gathered for beekeeping training" className="w-full h-full object-cover" /></div>
+            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={beeShopFront} alt="Beelove Apiaries shop front" className="w-full h-full object-cover" /></div>
+            <div className="rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={honeyBottleKenya} alt="Beelove honey bottle, Made in Kenya" className="w-full h-full object-cover" /></div>
           </div>
         </div>
       </section>
