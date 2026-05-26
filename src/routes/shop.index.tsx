@@ -12,7 +12,7 @@ import tilapia from "@/assets/fish-tilapia-hand.jpg";
 import azolla from "@/assets/prod-azolla.jpg";
 import pond from "@/assets/fish-pond.jpg";
 
-export const Route = createFileRoute("/shop")({
+export const Route = createFileRoute("/shop/")({
   head: () => ({
     meta: [
       { title: "Shop — Beelove Farm" },

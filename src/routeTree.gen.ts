@@ -9,22 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as ShopRouteImport } from './routes/shop'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as TrainingFishRouteImport } from './routes/training.fish'
 import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekeeping'
 import { Route as ShopFishRouteImport } from './routes/shop.fish'
 import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 
-const ShopRoute = ShopRouteImport.update({
-  id: '/shop',
-  path: '/shop',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -50,6 +45,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/shop/',
+  path: '/shop/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrainingFishRoute = TrainingFishRouteImport.update({
   id: '/training/fish',
   path: '/training/fish',
@@ -61,14 +61,14 @@ const TrainingBeekeepingRoute = TrainingBeekeepingRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopFishRoute = ShopFishRouteImport.update({
-  id: '/fish',
-  path: '/fish',
-  getParentRoute: () => ShopRoute,
+  id: '/shop/fish',
+  path: '/shop/fish',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
-  id: '/beekeeping',
-  path: '/beekeeping',
-  getParentRoute: () => ShopRoute,
+  id: '/shop/beekeeping',
+  path: '/shop/beekeeping',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -77,11 +77,11 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/map': typeof MapRoute
-  '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -89,11 +89,11 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/map': typeof MapRoute
-  '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
+  '/shop': typeof ShopIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -102,11 +102,11 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/map': typeof MapRoute
-  '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -116,11 +116,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/hive-sensors'
     | '/map'
-    | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
     | '/training/fish'
+    | '/shop/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -128,11 +128,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/hive-sensors'
     | '/map'
-    | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
     | '/training/fish'
+    | '/shop'
   id:
     | '__root__'
     | '/'
@@ -140,11 +140,11 @@ export interface FileRouteTypes {
     | '/contact'
     | '/hive-sensors'
     | '/map'
-    | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
     | '/training/fish'
+    | '/shop/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -153,20 +153,15 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   HiveSensorsRoute: typeof HiveSensorsRoute
   MapRoute: typeof MapRoute
-  ShopRoute: typeof ShopRouteWithChildren
+  ShopBeekeepingRoute: typeof ShopBeekeepingRoute
+  ShopFishRoute: typeof ShopFishRoute
   TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
   TrainingFishRoute: typeof TrainingFishRoute
+  ShopIndexRoute: typeof ShopIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/shop': {
-      id: '/shop'
-      path: '/shop'
-      fullPath: '/shop'
-      preLoaderRoute: typeof ShopRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -202,6 +197,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/shop/': {
+      id: '/shop/'
+      path: '/shop'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/training/fish': {
       id: '/training/fish'
       path: '/training/fish'
@@ -218,32 +220,20 @@ declare module '@tanstack/react-router' {
     }
     '/shop/fish': {
       id: '/shop/fish'
-      path: '/fish'
+      path: '/shop/fish'
       fullPath: '/shop/fish'
       preLoaderRoute: typeof ShopFishRouteImport
-      parentRoute: typeof ShopRoute
+      parentRoute: typeof rootRouteImport
     }
     '/shop/beekeeping': {
       id: '/shop/beekeeping'
-      path: '/beekeeping'
+      path: '/shop/beekeeping'
       fullPath: '/shop/beekeeping'
       preLoaderRoute: typeof ShopBeekeepingRouteImport
-      parentRoute: typeof ShopRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
-
-interface ShopRouteChildren {
-  ShopBeekeepingRoute: typeof ShopBeekeepingRoute
-  ShopFishRoute: typeof ShopFishRoute
-}
-
-const ShopRouteChildren: ShopRouteChildren = {
-  ShopBeekeepingRoute: ShopBeekeepingRoute,
-  ShopFishRoute: ShopFishRoute,
-}
-
-const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -251,10 +241,22 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   HiveSensorsRoute: HiveSensorsRoute,
   MapRoute: MapRoute,
-  ShopRoute: ShopRouteWithChildren,
+  ShopBeekeepingRoute: ShopBeekeepingRoute,
+  ShopFishRoute: ShopFishRoute,
   TrainingBeekeepingRoute: TrainingBeekeepingRoute,
   TrainingFishRoute: TrainingFishRoute,
+  ShopIndexRoute: ShopIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
