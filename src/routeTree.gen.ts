@@ -9,38 +9,132 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TrainingFishRouteImport } from './routes/training.fish'
+import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekeeping'
+import { Route as ShopFishRouteImport } from './routes/shop.fish'
+import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TrainingFishRoute = TrainingFishRouteImport.update({
+  id: '/training/fish',
+  path: '/training/fish',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrainingBeekeepingRoute = TrainingBeekeepingRouteImport.update({
+  id: '/training/beekeeping',
+  path: '/training/beekeeping',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopFishRoute = ShopFishRouteImport.update({
+  id: '/fish',
+  path: '/fish',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
+  id: '/beekeeping',
+  path: '/beekeeping',
+  getParentRoute: () => ShopRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/shop/beekeeping': typeof ShopBeekeepingRoute
+  '/shop/fish': typeof ShopFishRoute
+  '/training/beekeeping': typeof TrainingBeekeepingRoute
+  '/training/fish': typeof TrainingFishRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/shop/beekeeping': typeof ShopBeekeepingRoute
+  '/shop/fish': typeof ShopFishRoute
+  '/training/beekeeping': typeof TrainingBeekeepingRoute
+  '/training/fish': typeof TrainingFishRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/shop/beekeeping': typeof ShopBeekeepingRoute
+  '/shop/fish': typeof ShopFishRoute
+  '/training/beekeeping': typeof TrainingBeekeepingRoute
+  '/training/fish': typeof TrainingFishRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/shop'
+    | '/shop/beekeeping'
+    | '/shop/fish'
+    | '/training/beekeeping'
+    | '/training/fish'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/shop'
+    | '/shop/beekeeping'
+    | '/shop/fish'
+    | '/training/beekeeping'
+    | '/training/fish'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/shop'
+    | '/shop/beekeeping'
+    | '/shop/fish'
+    | '/training/beekeeping'
+    | '/training/fish'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ShopRoute: typeof ShopRouteWithChildren
+  TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
+  TrainingFishRoute: typeof TrainingFishRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +142,56 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/training/fish': {
+      id: '/training/fish'
+      path: '/training/fish'
+      fullPath: '/training/fish'
+      preLoaderRoute: typeof TrainingFishRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training/beekeeping': {
+      id: '/training/beekeeping'
+      path: '/training/beekeeping'
+      fullPath: '/training/beekeeping'
+      preLoaderRoute: typeof TrainingBeekeepingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/fish': {
+      id: '/shop/fish'
+      path: '/fish'
+      fullPath: '/shop/fish'
+      preLoaderRoute: typeof ShopFishRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/beekeeping': {
+      id: '/shop/beekeeping'
+      path: '/beekeeping'
+      fullPath: '/shop/beekeeping'
+      preLoaderRoute: typeof ShopBeekeepingRouteImport
+      parentRoute: typeof ShopRoute
+    }
   }
 }
 
+interface ShopRouteChildren {
+  ShopBeekeepingRoute: typeof ShopBeekeepingRoute
+  ShopFishRoute: typeof ShopFishRoute
+}
+
+const ShopRouteChildren: ShopRouteChildren = {
+  ShopBeekeepingRoute: ShopBeekeepingRoute,
+  ShopFishRoute: ShopFishRoute,
+}
+
+const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ShopRoute: ShopRouteWithChildren,
+  TrainingBeekeepingRoute: TrainingBeekeepingRoute,
+  TrainingFishRoute: TrainingFishRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
