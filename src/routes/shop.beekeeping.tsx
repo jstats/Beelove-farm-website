@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
-import shopInterior from "@/assets/prod-shop.jpg";
+import shopInterior from "@/assets/prod-honey-range.jpg";
 import langstrothImg from "@/assets/prod-langstroth.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
 import hiveToolImg from "@/assets/prod-hive-tool.jpg";
