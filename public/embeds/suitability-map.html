@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beelove Farm — Kenya Beekeeping Suitability Map</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <style>
+    :root {
+      --amber: #f59e0b;
+      --amber-dark: #b45309;
+      --amber-light: #fef3c7;
+      --green-high: #15803d;
+      --green-good: #4ade80;
+      --yellow: #fbbf24;
+      --orange: #f97316;
+      --red: #ef4444;
+      --dark: #1c1917;
+      --mid: #57534e;
+      --border: #e7e5e4;
+      --light: #fafaf9;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: var(--dark); height: 100vh; display: flex; flex-direction: column; }
+
+    header {
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: white;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--amber);
+      flex-shrink: 0;
+    }
+    .header-left { display: flex; align-items: center; gap: 12px; }
+    .header-left .logo { font-size: 24px; }
+    .header-left h1 { font-size: 16px; font-weight: 700; color: var(--amber); }
+    .header-left p { font-size: 11px; color: rgba(255,255,255,0.6); }
+    .header-stats { display: flex; gap: 16px; }
+    .stat-box { text-align: center; }
+    .stat-box .val { font-size: 18px; font-weight: 800; color: var(--amber); }
+    .stat-box .lbl { font-size: 10px; color: rgba(255,255,255,0.5); text-transform: uppercase; }
+
+    #map { flex: 1; }
+
+    /* Legend */
+    .legend {
+      position: absolute;
+      bottom: 32px;
+      right: 12px;
+      z-index: 1000;
+      background: white;
+      border-radius: 12px;
+      padding: 12px 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      min-width: 160px;
+    }
+    .legend h4 { font-size: 12px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+    .legend-item { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+    .legend-dot { width: 14px; height: 14px; border-radius: 50%; flex-shrink: 0; }
+
+    /* Info Panel */
+    .info-panel {
+      position: absolute;
+      top: 80px;
+      left: 12px;
+      z-index: 1000;
+      background: white;
+      border-radius: 14px;
+      width: 290px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      display: none;
+    }
+    .info-panel.visible { display: block; }
+    .panel-header {
+      background: linear-gradient(135deg, var(--amber-dark), var(--amber));
+      color: white;
+      padding: 14px 16px;
+      border-radius: 14px 14px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .panel-header h2 { font-size: 16px; font-weight: 800; }
+    .panel-header .county-score {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+    .panel-header .score-label { font-size: 10px; opacity: 0.8; text-align: right; }
+    .panel-body { padding: 14px 16px; }
+    .info-row { margin-bottom: 12px; }
+    .info-row .label { font-size: 11px; font-weight: 700; color: var(--mid); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 3px; }
+    .info-row .value { font-size: 13px; color: var(--dark); line-height: 1.5; }
+    .flora-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+    .flora-tag { background: var(--amber-light); color: var(--amber-dark); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(255,255,255,0.3);
+      border: none;
+      color: white;
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .suitability-bar { height: 8px; background: #e5e7eb; border-radius: 4px; margin-top: 6px; overflow: hidden; }
+    .suitability-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+
+    /* Field data button */
+    .add-data-btn {
+      position: absolute;
+      top: 80px;
+      right: 12px;
+      z-index: 1000;
+      background: linear-gradient(135deg, var(--amber-dark), var(--amber));
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(180,83,9,0.4);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Search box */
+    .search-box {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      background: white;
+      border-radius: 24px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+      width: 220px;
+    }
+    .search-box input {
+      border: none;
+      outline: none;
+      font-size: 13px;
+      width: 100%;
+      color: var(--dark);
+    }
+
+    /* Field observation modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--amber-dark); }
+    .modal label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; margin-top: 12px; }
+    .modal input, .modal select, .modal textarea {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .modal-btns { display: flex; gap: 8px; margin-top: 16px; }
+    .modal-btns button { flex: 1; padding: 10px; border-radius: 8px; border: none; font-weight: 700; font-size: 14px; cursor: pointer; }
+    .btn-save { background: var(--amber); color: white; }
+    .btn-cancel { background: var(--border); color: var(--mid); }
+
+    @media (max-width: 600px) {
+      .info-panel { width: calc(100vw - 24px); top: auto; bottom: 120px; left: 12px; }
+      .header-stats { display: none; }
+      .search-box { top: 80px; width: 160px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="logo">🐝</div>
+    <div>
+      <h1>Kenya Beekeeping Suitability Map</h1>
+      <p>Beelove Farm · Agri-Intelligence Platform v1.0</p>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="stat-box">
+      <div class="val">47</div>
+      <div class="lbl">Counties</div>
+    </div>
+    <div class="stat-box">
+      <div class="val" id="avgScore">—</div>
+      <div class="lbl">Avg Score</div>
+    </div>
+    <div class="stat-box">
+      <div class="val" id="highCount">—</div>
+      <div class="lbl">High Zones</div>
+    </div>
+    <div class="stat-box">
+      <div class="val" id="fieldObs">0</div>
+      <div class="lbl">Field Obs</div>
+    </div>
+  </div>
+</header>
+
+<div id="map"></div>
+
+<!-- Legend -->
+<div class="legend" id="legend">
+  <h4>🐝 Suitability</h4>
+  <div class="legend-item"><div class="legend-dot" style="background:#15803d"></div> 9–10 Excellent</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4ade80"></div> 7–8 Good</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#fbbf24"></div> 5–6 Moderate</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f97316"></div> 3–4 Low</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ef4444"></div> 1–2 Poor</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#7c3aed"></div> Field Data</div>
+</div>
+
+<!-- Search -->
+<div class="search-box">
+  <span>🔍</span>
+  <input type="text" id="searchInput" placeholder="Search county..." oninput="searchCounty(this.value)" />
+</div>
+
+<!-- Add field data button -->
+<button class="add-data-btn" onclick="openModal()">📍 Add Field Observation</button>
+
+<!-- Info Panel -->
+<div class="info-panel" id="infoPanel">
+  <div class="panel-header" id="panelHeader">
+    <div>
+      <div style="font-size:11px; opacity:0.8; margin-bottom:2px;">COUNTY</div>
+      <h2 id="panelCounty">—</h2>
+    </div>
+    <div style="text-align:right">
+      <div class="county-score" id="panelScore">—</div>
+      <div class="score-label">/ 10</div>
+    </div>
+  </div>
+  <button class="close-btn" onclick="closePanel()">✕</button>
+  <div class="panel-body" id="panelBody"></div>
+</div>
+
+<!-- Add Field Obs Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>📍 Add Field Observation</h3>
+    <label>Area / Village Name</label>
+    <input type="text" id="obsArea" placeholder="e.g. Mbooni Hills" />
+    <label>County</label>
+    <select id="obsCounty"></select>
+    <label>GPS Coordinates</label>
+    <input type="text" id="obsGPS" placeholder="e.g. -1.234, 37.456" />
+    <label>Suitability Score (1–10)</label>
+    <select id="obsScore">
+      <option value="">Select score</option>
+      <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+      <option>6</option><option>7</option><option>8</option><option>9</option><option>10</option>
+    </select>
+    <label>Date of Observation</label>
+    <input type="date" id="obsDate" />
+    <label>Notes</label>
+    <textarea id="obsNotes" rows="3" placeholder="Key observations..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveObservation()">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── County Data ───────────────────────────────────────────────────────────────
+const counties = [
+  { name:"Mombasa", lat:-4.05, lng:39.67, score:4, rainfall:"900–1200mm", temp:"25–32°C", forage:["Mangrove","Coconut","Baobab","Wild Flowers"], season:"Oct–Dec", challenges:"Urban development, salt air limits forage", honey:"Coastal wildflower honey", notes:"Suitable for urban and peri-urban beekeeping with managed forage" },
+  { name:"Kwale", lat:-4.18, lng:39.46, score:7, rainfall:"900–1400mm", temp:"24–30°C", forage:["Mangrove","Acacia","Coconut","Wild Flowers","Baobab"], season:"Mar–Jun, Oct–Dec", challenges:"Coastal humidity; periodic drought inland", honey:"Coastal multi-floral honey", notes:"Inland areas with natural vegetation are excellent" },
+  { name:"Kilifi", lat:-3.51, lng:39.85, score:7, rainfall:"800–1300mm", temp:"24–30°C", forage:["Acacia","Mangrove","Coconut","Mango","Wild Flowers"], season:"Mar–Jun, Oct–Dec", challenges:"Dry periods, some coastal salinity", honey:"Coastal acacia honey", notes:"Good potential especially in inland hilly areas" },
+  { name:"Tana River", lat:-1.50, lng:40.10, score:5, rainfall:"300–700mm", temp:"28–36°C", forage:["Acacia","Doum Palm","Riverine Vegetation"], season:"Mar–May", challenges:"Arid conditions, limited forage, flooding risk", honey:"Acacia honey", notes:"Riverine zones suitable; dry plains less so" },
+  { name:"Lamu", lat:-2.27, lng:40.90, score:7, rainfall:"900–1300mm", temp:"25–32°C", forage:["Mangrove","Coconut","Wild Flowers","Acacia"], season:"Oct–Dec, Mar–May", challenges:"Saltwater proximity; limited freshwater", honey:"Mangrove honey", notes:"Mangrove honey is rare and premium — niche opportunity" },
+  { name:"Taita Taveta", lat:-3.32, lng:38.44, score:8, rainfall:"800–1800mm", temp:"18–28°C", forage:["Acacia","Wild Flowers","Mango","Avocado","Coffee"], season:"Mar–Jun, Oct–Dec", challenges:"Some dry lowland areas", honey:"Highland multi-floral honey", notes:"Taita Hills are excellent — rich biodiversity, good rainfall" },
+  { name:"Garissa", lat:-0.45, lng:39.64, score:3, rainfall:"200–400mm", temp:"28–38°C", forage:["Acacia","Desert Shrubs"], season:"Apr–May only", challenges:"Very arid, extreme heat, limited water, few forage plants", honey:"Acacia honey (limited)", notes:"Only viable near riverine zones along Tana River" },
+  { name:"Wajir", lat:1.75, lng:40.06, score:2, rainfall:"150–350mm", temp:"28–40°C", forage:["Acacia","Desert Shrubs"], season:"Short window Apr–May", challenges:"Extreme aridity, water scarcity, very sparse forage", honey:"Sparse desert honey", notes:"Not recommended without significant irrigation/forage planting" },
+  { name:"Mandera", lat:3.94, lng:41.86, score:2, rainfall:"100–250mm", temp:"30–42°C", forage:["Acacia (sparse)"], season:"Very limited", challenges:"Harshest climate in Kenya, near-desert conditions", honey:"Not commercially viable", notes:"Beekeeping extremely challenging; not recommended" },
+  { name:"Marsabit", lat:2.33, lng:37.99, score:4, rainfall:"300–700mm", temp:"18–32°C", forage:["Acacia","Highland Forest Flowers","Wild Flowers"], season:"Mar–May", challenges:"Arid lowlands; highland areas much better", honey:"Acacia honey", notes:"Mt. Marsabit forests are decent; surrounding areas poor" },
+  { name:"Isiolo", lat:0.35, lng:38.01, score:4, rainfall:"300–600mm", temp:"22–34°C", forage:["Acacia","Wild Shrubs"], season:"Apr–Jun", challenges:"Semi-arid, water scarcity, limited forage variety", honey:"Acacia honey", notes:"Beekeeping possible but modest yields expected" },
+  { name:"Meru", lat:0.05, lng:37.65, score:9, rainfall:"900–2000mm", temp:"14–24°C", forage:["Calliandra","Macadamia","Coffee","Avocado","Wild Flowers","Sunflower"], season:"Mar–Jun, Oct–Nov", challenges:"Minimal; some altitude extremes on upper Mt. Kenya slopes", honey:"Premium highland multi-floral honey", notes:"One of Kenya's top beekeeping counties — Mt. Kenya foothills are exceptional" },
+  { name:"Tharaka Nithi", lat:-0.30, lng:37.88, score:8, rainfall:"700–1600mm", temp:"16–26°C", forage:["Acacia","Calliandra","Coffee","Wild Flowers","Mango"], season:"Mar–Jun, Oct–Dec", challenges:"Lower areas more arid than highlands", honey:"Multi-floral highland honey", notes:"Highland zones excellent; strong beekeeping tradition here" },
+  { name:"Embu", lat:-0.53, lng:37.45, score:9, rainfall:"1000–2000mm", temp:"14–24°C", forage:["Coffee","Macadamia","Calliandra","Avocado","Wild Flowers","Croton"], season:"Year-round with peaks Mar–Jun", challenges:"Minimal; excellent conditions throughout", honey:"Premium coffee-floral honey", notes:"Exceptional beekeeping zone — coffee blossoms produce premium honey" },
+  { name:"Kitui", lat:-1.37, lng:38.01, score:5, rainfall:"400–900mm", temp:"20–30°C", forage:["Acacia","Baobab","Mango","Wild Shrubs"], season:"Mar–May, Nov–Dec", challenges:"Semi-arid, erratic rainfall, limited forage diversity", honey:"Acacia & baobab honey", notes:"Mbooni Hills and other elevated areas significantly better than lowlands" },
+  { name:"Machakos", lat:-1.52, lng:37.27, score:6, rainfall:"500–1100mm", temp:"18–28°C", forage:["Acacia","Mango","Sunflower","Wild Flowers","Calliandra"], season:"Mar–Jun, Oct–Dec", challenges:"Some arid lowlands; hilly areas much better", honey:"Multi-floral semi-arid honey", notes:"Good potential in elevated areas; Mua Hills and surrounding zones excellent" },
+  { name:"Makueni", lat:-2.25, lng:37.62, score:6, rainfall:"450–900mm", temp:"18–28°C", forage:["Acacia","Baobab","Mango","Wild Flowers","Croton","Calliandra"], season:"Mar–Jun, Oct–Dec", challenges:"Semi-arid conditions, water scarcity in dry season", honey:"Acacia & multi-floral honey", notes:"Mbooni Hills zone is excellent (8/10). Wote and elevated areas good. Lowland plains moderate." },
+  { name:"Nyandarua", lat:-0.18, lng:36.52, score:8, rainfall:"800–1600mm", temp:"10–20°C", forage:["Wild Flowers","Calliandra","Pyrethrum","Wheat Flowers"], season:"Mar–Jun, Oct–Dec", challenges:"Cold temperatures at high altitude; frost risk", honey:"Highland wildflower honey", notes:"Aberdares region is excellent but needs cold-hardy management" },
+  { name:"Nyeri", lat:-0.42, lng:36.95, score:9, rainfall:"900–1800mm", temp:"12–22°C", forage:["Calliandra","Coffee","Macadamia","Avocado","Wild Flowers","Croton"], season:"Year-round with peaks Mar–Jun", challenges:"Minimal; world-class beekeeping conditions", honey:"Premium Mt. Kenya honey", notes:"Kenya's most renowned beekeeping zone. ICIPE and major honey operations based here." },
+  { name:"Kirinyaga", lat:-0.66, lng:37.27, score:9, rainfall:"900–1800mm", temp:"12–22°C", forage:["Coffee","Calliandra","Macadamia","Wild Flowers","Avocado"], season:"Mar–Jun, Oct–Dec", challenges:"Minimal; excellent all-round conditions", honey:"Coffee blossom & multi-floral honey", notes:"Mt. Kenya slopes produce some of East Africa's finest honey" },
+  { name:"Murang'a", lat:-0.72, lng:37.05, score:9, rainfall:"900–1900mm", temp:"14–24°C", forage:["Coffee","Macadamia","Calliandra","Avocado","Wild Flowers","Tea"], season:"Year-round", challenges:"Minimal; excellent conditions", honey:"Premium coffee-floral honey", notes:"Outstanding beekeeping zone with excellent forage diversity" },
+  { name:"Kiambu", lat:-1.03, lng:36.83, score:7, rainfall:"800–1500mm", temp:"14–22°C", forage:["Coffee","Calliandra","Avocado","Wild Flowers","Tea"], season:"Mar–Jun, Oct–Dec", challenges:"Increasing urbanization reducing forage areas", honey:"Multi-floral highland honey", notes:"Good conditions but urban expansion is reducing suitable land" },
+  { name:"Turkana", lat:3.12, lng:35.60, score:2, rainfall:"100–300mm", temp:"28–42°C", forage:["Acacia (sparse)","Desert Shrubs"], season:"Very limited Apr–May", challenges:"Kenya's harshest climate; water extremely scarce; very sparse vegetation", honey:"Not commercially viable", notes:"Only viable in micro-pockets near Lake Turkana shores" },
+  { name:"West Pokot", lat:1.62, lng:35.22, score:5, rainfall:"400–1200mm", temp:"16–28°C", forage:["Acacia","Wild Flowers","Sorghum Flowers"], season:"Apr–Jun", challenges:"Highland/lowland divide; lowlands very arid", honey:"Wildflower honey", notes:"Highland areas around Cherangani Hills are significantly better" },
+  { name:"Samburu", lat:1.22, lng:36.92, score:4, rainfall:"300–700mm", temp:"20–32°C", forage:["Acacia","Wild Shrubs","Desert Rose"], season:"Apr–Jun", challenges:"Semi-arid, limited water, nomadic land use", honey:"Acacia honey", notes:"Possible in greener highland fringes; not viable in lowlands" },
+  { name:"Trans Nzoia", lat:1.05, lng:34.95, score:8, rainfall:"800–1600mm", temp:"14–24°C", forage:["Sunflower","Maize Flowers","Wild Flowers","Calliandra","Eucalyptus"], season:"Mar–Jun, Aug–Oct", challenges:"Some heavy pesticide use on large farms", honey:"Sunflower honey", notes:"Excellent conditions; famous for sunflower honey. Watch for pesticide use on large farms." },
+  { name:"Uasin Gishu", lat:0.55, lng:35.30, score:7, rainfall:"800–1400mm", temp:"14–22°C", forage:["Sunflower","Wheat Flowers","Wild Flowers","Eucalyptus"], season:"Mar–Jun", challenges:"Commercial farming uses pesticides; cold at altitude", honey:"Sunflower & wildflower honey", notes:"Good potential especially near natural areas; Eldoret peri-urban areas reasonable" },
+  { name:"Elgeyo Marakwet", lat:0.50, lng:35.55, score:7, rainfall:"700–1400mm", temp:"14–24°C", forage:["Wild Flowers","Calliandra","Acacia","Croton"], season:"Mar–Jun, Oct–Dec", challenges:"Steep escarpment terrain", honey:"Multi-floral honey", notes:"Kerio Valley and escarpment areas have excellent biodiversity" },
+  { name:"Nandi", lat:0.18, lng:35.13, score:8, rainfall:"1200–1800mm", temp:"14–22°C", forage:["Tea Flowers","Calliandra","Wild Flowers","Coffee","Eucalyptus"], season:"Year-round", challenges:"Tea estates use pesticides; manage placement carefully", honey:"Tea blossom & wildflower honey", notes:"Tea belt provides unique tea blossom honey; excellent rainfall" },
+  { name:"Baringo", lat:0.85, lng:35.97, score:6, rainfall:"400–1000mm", temp:"20–30°C", forage:["Acacia","Wild Flowers","Baobab","Prosopis"], season:"Mar–May, Nov–Dec", challenges:"Prosopis (invasive) affects native forage; semi-arid lowlands", honey:"Acacia honey", notes:"Some excellent honey produced here; Prosopis honey is actually sought after" },
+  { name:"Laikipia", lat:0.20, lng:36.78, score:6, rainfall:"500–1000mm", temp:"14–24°C", forage:["Acacia","Wild Flowers","Calliandra","Croton"], season:"Mar–Jun, Oct–Nov", challenges:"Large ranches limit access; semi-arid in north", honey:"Multi-floral savanna honey", notes:"Plateau areas near Mt. Kenya foothills are very good; northern areas drier" },
+  { name:"Nakuru", lat:-0.30, lng:36.07, score:8, rainfall:"900–1600mm", temp:"14–22°C", forage:["Calliandra","Wild Flowers","Sunflower","Pyrethrum","Avocado"], season:"Mar–Jun, Oct–Dec", challenges:"Rift Valley floor drier than highlands", honey:"Multi-floral highland honey", notes:"Mau escarpment areas excellent; Nakuru highlands are productive beekeeping zones" },
+  { name:"Narok", lat:-1.08, lng:35.87, score:7, rainfall:"600–1400mm", temp:"14–24°C", forage:["Wild Flowers","Acacia","Calliandra","Grassland Flowers"], season:"Mar–Jun", challenges:"Maasai Mara tourism zone; some highland areas cooler", honey:"Savanna wildflower honey", notes:"Mau Forest edge is excellent; open savanna moderate" },
+  { name:"Kajiado", lat:-2.10, lng:36.78, score:5, rainfall:"400–800mm", temp:"18–28°C", forage:["Acacia","Wild Flowers","Calliandra"], season:"Mar–May, Nov–Dec", challenges:"Semi-arid, limited water, urban sprawl from Nairobi", honey:"Acacia honey", notes:"Ngong Hills area better than lowland areas; Amboseli zone decent" },
+  { name:"Kericho", lat:-0.37, lng:35.28, score:9, rainfall:"1500–2400mm", temp:"14–20°C", forage:["Tea Flowers","Calliandra","Wild Flowers","Eucalyptus","Macadamia"], season:"Year-round", challenges:"Pesticide use in tea estates; needs careful siting", honey:"Premium tea blossom honey", notes:"One of the wettest counties in Kenya — superb forage; tea blossom honey is unique and valuable" },
+  { name:"Bomet", lat:-0.79, lng:35.34, score:8, rainfall:"1200–2000mm", temp:"14–22°C", forage:["Tea Flowers","Calliandra","Wild Flowers","Avocado"], season:"Year-round", challenges:"Similar to Kericho; pesticide awareness needed", honey:"Tea blossom & multi-floral honey", notes:"Excellent beekeeping zone with high rainfall and diverse vegetation" },
+  { name:"Kakamega", lat:0.28, lng:34.75, score:9, rainfall:"1500–2200mm", temp:"16–24°C", forage:["Forest Flowers","Wild Flowers","Calliandra","Sunflower","Avocado","Sugarcane Flowers"], season:"Year-round", challenges:"Minimal; deforestation threatening forest honey zones", honey:"Tropical forest honey", notes:"Kakamega Forest is a biodiversity hotspot — one of Kenya's best beekeeping zones" },
+  { name:"Vihiga", lat:0.07, lng:34.72, score:8, rainfall:"1400–2000mm", temp:"16–22°C", forage:["Wild Flowers","Calliandra","Sugarcane","Avocado"], season:"Year-round", challenges:"High population density; small farm sizes", honey:"Multi-floral honey", notes:"Excellent rainfall and vegetation; small county but high potential" },
+  { name:"Bungoma", lat:0.57, lng:34.56, score:8, rainfall:"1200–1800mm", temp:"14–22°C", forage:["Wild Flowers","Calliandra","Sugarcane","Sunflower","Avocado"], season:"Year-round", challenges:"Some areas prone to flooding", honey:"Multi-floral honey", notes:"Mt. Elgon slopes are exceptional; strong agricultural base" },
+  { name:"Busia", lat:0.46, lng:34.11, score:6, rainfall:"1000–1500mm", temp:"18–26°C", forage:["Sugarcane Flowers","Wild Flowers","Sunflower"], season:"Mar–Jun, Aug–Oct", challenges:"High humidity, some waterlogging, sugarcane monoculture", honey:"Wildflower honey", notes:"Moderate conditions; better in areas with diverse vegetation" },
+  { name:"Siaya", lat:-0.06, lng:34.29, score:6, rainfall:"1000–1600mm", temp:"20–28°C", forage:["Wild Flowers","Mango","Sunflower","Sorghum Flowers"], season:"Mar–Jun, Oct–Dec", challenges:"Some dry spells, lake-effect humidity", honey:"Lakeside wildflower honey", notes:"Good conditions near lake; inland areas with better vegetation excellent" },
+  { name:"Kisumu", lat:-0.10, lng:34.76, score:5, rainfall:"1100–1600mm", temp:"20–28°C", forage:["Wild Flowers","Mango","Sugarcane"], season:"Mar–Jun", challenges:"Urbanization reducing forage; lake humidity", honey:"Wildflower honey", notes:"Peri-urban and rural outskirts are suitable; city centre poor" },
+  { name:"Homa Bay", lat:-0.63, lng:34.45, score:6, rainfall:"900–1400mm", temp:"20–28°C", forage:["Wild Flowers","Mango","Avocado","Sorghum"], season:"Mar–Jun, Oct–Dec", challenges:"Some dry periods, lake-area humidity", honey:"Lake region wildflower honey", notes:"Good conditions away from lakeshore; Ruma National Park area very good" },
+  { name:"Migori", lat:-1.06, lng:34.47, score:7, rainfall:"1000–1600mm", temp:"18–26°C", forage:["Wild Flowers","Mango","Avocado","Calliandra","Sunflower"], season:"Mar–Jun, Oct–Dec", challenges:"Some mining activity in gold belt areas", honey:"Multi-floral honey", notes:"Good conditions; diverse vegetation and reasonable rainfall" },
+  { name:"Kisii", lat:-0.68, lng:34.77, score:8, rainfall:"1400–2000mm", temp:"14–22°C", forage:["Tea Flowers","Avocado","Wild Flowers","Calliandra","Mango"], season:"Year-round", challenges:"Small-scale farming; some pesticide use", honey:"Tea blossom & multi-floral honey", notes:"Excellent rainfall, dense vegetation, strong agriculture — great beekeeping county" },
+  { name:"Nyamira", lat:-0.57, lng:35.00, score:8, rainfall:"1400–2000mm", temp:"14–22°C", forage:["Tea Flowers","Wild Flowers","Calliandra","Avocado"], season:"Year-round", challenges:"Minimal; excellent year-round conditions", honey:"Tea blossom honey", notes:"Similar to Kisii; excellent beekeeping zone with year-round forage" },
+  { name:"Nairobi", lat:-1.29, lng:36.82, score:3, rainfall:"700–1000mm", temp:"14–22°C", forage:["Urban Garden Flowers","Jacaranda","Wild Flowers (parks)"], season:"Mar–May, Nov", challenges:"Dense urbanization, pollution, minimal forage, pesticides", honey:"Urban wildflower honey", notes:"Rooftop/urban beekeeping possible in green zones (Karen, Langata, Gigiri) but not scalable" }
+];
+
+// ─── Colour helper ─────────────────────────────────────────────────────────────
+function scoreColor(s) {
+  if (s >= 9) return '#15803d';
+  if (s >= 7) return '#22c55e';
+  if (s >= 5) return '#fbbf24';
+  if (s >= 3) return '#f97316';
+  return '#ef4444';
+}
+
+// ─── Init Map ─────────────────────────────────────────────────────────────────
+const map = L.map('map', { center: [-0.5, 37.5], zoom: 6, zoomControl: true });
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '© OpenStreetMap contributors, © CARTO',
+  maxZoom: 18
+}).addTo(map);
+
+// Move zoom control
+map.zoomControl.setPosition('bottomleft');
+
+// ─── Plot Counties ─────────────────────────────────────────────────────────────
+const markers = [];
+const totalScore = counties.reduce((s, c) => s + c.score, 0);
+const avg = (totalScore / counties.length).toFixed(1);
+const highZones = counties.filter(c => c.score >= 7).length;
+document.getElementById('avgScore').textContent = avg;
+document.getElementById('highCount').textContent = highZones;
+
+counties.forEach((c, i) => {
+  const color = scoreColor(c.score);
+  const radius = 10 + c.score * 1.5;
+
+  const circle = L.circleMarker([c.lat, c.lng], {
+    radius: radius,
+    fillColor: color,
+    color: 'rgba(255,255,255,0.6)',
+    weight: 1.5,
+    opacity: 1,
+    fillOpacity: 0.85
+  }).addTo(map);
+
+  // County label
+  const label = L.divIcon({
+    className: '',
+    html: `<div style="font-size:10px;font-weight:700;color:white;text-shadow:0 1px 3px rgba(0,0,0,0.8);white-space:nowrap;pointer-events:none;">${c.name}</div>`,
+    iconAnchor: [-radius, 0]
+  });
+  L.marker([c.lat, c.lng], { icon: label, interactive: false }).addTo(map);
+
+  circle.on('click', () => showPanel(c));
+  circle.on('mouseover', function() { this.setStyle({ fillOpacity: 1, weight: 2.5 }); });
+  circle.on('mouseout', function() { this.setStyle({ fillOpacity: 0.85, weight: 1.5 }); });
+
+  markers.push({ county: c, marker: circle });
+});
+
+// ─── Info Panel ────────────────────────────────────────────────────────────────
+function showPanel(c) {
+  const color = scoreColor(c.score);
+  const panel = document.getElementById('infoPanel');
+  const header = document.getElementById('panelHeader');
+
+  header.style.background = `linear-gradient(135deg, ${color}cc, ${color})`;
+  document.getElementById('panelCounty').textContent = c.name;
+  document.getElementById('panelScore').textContent = c.score;
+
+  const floraTags = c.forage.map(f => `<span class="flora-tag">${f}</span>`).join('');
+  const fillPct = (c.score / 10 * 100) + '%';
+
+  document.getElementById('panelBody').innerHTML = `
+    <div class="info-row">
+      <div class="label">Suitability Rating</div>
+      <div class="suitability-bar"><div class="suitability-fill" style="width:${fillPct};background:${color}"></div></div>
+      <div class="value" style="margin-top:4px;font-weight:700;color:${color}">${getSuitabilityLabel(c.score)}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">🌧️ Rainfall</div>
+      <div class="value">${c.rainfall}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">🌡️ Temperature Range</div>
+      <div class="value">${c.temp}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">🌸 Peak Flowering Season</div>
+      <div class="value">${c.season}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">🌿 Key Forage Plants</div>
+      <div class="flora-tags">${floraTags}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">🍯 Honey Type</div>
+      <div class="value">${c.honey}</div>
+    </div>
+    <div class="info-row">
+      <div class="label">⚠️ Key Challenges</div>
+      <div class="value">${c.challenges}</div>
+    </div>
+    <div class="info-row" style="background:var(--amber-light);padding:10px;border-radius:8px;margin-top:4px;">
+      <div class="label" style="color:var(--amber-dark)">📝 Beelove Farm Notes</div>
+      <div class="value">${c.notes}</div>
+    </div>
+  `;
+
+  panel.classList.add('visible');
+}
+
+function getSuitabilityLabel(s) {
+  if (s >= 9) return 'Excellent — Highly Recommended';
+  if (s >= 7) return 'Good — Recommended';
+  if (s >= 5) return 'Moderate — Viable with care';
+  if (s >= 3) return 'Low — Challenging conditions';
+  return 'Poor — Not recommended';
+}
+
+function closePanel() {
+  document.getElementById('infoPanel').classList.remove('visible');
+}
+
+// ─── Search ────────────────────────────────────────────────────────────────────
+function searchCounty(val) {
+  if (!val.trim()) return;
+  const match = counties.find(c => c.name.toLowerCase().includes(val.toLowerCase()));
+  if (match) {
+    map.setView([match.lat, match.lng], 9, { animate: true });
+    showPanel(match);
+  }
+}
+
+// ─── Field Observations ────────────────────────────────────────────────────────
+// Populate county select in modal
+const sel = document.getElementById('obsCounty');
+counties.forEach(c => {
+  const opt = document.createElement('option');
+  opt.value = c.name;
+  opt.textContent = c.name;
+  sel.appendChild(opt);
+});
+
+function openModal() {
+  document.getElementById('obsDate').valueAsDate = new Date();
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+function saveObservation() {
+  const area = document.getElementById('obsArea').value.trim();
+  const county = document.getElementById('obsCounty').value;
+  const gps = document.getElementById('obsGPS').value.trim();
+  const score = document.getElementById('obsScore').value;
+  const date = document.getElementById('obsDate').value;
+  const notes = document.getElementById('obsNotes').value;
+
+  if (!area || !score) { alert('Please fill in area name and score'); return; }
+
+  // Parse GPS
+  let lat, lng;
+  if (gps) {
+    const parts = gps.split(',').map(s => parseFloat(s.trim()));
+    if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+      lat = parts[0]; lng = parts[1];
+    }
+  }
+  if (!lat) {
+    // Use county center as fallback
+    const c = counties.find(c => c.name === county);
+    if (c) { lat = c.lat + (Math.random()-0.5)*0.2; lng = c.lng + (Math.random()-0.5)*0.2; }
+  }
+
+  // Save to storage
+  const obs = JSON.parse(localStorage.getItem('beelove_obs') || '[]');
+  const newObs = { id: Date.now(), area, county, gps, score: parseInt(score), date, notes, lat, lng };
+  obs.push(newObs);
+  localStorage.setItem('beelove_obs', JSON.stringify(obs));
+
+  // Add to map
+  plotObservation(newObs);
+  updateObsCount();
+  closeModal();
+
+  // Clear form
+  document.getElementById('obsArea').value = '';
+  document.getElementById('obsNotes').value = '';
+  document.getElementById('obsScore').value = '';
+}
+
+function plotObservation(obs) {
+  if (!obs.lat || !obs.lng) return;
+  const marker = L.circleMarker([obs.lat, obs.lng], {
+    radius: 8,
+    fillColor: '#7c3aed',
+    color: 'white',
+    weight: 2,
+    fillOpacity: 0.9
+  }).addTo(map);
+
+  marker.bindPopup(`
+    <div style="font-family:-apple-system,sans-serif;min-width:200px;">
+      <strong style="color:#7c3aed">📍 Field Observation</strong><br>
+      <b>${obs.area}</b> · ${obs.county}<br>
+      Score: <b>${obs.score}/10</b><br>
+      Date: ${obs.date}<br>
+      ${obs.notes ? '<em>' + obs.notes + '</em>' : ''}
+    </div>
+  `);
+}
+
+function updateObsCount() {
+  const obs = JSON.parse(localStorage.getItem('beelove_obs') || '[]');
+  document.getElementById('fieldObs').textContent = obs.length;
+}
+
+// ─── Live Google Sheets Sync ───────────────────────────────
+const LIVE_URL_KEY = 'beelove_map_script_url';
+let liveMarkers = [];
+let liveRefreshTimer = null;
+
+function getLiveUrl() { return localStorage.getItem(LIVE_URL_KEY) || ''; }
+
+// Connect panel HTML — injected into page
+document.addEventListener('DOMContentLoaded', () => {
+  const connectBtn = document.createElement('button');
+  connectBtn.className = 'add-data-btn';
+  connectBtn.style.top = '130px';
+  connectBtn.innerHTML = '☁️ Live Data';
+  connectBtn.onclick = openLivePanel;
+  document.body.appendChild(connectBtn);
+
+  const livePanel = document.createElement('div');
+  livePanel.id = 'livePanel';
+  livePanel.innerHTML = `
+    <div style="position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:3000;display:flex;align-items:center;justify-content:center;">
+      <div style="background:white;border-radius:16px;padding:20px;width:90%;max-width:420px;font-family:-apple-system,sans-serif;">
+        <h3 style="color:#b45309;margin-bottom:16px;font-size:16px;">☁️ Connect Live Field Data</h3>
+        <label style="font-size:13px;font-weight:600;display:block;margin-bottom:6px;">Google Apps Script URL</label>
+        <input id="liveScriptUrl" type="text" placeholder="https://script.google.com/macros/s/..."
+          style="width:100%;padding:10px;border:1.5px solid #e7e5e4;border-radius:8px;font-size:12px;margin-bottom:8px;" />
+        <p style="font-size:12px;color:#78716c;margin-bottom:16px;">Same URL used in the field collector app. The map will refresh every 5 minutes automatically.</p>
+        <div id="liveStatus" style="font-size:13px;font-weight:600;margin-bottom:12px;min-height:18px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="closeLivePanel()" style="flex:1;padding:10px;border-radius:8px;border:1px solid #e7e5e4;background:#f5f5f4;font-weight:600;cursor:pointer;">Cancel</button>
+          <button onclick="connectLiveData()" style="flex:1;padding:10px;border-radius:8px;border:none;background:#f59e0b;color:white;font-weight:700;cursor:pointer;">Connect</button>
+        </div>
+        <div style="margin-top:12px;text-align:center;">
+          <button onclick="refreshLiveData()" style="background:none;border:none;color:#15803d;font-size:13px;font-weight:600;cursor:pointer;text-decoration:underline;">🔄 Refresh data now</button>
+        </div>
+      </div>
+    </div>`;
+  livePanel.style.display = 'none';
+  document.body.appendChild(livePanel);
+
+  // Live sync status bar
+  const bar = document.createElement('div');
+  bar.id = 'liveBar';
+  bar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;padding:6px 16px;font-size:12px;font-weight:600;text-align:center;z-index:1000;display:none;';
+  document.body.appendChild(bar);
+
+  // Load saved URL and start
+  const saved = getLiveUrl();
+  if (saved) {
+    document.getElementById('liveScriptUrl') && (document.getElementById('liveScriptUrl').value = saved);
+    refreshLiveData();
+    startAutoRefresh();
+  }
+});
+
+function openLivePanel() {
+  const panel = document.getElementById('livePanel');
+  panel.style.display = 'block';
+  const saved = getLiveUrl();
+  if (saved) document.getElementById('liveScriptUrl').value = saved;
+}
+function closeLivePanel() { document.getElementById('livePanel').style.display = 'none'; }
+
+async function connectLiveData() {
+  const url = document.getElementById('liveScriptUrl').value.trim();
+  if (!url.startsWith('https://script.google.com')) {
+    setLiveStatus('❌ Invalid URL — must start with https://script.google.com', 'red');
+    return;
+  }
+  localStorage.setItem(LIVE_URL_KEY, url);
+  setLiveStatus('🔄 Connecting...', '#78716c');
+  const ok = await refreshLiveData();
+  if (ok) {
+    setLiveStatus('✅ Connected! Map is live.', '#15803d');
+    startAutoRefresh();
+    setTimeout(closeLivePanel, 2000);
+  } else {
+    setLiveStatus('❌ Could not reach Google Sheets. Check the URL.', 'red');
+  }
+}
+
+async function refreshLiveData() {
+  const url = getLiveUrl();
+  if (!url) return false;
+  try {
+    showLiveBar('🔄 Refreshing field data...', '#1e40af', '#dbeafe');
+    const res = await fetch(url);
+    const data = await res.json();
+    if (!data.success) return false;
+
+    // Clear old live markers
+    liveMarkers.forEach(m => map.removeLayer(m));
+    liveMarkers = [];
+
+    data.records.forEach(r => {
+      if (!r.lat || !r.lng) return;
+      const color = r.score >= 8 ? '#15803d' : r.score >= 6 ? '#22c55e' : r.score >= 4 ? '#fbbf24' : '#ef4444';
+      const m = L.circleMarker([r.lat, r.lng], {
+        radius: 9,
+        fillColor: '#7c3aed',
+        color: 'white',
+        weight: 2,
+        fillOpacity: 0.92
+      }).addTo(map);
+
+      m.bindPopup(`
+        <div style="font-family:-apple-system,sans-serif;min-width:220px;">
+          <div style="background:#7c3aed;color:white;padding:8px 12px;margin:-1px -1px 10px -1px;border-radius:4px 4px 0 0;">
+            <strong>📍 ${r.area}</strong> &nbsp;
+            <span style="background:white;color:#7c3aed;font-weight:800;padding:2px 8px;border-radius:10px;font-size:13px;">${r.score}/10</span>
+          </div>
+          <div style="padding:0 4px;font-size:13px;line-height:1.8;">
+            <b>Sub-County:</b> ${r.subCounty || '—'}<br>
+            <b>Collector:</b> ${r.collector} · ${r.date}<br>
+            <b>Vegetation:</b> ${r.vegDensity} — ${r.flora || '—'}<br>
+            <b>Water:</b> ${r.water || '—'}<br>
+            <b>Land Use:</b> ${r.landUse || '—'}<br>
+            ${r.hivesExist === 'Yes' ? `<b>Colonization:</b> ${r.colonRate || '?'}%<br>` : ''}
+            ${r.threats ? `<b>Threats:</b> ${r.threats}<br>` : ''}
+            ${r.notes ? `<em style="color:#78716c">${r.notes}</em>` : ''}
+          </div>
+        </div>`);
+
+      liveMarkers.push(m);
+    });
+
+    document.getElementById('fieldObs').textContent = liveMarkers.length;
+    const now = new Date().toLocaleTimeString();
+    showLiveBar(`✅ ${liveMarkers.length} field stop(s) loaded · Last sync: ${now}`, '#15803d', '#dcfce7');
+    return true;
+  } catch(e) {
+    showLiveBar('⚠️ Could not reach Google Sheets — showing last known data', '#92400e', '#fef3c7');
+    return false;
+  }
+}
+
+function startAutoRefresh() {
+  if (liveRefreshTimer) clearInterval(liveRefreshTimer);
+  liveRefreshTimer = setInterval(refreshLiveData, 5 * 60 * 1000); // every 5 min
+}
+
+function setLiveStatus(msg, color) {
+  const el = document.getElementById('liveStatus');
+  if (el) { el.textContent = msg; el.style.color = color; }
+}
+
+function showLiveBar(msg, color, bg) {
+  const b = document.getElementById('liveBar');
+  if (!b) return;
+  b.textContent = msg; b.style.color = color; b.style.background = bg;
+  b.style.display = 'block';
+  setTimeout(() => { if (b) b.style.display = 'none'; }, 8000);
+}
+
+// ─── Load local observations on startup ───────────────────
+function loadObservations() {
+  const obs = JSON.parse(localStorage.getItem('beelove_obs') || '[]');
+  obs.forEach(plotObservation);
+  updateObsCount();
+}
+
+loadObservations();
+</script>
+</body>
+</html>
