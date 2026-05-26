@@ -32,7 +32,7 @@ const BEEKEEPING_PREVIEW = [
   { label: "Langstroth Hive", img: langstroth },
   { label: "Bee Suit", img: beeSuit },
   { label: "Bee Smoker", img: smoker },
-  { label: "Hive Tool", img: hiveTool },
+  { label: "Bee Brush", img: hiveTool },
 ];
 
 const FISH_PREVIEW = [
