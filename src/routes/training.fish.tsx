@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
+import fishImg from "@/assets/fish-tilapia-harvest.jpg";
+import hiveStandImg from "@/assets/hive-stand.jpg";
 
 export const Route = createFileRoute("/training/fish")({
   head: () => ({
@@ -99,7 +100,7 @@ function TrainingFishPage() {
             </p>
           </div>
           <div className="md:col-span-5 min-h-[200px]">
-            <Placeholder label="Juvenile African catfish" tone="teal" />
+            <img src={fishImg} alt="Catfish and tilapia harvest" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -127,7 +128,7 @@ function TrainingFishPage() {
             </ul>
           </div>
           <div className="md:col-span-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 min-h-[260px]">
-            <Placeholder label="Beelove fish pond" tone="teal" />
+            <img src={hiveStandImg} alt="Beelove Farm apiary site" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -147,7 +148,7 @@ function TrainingFishPage() {
               className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col"
             >
               <div className="h-40">
-                <Placeholder label={c.title} tone="teal" />
+                <img src={fishImg} alt={c.title} className="w-full h-full object-cover" />
               </div>
               <div className="p-8 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-3">

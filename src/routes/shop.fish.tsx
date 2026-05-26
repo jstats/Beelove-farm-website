@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
+import fishImg from "@/assets/fish-tilapia-harvest.jpg";
 
 export const Route = createFileRoute("/shop/fish")({
   head: () => ({
@@ -142,7 +143,7 @@ function ShopFishPage() {
             </div>
           </div>
           <div className="md:col-span-5 min-h-[200px]">
-            <Placeholder label="Catfish harvest at Beelove pond" tone="teal" />
+            <img src={fishImg} alt="Fresh tilapia harvest from Beelove pond" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
@@ -221,7 +222,11 @@ function ProductCard({
   return (
     <article className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col hover:-translate-y-0.5 transition-transform">
       <div className="h-44">
-        <Placeholder label={product.name} tone={accent} />
+        {accent === "teal" ? (
+          <img src={fishImg} alt={product.name} className="w-full h-full object-cover" />
+        ) : (
+          <Placeholder label={product.name} tone={accent} />
+        )}
       </div>
       <div className="p-6 flex flex-col flex-1">
         <span
