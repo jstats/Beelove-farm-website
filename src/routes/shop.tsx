@@ -1,7 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Placeholder } from "@/components/Placeholder";
 import { ArrowRight } from "lucide-react";
+import honey1kg from "@/assets/prod-honey-1kg.jpg";
+import honey150g from "@/assets/prod-honey-150g.jpg";
+import langstroth from "@/assets/prod-langstroth.jpg";
+import smoker from "@/assets/prod-smoker.jpg";
+import beeSuit from "@/assets/prod-bee-suit.jpg";
+import hiveTool from "@/assets/prod-hive-tool.jpg";
+import catfish from "@/assets/prod-catfish-fingerlings.jpg";
+import tilapia from "@/assets/fish-tilapia-harvest.jpg";
+import azolla from "@/assets/prod-azolla.jpg";
+import pond from "@/assets/fish-pond.jpg";
 
 export const Route = createFileRoute("/shop")({
   head: () => ({
@@ -16,6 +25,22 @@ export const Route = createFileRoute("/shop")({
   }),
   component: ShopIndex,
 });
+
+const BEEKEEPING_PREVIEW = [
+  { label: "Raw Honey 1kg", img: honey1kg },
+  { label: "Raw Honey 150g", img: honey150g },
+  { label: "Langstroth Hive", img: langstroth },
+  { label: "Bee Suit", img: beeSuit },
+  { label: "Bee Smoker", img: smoker },
+  { label: "Hive Tool", img: hiveTool },
+];
+
+const FISH_PREVIEW = [
+  { label: "Catfish Fingerlings", img: catfish },
+  { label: "Tilapia Fingerlings", img: tilapia },
+  { label: "Azolla Starter Kit", img: azolla },
+  { label: "Pond Advisory", img: pond },
+];
 
 function ShopIndex() {
   return (
@@ -35,50 +60,28 @@ function ShopIndex() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-4">
-          <Link
-            to="/shop/beekeeping"
-            className="group bg-amber text-cream rounded-[28px] p-10 ring-1 ring-black/5 hover:bg-umber transition-colors"
-          >
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/80">
-              Beekeeping
-            </span>
-            <h2 className="font-display text-4xl mt-3 mb-4">
-              Hives · Gear · Tools · Honey
-            </h2>
-            <p className="text-sm text-cream/90 mb-8 max-w-md">
-              KTBH and Langstroth hives, bee suits, smokers, extractors,
-              strainers, and raw Makueni honey in 150g and 1kg jars.
-            </p>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest">
-              Browse beekeeping <ArrowRight className="size-3 group-hover:translate-x-1 transition-transform" />
-            </span>
-            <div className="mt-8 h-40 rounded-2xl bg-umber/30 overflow-hidden">
-              <Placeholder label="Honey jars and equipment" tone="amber" />
-            </div>
-          </Link>
+        {/* Beekeeping catalogue preview */}
+        <CataloguePreview
+          to="/shop/beekeeping"
+          tone="amber"
+          eyebrow="Beekeeping"
+          title="Hives · Gear · Tools · Honey"
+          copy="KTBH and Langstroth hives, bee suits, smokers, extractors, strainers, and raw Makueni honey in 150g and 1kg jars."
+          items={BEEKEEPING_PREVIEW}
+          cta="Browse beekeeping catalogue"
+        />
 
-          <Link
+        {/* Fish farming catalogue preview */}
+        <div className="mt-4">
+          <CataloguePreview
             to="/shop/fish"
-            className="group bg-teal text-cream rounded-[28px] p-10 ring-1 ring-black/5 hover:bg-umber transition-colors"
-          >
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/80">
-              Fish Farming
-            </span>
-            <h2 className="font-display text-4xl mt-3 mb-4">
-              Fingerlings · Azolla · Advisory
-            </h2>
-            <p className="text-sm text-cream/90 mb-8 max-w-md">
-              African catfish and Nile tilapia fingerlings, Azolla starter
-              kits, and on-farm pond advisory packages.
-            </p>
-            <span className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest">
-              Browse fish farming <ArrowRight className="size-3 group-hover:translate-x-1 transition-transform" />
-            </span>
-            <div className="mt-8 h-40 rounded-2xl bg-umber/30 overflow-hidden">
-              <Placeholder label="Catfish fingerlings & azolla" tone="teal" />
-            </div>
-          </Link>
+            tone="teal"
+            eyebrow="Fish Farming"
+            title="Fingerlings · Azolla · Advisory"
+            copy="African catfish and Nile tilapia fingerlings, Azolla starter kits, and on-farm pond advisory packages."
+            items={FISH_PREVIEW}
+            cta="Browse fish farming catalogue"
+          />
         </div>
 
         <div className="mt-10 bg-card ring-1 ring-umber/10 rounded-[24px] p-8 flex flex-col md:flex-row gap-6 items-start md:items-center">
@@ -100,5 +103,68 @@ function ShopIndex() {
         </div>
       </section>
     </SiteLayout>
+  );
+}
+
+function CataloguePreview({
+  to,
+  tone,
+  eyebrow,
+  title,
+  copy,
+  items,
+  cta,
+}: {
+  to: "/shop/beekeeping" | "/shop/fish";
+  tone: "amber" | "teal";
+  eyebrow: string;
+  title: string;
+  copy: string;
+  items: { label: string; img: string }[];
+  cta: string;
+}) {
+  const bg = tone === "amber" ? "bg-amber" : "bg-teal";
+  const hoverText = tone === "amber" ? "hover:text-amber" : "hover:text-teal";
+  return (
+    <div
+      className={`${bg} text-cream rounded-[28px] p-8 md:p-10 ring-1 ring-black/5 grid md:grid-cols-12 gap-8`}
+    >
+      <div className="md:col-span-4">
+        <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/80">
+          {eyebrow}
+        </span>
+        <h2 className="font-display text-3xl md:text-4xl mt-3 mb-4 leading-tight">
+          {title}
+        </h2>
+        <p className="text-sm text-cream/90 mb-6">{copy}</p>
+        <Link
+          to={to}
+          className={`inline-flex items-center gap-2 bg-cream text-umber ${hoverText} px-5 py-3 rounded-full text-xs font-semibold uppercase tracking-widest transition-colors`}
+        >
+          {cta} <ArrowRight className="size-3" />
+        </Link>
+      </div>
+      <div className="md:col-span-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-3">
+        {items.map((it) => (
+          <Link
+            key={it.label}
+            to={to}
+            className="group bg-cream/10 hover:bg-cream/20 rounded-2xl overflow-hidden ring-1 ring-cream/15 transition-colors"
+          >
+            <div className="h-28 overflow-hidden">
+              <img
+                src={it.img}
+                alt={it.label}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="px-3 py-2 text-[11px] uppercase tracking-widest text-cream/90">
+              {it.label}
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 }
