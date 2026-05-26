@@ -10,6 +10,9 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as MapRouteImport } from './routes/map'
+import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TrainingFishRouteImport } from './routes/training.fish'
@@ -20,6 +23,21 @@ import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HiveSensorsRoute = HiveSensorsRouteImport.update({
+  id: '/hive-sensors',
+  path: '/hive-sensors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -56,6 +74,9 @@ const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/hive-sensors': typeof HiveSensorsRoute
+  '/map': typeof MapRoute
   '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -65,6 +86,9 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/hive-sensors': typeof HiveSensorsRoute
+  '/map': typeof MapRoute
   '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -75,6 +99,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/hive-sensors': typeof HiveSensorsRoute
+  '/map': typeof MapRoute
   '/shop': typeof ShopRouteWithChildren
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -86,6 +113,9 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
+    | '/hive-sensors'
+    | '/map'
     | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -95,6 +125,9 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
+    | '/hive-sensors'
+    | '/map'
     | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -104,6 +137,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
+    | '/hive-sensors'
+    | '/map'
     | '/shop'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -114,6 +150,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  HiveSensorsRoute: typeof HiveSensorsRoute
+  MapRoute: typeof MapRoute
   ShopRoute: typeof ShopRouteWithChildren
   TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
   TrainingFishRoute: typeof TrainingFishRoute
@@ -126,6 +165,27 @@ declare module '@tanstack/react-router' {
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hive-sensors': {
+      id: '/hive-sensors'
+      path: '/hive-sensors'
+      fullPath: '/hive-sensors'
+      preLoaderRoute: typeof HiveSensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -188,6 +248,9 @@ const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  HiveSensorsRoute: HiveSensorsRoute,
+  MapRoute: MapRoute,
   ShopRoute: ShopRouteWithChildren,
   TrainingBeekeepingRoute: TrainingBeekeepingRoute,
   TrainingFishRoute: TrainingFishRoute,
