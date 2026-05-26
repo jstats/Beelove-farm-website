@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beekeeping Training — Beelove Farm</title>
+  <meta name="description" content="Hands-on beekeeping training programs at Beelove Farm, Makueni County Kenya. Beginner to advanced courses, hive-making workshops, and honey harvesting." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    .slide-hero { position:relative; height:480px; margin-top:68px; overflow:hidden; display:flex; align-items:flex-end; }
+    .slide-hero-img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; opacity:0; transition:opacity 1.2s ease-in-out; }
+    .slide-hero-img.active { opacity:1; }
+    .slide-hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom,rgba(13,74,46,0.15) 0%,rgba(13,74,46,0.45) 50%,rgba(13,74,46,0.85) 100%); z-index:1; }
+    .slide-hero-content { position:relative; z-index:2; padding:3rem 2rem 4rem; width:100%; max-width:820px; margin:0 auto; text-align:center; color:var(--white); }
+    .slide-hero-content h1 { color:var(--white); margin:0.5rem 0 1rem; }
+    .slide-hero-content p { color:rgba(255,255,255,0.85); font-size:1.05rem; max-width:600px; margin:0 auto; }
+    .slide-hero-logo { height:68px; width:68px; border-radius:50%; border:3px solid rgba(255,255,255,0.5); margin:0 auto 1rem; display:block; object-fit:cover; }
+    .slide-dots { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); z-index:3; display:flex; gap:8px; }
+    .slide-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); border:none; cursor:pointer; transition:background 0.3s; }
+    .slide-dot.active { background:rgba(255,255,255,0.95); }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo"><img src="images/beelove-logo.jpg" class="nav-logo-img" alt="BeeLove Farm" /><span>BeeLove Farm</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li class="nav-item">
+        <a href="shop-beekeeping.html" class="active">Beekeeping</a>
+        <div class="dropdown dropdown-bee">
+          <span class="dropdown-label">Beekeeping</span>
+          <a href="shop-beekeeping.html">🛒 Shop Beekeeping</a>
+          <a href="training-beekeeping.html">🎓 Beekeeping Training</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="shop-fish.html">Fish Farming</a>
+        <div class="dropdown dropdown-fish">
+          <span class="dropdown-label">Fish Farming</span>
+          <a href="shop-fish.html">🛒 Shop Fish Products</a>
+          <a href="training-fish.html">🎓 Fish Farming Training</a>
+        </div>
+      </li>
+      <li><a href="map.html">Suitability Map</a></li>
+      <li><a href="hive-sensors.html">Hive Sensors <span class="nav-badge">Soon</span></a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="slide-hero" id="trainHero">
+    <img src="images/training-live-frame.jpg"  class="slide-hero-img active" alt="Beekeeper holding live honeycomb frame" />
+    <img src="images/training-field-hive.jpg"  class="slide-hero-img" alt="Field hive training session" />
+    <img src="images/training-outdoor-2.jpg"   class="slide-hero-img" alt="Outdoor beekeeping training" />
+    <img src="images/training-community.jpg"   class="slide-hero-img" alt="Community training session" />
+    <div class="slide-hero-overlay"></div>
+    <div class="slide-hero-content fade-up">
+      <img src="images/beelove-logo.jpg" class="slide-hero-logo" alt="BeeLove Farm" />
+      <span class="section-tag-light">🎓 Beekeeping Training</span>
+      <h1>Learn Beekeeping at the Farm</h1>
+      <p>Practical, hands-on courses for beginners and experienced beekeepers — held at Beelove Farm, Makueni County.</p>
+    </div>
+    <div class="slide-dots" id="trainDots"></div>
+  </section>
+  <script>
+    (function(){
+      const hero = document.getElementById('trainHero');
+      const imgs = hero.querySelectorAll('.slide-hero-img');
+      const dotsEl = document.getElementById('trainDots');
+      let cur = 0;
+      imgs.forEach((_,i)=>{ const d=document.createElement('button'); d.className='slide-dot'+(i===0?' active':''); d.addEventListener('click',()=>goTo(i)); dotsEl.appendChild(d); });
+      function goTo(n){ imgs[cur].classList.remove('active'); dotsEl.children[cur].classList.remove('active'); cur=n; imgs[cur].classList.add('active'); dotsEl.children[cur].classList.add('active'); }
+      setInterval(()=>goTo((cur+1)%imgs.length),5000);
+    })();
+  </script>
+
+  <main>
+
+    <!-- WHY TRAIN WITH US -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="two-col-grid">
+          <div class="fade-up">
+            <span class="section-tag">Why Train With Beelove</span>
+            <h2>Practical Training, Real Results</h2>
+            <p>Our training is not theory in a classroom — it happens at the farm, with real hives, live bees, and working equipment. You leave with practical skills you can apply the very next day.</p>
+            <p>Our CEO and trainers have managed apiaries across Makueni, Kajiado, and Isinya. Every course is designed around what actually works in Kenya's climate and flora.</p>
+            <ul class="feature-list" style="margin-top:1.2rem;">
+              <li>✔ All training held at Beelove Farm apiary</li>
+              <li>✔ Small groups (max 15 per session)</li>
+              <li>✔ Certificate of completion provided</li>
+              <li>✔ Post-training WhatsApp support</li>
+              <li>✔ Equipment available for purchase on the day</li>
+            </ul>
+          </div>
+          <div class="about-real-img fade-up delay-1">
+            <img src="images/community-training.jpg" alt="Community beekeeping training with Maasai farmers" loading="lazy" style="border-radius:var(--radius-lg);height:400px;object-fit:cover;width:100%;" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COURSES -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-tag">Training Programs</span>
+          <h2>Choose Your Course</h2>
+          <p>From your very first hive to managing a commercial apiary.</p>
+        </div>
+
+        <div class="training-cards-grid fade-up delay-1">
+
+          <div class="training-card-full">
+            <div class="training-card-img">
+              <img src="images/honeycomb-closeup.jpg" alt="Fresh honeycomb — introduction to beekeeping" loading="lazy" />
+              <div class="training-badge">Beginner</div>
+            </div>
+            <div class="training-card-body">
+              <h3>Introduction to Beekeeping</h3>
+              <p>Everything you need to start your first hive — bee biology, hive types, protective equipment, colony installation, and basic pest management.</p>
+              <ul class="feature-list">
+                <li>✔ Bee biology and behaviour</li>
+                <li>✔ Hive types: KTBH, Langstroth, Log Hive</li>
+                <li>✔ Protective gear and safe handling</li>
+                <li>✔ Colony installation and management</li>
+                <li>✔ Basic honey harvesting</li>
+              </ul>
+              <div class="training-meta">
+                <span>📅 3 Days</span>
+                <span>👥 Max 15 participants</span>
+                <span>📍 Beelove Farm, Makueni</span>
+              </div>
+              <div class="training-card-footer">
+                <span class="product-price">KSH 5,000</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20book%20the%20Introduction%20to%20Beekeeping%20course." class="btn btn-gold" target="_blank" rel="noopener">Book via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="training-card-full training-featured-full">
+            <div class="training-card-img">
+              <img src="images/training2.jpg" alt="Hive Making Workshop" loading="lazy" />
+              <div class="training-badge badge-gold">Most Popular</div>
+            </div>
+            <div class="training-card-body">
+              <h3>Hive Making Workshop</h3>
+              <p>Build your own KTBH hive from scratch. Learn timber selection, measurements, joinery, and finishing — you take home the hive you build.</p>
+              <ul class="feature-list">
+                <li>✔ Timber sourcing and selection</li>
+                <li>✔ KTBH measurements and design</li>
+                <li>✔ Carpentry and joinery techniques</li>
+                <li>✔ Finishing, painting, and mounting</li>
+                <li>✔ Take home your completed hive</li>
+              </ul>
+              <div class="training-meta">
+                <span>📅 2 Days</span>
+                <span>👥 Max 12 participants</span>
+                <span>📍 Beelove Farm, Makueni</span>
+              </div>
+              <div class="training-card-footer">
+                <span class="product-price">KSH 3,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20book%20the%20Hive%20Making%20Workshop." class="btn btn-gold" target="_blank" rel="noopener">Book via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="training-card-full">
+            <div class="training-card-img">
+              <img src="images/training3.jpg" alt="Advanced Colony Management" loading="lazy" />
+              <div class="training-badge">Advanced</div>
+            </div>
+            <div class="training-card-body">
+              <h3>Advanced Colony Management</h3>
+              <p>For beekeepers with at least one season's experience. Deep-dive into queen rearing, swarm control, disease diagnosis, and honey processing.</p>
+              <ul class="feature-list">
+                <li>✔ Queen rearing techniques</li>
+                <li>✔ Swarm prevention and capture</li>
+                <li>✔ Common diseases and treatment</li>
+                <li>✔ Honey extraction and bottling hygienically</li>
+                <li>✔ Record keeping for commercial apiaries</li>
+              </ul>
+              <div class="training-meta">
+                <span>📅 2 Days</span>
+                <span>👥 Max 15 participants</span>
+                <span>📍 Beelove Farm, Makueni</span>
+              </div>
+              <div class="training-card-footer">
+                <span class="product-price">KSH 4,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20book%20the%20Advanced%20Colony%20Management%20course." class="btn btn-gold" target="_blank" rel="noopener">Book via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="training-card-full">
+            <div class="training-card-img">
+              <img src="images/training4.jpg" alt="Group Apiary Training" loading="lazy" />
+              <div class="training-badge">Groups</div>
+            </div>
+            <div class="training-card-body">
+              <h3>Group &amp; NGO Training</h3>
+              <p>We travel to your location for group training sessions. Ideal for women's groups, youth programmes, county extension services, and NGO projects.</p>
+              <ul class="feature-list">
+                <li>✔ Customised programme for your group</li>
+                <li>✔ We bring equipment and demonstration hives</li>
+                <li>✔ Certificates for all participants</li>
+                <li>✔ Available across Kenya</li>
+              </ul>
+              <div class="training-meta">
+                <span>📅 Flexible</span>
+                <span>👥 20+ participants</span>
+                <span>📍 Your location</span>
+              </div>
+              <div class="training-card-footer">
+                <span class="product-price">Contact for quote</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20book%20a%20group%20beekeeping%20training." class="btn btn-gold" target="_blank" rel="noopener">Enquire via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- VIDEO SECTION -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-tag">Watch Before You Attend</span>
+          <h2>Training Previews</h2>
+          <p>Get a taste of our training style from our YouTube channel.</p>
+        </div>
+        <div class="video-grid fade-up delay-1">
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe src="https://www.youtube.com/embed/hNpSLPfqXUM" title="Training for beekeepers" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <p>Training for Beekeepers</p>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe src="https://www.youtube.com/embed/KyqkpklknLc" title="CEO Masterclass" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <p>CEO Masterclass: Starting Beekeeping</p>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe src="https://www.youtube.com/embed/PyUev1oTdzU" title="Honey Harvesting" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <p>How To Harvest Honey</p>
+          </div>
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe src="https://www.youtube.com/embed/Ze-ccaGRAdw" title="Beelove Apiaries" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+            </div>
+            <p>Welcome to Beelove Apiaries</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUITABILITY MAP TEASER -->
+    <section class="section">
+      <div class="container">
+        <div class="two-col-grid" style="align-items:center;gap:3rem;">
+          <div class="fade-up">
+            <span class="section-tag">🗺️ Is Your Area Suitable?</span>
+            <h2>Kenya Beekeeping Suitability Map</h2>
+            <p>Before you invest in hives and equipment, check whether your county is well-suited to beekeeping. Our choropleth map scores all 47 counties across six weighted factors — rainfall, temperature, vegetation, water access, urban pressure, and elevation.</p>
+            <p style="margin-top:0.75rem;">The map also explains <strong>why</strong> some regions score higher, so you know what to look for when choosing an apiary site in your area.</p>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.5rem;">
+              <a href="map.html" class="btn btn-green">View the Suitability Map →</a>
+              <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20can%20you%20advise%20on%20beekeeping%20suitability%20in%20my%20area%3F" class="btn btn-outline" target="_blank" rel="noopener">💬 Ask About Your Area</a>
+            </div>
+          </div>
+          <div class="fade-up delay-1" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border-radius:var(--radius-lg);padding:2rem;border:1px solid rgba(22,163,74,0.15);">
+            <div style="font-size:0.8rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;color:var(--green);margin-bottom:1rem;">Top Counties for Beekeeping</div>
+            <div style="display:flex;flex-direction:column;gap:0.6rem;">
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.9rem;">
+                <span>🏆 Nyeri</span><span style="background:#15803d;color:white;border-radius:20px;padding:2px 10px;font-size:0.78rem;font-weight:700;">84 / 100</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.9rem;">
+                <span>🏆 Kirinyaga</span><span style="background:#15803d;color:white;border-radius:20px;padding:2px 10px;font-size:0.78rem;font-weight:700;">83 / 100</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.9rem;">
+                <span>🏆 Kakamega</span><span style="background:#4ade80;color:#1c1917;border-radius:20px;padding:2px 10px;font-size:0.78rem;font-weight:700;">80 / 100</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;font-size:0.9rem;">
+                <span>🏆 Kericho</span><span style="background:#4ade80;color:#1c1917;border-radius:20px;padding:2px 10px;font-size:0.78rem;font-weight:700;">79 / 100</span>
+              </div>
+              <div style="border-top:1px solid rgba(22,163,74,0.2);padding-top:0.6rem;display:flex;align-items:center;justify-content:space-between;font-size:0.9rem;">
+                <span>🐝 <strong>Makueni</strong> (Beelove Farm)</span><span style="background:#f59e0b;color:#1c1917;border-radius:20px;padding:2px 10px;font-size:0.78rem;font-weight:700;">68 / 100</span>
+              </div>
+            </div>
+            <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem;">Scores based on rainfall, temperature, vegetation, water access, urban pressure, and elevation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner fade-up">
+      <div class="container">
+        <h2>Ready to Become a Beekeeper?</h2>
+        <p>WhatsApp us to check upcoming training dates and book your place.</p>
+        <div class="cta-actions">
+          <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20book%20a%20beekeeping%20training." class="btn btn-gold" target="_blank" rel="noopener">💬 Book via WhatsApp</a>
+          <a href="shop-beekee

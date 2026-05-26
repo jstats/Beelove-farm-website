@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop Fish Farming — Beelove Farm</title>
+  <meta name="description" content="Buy catfish fingerlings, tilapia fingerlings, Azolla starter kits, and fish farming supplies from Beelove Farm, Makueni County Kenya." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* Slideshow support for fish hero */
+    .fish-cin-photo {
+      opacity: 0;
+      transition: opacity 1.2s ease-in-out;
+    }
+    .fish-cin-photo.active { opacity: 1; }
+    .fish-slide-dots {
+      position: absolute;
+      bottom: 68px; right: 2rem;
+      z-index: 4;
+      display: flex; gap: 7px;
+    }
+    .fish-slide-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.35);
+      border: none; cursor: pointer;
+      transition: background 0.3s;
+    }
+    .fish-slide-dot.active { background: #fde68a; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ NAV ═══════ -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="images/beelove-logo.jpg" class="nav-logo-img" alt="BeeLove Farm" />
+      <span>BeeLove Farm</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li class="nav-item">
+        <a href="shop-beekeeping.html">Beekeeping</a>
+        <div class="dropdown dropdown-bee">
+          <span class="dropdown-label">Beekeeping</span>
+          <a href="shop-beekeeping.html">🛒 Shop Beekeeping</a>
+          <a href="training-beekeeping.html">🎓 Beekeeping Training</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="shop-fish.html" class="active">Fish Farming</a>
+        <div class="dropdown dropdown-fish">
+          <span class="dropdown-label">Fish Farming</span>
+          <a href="shop-fish.html">🛒 Shop Fish Products</a>
+          <a href="training-fish.html">🎓 Fish Farming Training</a>
+        </div>
+      </li>
+      <li><a href="map.html">Suitability Map</a></li>
+      <li><a href="hive-sensors.html">Hive Sensors <span class="nav-badge">Soon</span></a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ═══════ FISH CINEMATIC HERO ═══════ -->
+  <section class="fish-cin-hero">
+
+    <!-- Slideshow photos — crossfade -->
+    <img src="images/fish-harvest-hold.jpg"     class="fish-cin-photo active" alt="Catfish harvest at Beelove Farm" />
+    <img src="images/catfish-harvest-fresh.jpg" class="fish-cin-photo" alt="Fresh catfish harvest" />
+    <img src="images/fish-catfish-mature.jpg"   class="fish-cin-photo" alt="Mature African catfish" />
+    <img src="images/fish-harvest-basin.jpg"    class="fish-cin-photo" alt="Catfish harvest basin" />
+    <div class="fish-slide-dots" id="fishDots"></div>
+
+    <!-- Gradient overlay — heavy on left, fades to transparent on right so photo shows -->
+    <div class="fish-cin-overlay"></div>
+
+    <!-- Content sits on top -->
+    <div class="fish-cin-inner fade-up">
+
+      <!-- Logo pill -->
+      <div class="fish-cin-logo-wrap">
+        <img src="images/beelove-logo.jpg" class="fish-cin-logo" alt="BeeLove Farm logo" />
+      </div>
+
+      <span class="fish-cin-tag">🐟 Aquaculture</span>
+      <h1 class="fish-cin-title">Shop Fish Farming</h1>
+      <p class="fish-cin-sub">Premium fingerlings, Azolla kits &amp; pond supplies —<br>from our farm in Makueni to yours.</p>
+
+      <a href="#fingerlings" class="btn btn-gold fish-cin-btn">Browse Fingerlings ↓</a>
+    </div>
+
+    <!-- Stats ribbon anchored to bottom of hero -->
+    <div class="fish-cin-stats">
+      <div class="fish-cin-stat">
+        <span class="fish-cin-num">KSH 20</span>
+        <span class="fish-cin-lbl">Per Catfish Fingerling</span>
+      </div>
+      <div class="fish-cin-divider"></div>
+      <div class="fish-cin-stat">
+        <span class="fish-cin-num">100+</span>
+        <span class="fish-cin-lbl">Minimum Order</span>
+      </div>
+      <div class="fish-cin-divider"></div>
+      <div class="fish-cin-stat">
+        <span class="fish-cin-num">~6 mo</span>
+        <span class="fish-cin-lbl">To Harvest Weight</span>
+      </div>
+      <div class="fish-cin-divider"></div>
+      <div class="fish-cin-stat">
+        <span class="fish-cin-num">🚚</span>
+        <span class="fish-cin-lbl">Delivery in Makueni &amp; Nairobi</span>
+      </div>
+    </div>
+
+  </section>
+  <script>
+    (function(){
+      const hero = document.querySelector('.fish-cin-hero');
+      const imgs = hero.querySelectorAll('.fish-cin-photo');
+      const dotsEl = document.getElementById('fishDots');
+      let cur = 0;
+      imgs.forEach((_,i)=>{
+        const d = document.createElement('button');
+        d.className = 'fish-slide-dot' + (i===0?' active':'');
+        d.addEventListener('click',()=>goTo(i));
+        dotsEl.appendChild(d);
+      });
+      function goTo(n){
+        imgs[cur].classList.remove('active');
+        dotsEl.children[cur].classList.remove('active');
+        cur = n;
+        imgs[cur].classList.add('active');
+        dotsEl.children[cur].classList.add('active');
+      }
+      setInterval(()=>goTo((cur+1)%imgs.length), 5000);
+    })();
+  </script>
+
+  <main>
+    <section class="section section-blue-light">
+      <div class="container">
+
+        <!-- ── CATFISH FINGERLINGS ── -->
+        <div class="shop-category-header fade-up" id="fingerlings">
+          <h2>Catfish Fingerlings</h2>
+          <p>African Catfish (<em>Clarias gariepinus</em>) — disease-screened, size-graded, and ready for pond stocking.</p>
+        </div>
+        <div class="products-grid fade-up delay-1">
+
+          <div class="product-card" data-category="fingerlings">
+            <div class="product-img-wrap">
+              <img src="images/fish-fingerlings-batch.jpg" alt="Catfish Fingerlings batch" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--blue-light);color:var(--blue-dark);">Fingerlings</div>
+              <h3>Catfish Fingerlings (100 pcs)</h3>
+              <p>100 healthy African catfish fingerlings, size-graded for uniformity, transported in oxygenated bags. Ready to stock your pond immediately.</p>
+              <ul class="feature-list" style="margin:0.75rem 0;">
+                <li>✔ Size: 5–8cm at delivery</li>
+                <li>✔ Oxygenated transport bags included</li>
+                <li>✔ Free pond stocking advisory</li>
+              </ul>
+              <div class="product-footer">
+                <span class="product-price">KSH 2,000 <small>(KSH 20 each)</small></span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20catfish%20fingerlings." class="btn btn-sm btn-blue" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-category="fingerlings">
+            <div class="product-img-wrap">
+              <img src="images/fish-catfish-fingerling.jpg" alt="Catfish fingerling close-up" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--blue-light);color:var(--blue-dark);">Fingerlings</div>
+              <h3>Catfish Fingerlings (500 pcs)</h3>
+              <p>500-piece bulk order for medium-scale pond stocking. Discounted rate with priority delivery scheduling.</p>
+              <ul class="feature-list" style="margin:0.75rem 0;">
+                <li>✔ Size: 5–8cm at delivery</li>
+                <li>✔ Multiple oxygenated bags</li>
+                <li>✔ On-farm pond check available</li>
+              </ul>
+              <div class="product-footer">
+                <span class="product-price">KSH 9,000 <small>(KSH 18 each)</small></span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20500%20catfish%20fingerlings." class="btn btn-sm btn-blue" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-category="fingerlings">
+            <div class="product-img-wrap">
+              <img src="images/fish-harvest-hold.jpg" alt="Mature African catfish at harvest" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--blue-light);color:var(--blue-dark);">Fingerlings</div>
+              <h3>Catfish Fingerlings (1,000 pcs)</h3>
+              <p>Commercial-scale order for serious fish farmers. Best price per fingerling, includes free delivery within Makueni County.</p>
+              <ul class="feature-list" style="margin:0.75rem 0;">
+                <li>✔ Free delivery in Makueni</li>
+                <li>✔ Dedicated after-sales support</li>
+                <li>✔ Restock guarantee at 3 months</li>
+              </ul>
+              <div class="product-footer">
+                <span class="product-price">KSH 16,000 <small>(KSH 16 each)</small></span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%201000%20catfish%20fingerlings." class="btn btn-sm btn-blue" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── TILAPIA FINGERLINGS ── -->
+        <div class="shop-category-header fade-up" id="tilapia">
+          <h2>Tilapia Fingerlings</h2>
+          <p>Nile Tilapia (<em>Oreochromis niloticus</em>) — fast-growing and ideal for integrated farming.</p>
+        </div>
+        <div class="products-grid fade-up delay-1">
+
+          <div class="product-card" data-category="tilapia">
+            <div class="product-img-wrap">
+              <img src="images/fish-tilapia-harvest.jpg" alt="Nile Tilapia harvest at Beelove Farm" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--blue-light);color:var(--blue-dark);">Tilapia</div>
+              <h3>Tilapia Fingerlings (100 pcs)</h3>
+              <p>Nile tilapia fingerlings for pond or cage farming. Fast-growing, disease-resistant, and suitable for mixed-sex stocking.</p>
+              <ul class="feature-list" style="margin:0.75rem 0;">
+                <li>✔ Size: 4–6cm at delivery</li>
+                <li>✔ Mixed sex (male-dominated for growth)</li>
+                <li>✔ Harvest in 5–7 months</li>
+              </ul>
+              <div class="product-footer">
+                <span class="product-price">KSH 1,500 <small>(KSH 15 each)</small></span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20tilapia%20fingerlings." class="btn btn-sm btn-blue" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-category="tilapia">
+            <div class="product-img-wrap">
+              <img src="images/fish-tilapia-hand.jpg" alt="Nile tilapia fingerlings — bulk order" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--blue-light);color:var(--blue-dark);">Tilapia</div>
+              <h3>Tilapia Fingerlings (500 pcs)</h3>
+              <p>Bulk tilapia order for medium to large pond operations. Includes free delivery within Makueni and a pond management guide.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 6,500 <small>(KSH 13 each)</small></span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20500%20tilapia%20fingerlings." class="btn btn-sm btn-blue" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── AZOLLA ── -->
+        <div class="shop-category-header fade-up" id="azolla">
+          <h2>Azolla &amp; Feed</h2>
+          <p>Azolla is a floating aquatic fern that doubles as a high-protein fish feed — cutting your feed costs by up to 40%.</p>
+        </div>
+        <div class="products-grid fade-up delay-1">
+
+          <div class="product-card" data-category="azolla">
+            <div class="product-img-wrap">
+              <img src="https://images.unsplash.com/photo-1541441056316-4add67bd9b09?w=600&q=80" alt="Azolla floating fern" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--green-light);color:var(--green);">Feed</div>
+              <h3>Azolla Starter Kit</h3>
+              <p>Live Azolla starter culture with setup guide. Grows rapidly in a basin or shallow pond — producing free protein-rich feed for your fish within 2 weeks.</p>
+              <ul class="feature-list" style="margin:0.75rem 0;">
+                <li>✔ Live culture (1kg)</li>
+                <li>✔ Setup and care guide included</li>
+                <li>✔ 25–35% crude protein content</li>
+              </ul>
+              <div class="product-footer">
+                <span class="product-price">KSH 500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20an%20Azolla%20starter%20kit." class="btn btn-sm btn-green" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-category="azolla">
+            <div class="product-img-wrap">
+              <img src="images/fish-pond-ceo.jpg" alt="Beelove fish pond with Azolla" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag" style="background:var(--green-light);color:var(--green);">Feed</div>
+              <h3>Azolla + Pond Advisory</h3>
+              <p>Azolla starter kit plus a one-hour on-farm advisory session covering pond setup, feeding schedules, water quality management, and harvest planning.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 2,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20the%20Azolla%20and%20pond%20advisory%20package." class="btn btn-sm btn-green" target="_blank" rel="noopener">Book via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner fade-up" style="background:linear-gradient(135deg, var(--blue-dark) 0%, var(--blue) 100%);">
+      <div class="container">
+        <h2>Ready to Start Your Fish Farm?</h2>
+        <p>Talk to us about pond setup, fingerling delivery, and the training you need to run a profitable aquaculture operation.</p>
+        <div class="cta-actions">
+          <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20start%20fish%20farming." class="btn btn-gold" target="_blank" rel="noopener">💬 WhatsApp Us</a>
+          <a href="training-fish.html" class="btn btn-outline-white">🎓 Fish Farming Training</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════ FOOTER ═══════ -->
+  <footer class="footer">
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <div class="footer-logo">🐝 Beelove Farm</div>
+        <p>Premium honey, healthy fingerlings, and the knowledge to farm well — from Makueni County, Kenya.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/thebeelovefarm" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/254729396897" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+          <li><a href="shop-beekeeping.html">Shop Beekeeping</a></li>
+          <li><a href="shop-fish.html">Shop Fish Products</a></li>
+          <li><a href="training-beekeeping.html">Beekeeping Training</a></li>
+          <li><a href="training-fish.html">Fish Farming Training</a></li>
+          <li><a href="map.html">Suitability Map</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Fish Farming</h4>
+        <ul>
+          <li><a href="shop-fish.html#fingerlings">Catfish Fingerlings</a></li>
+          <li><a href="shop-fish.html#tilapia">Tilapia Fingerlings</a></li>
+          <li><a href="shop-fish.html#azolla">Azolla Starter Kit</a></li>
+          <li><a href="training-fish.html">Fish Farming Training</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>📍 Makueni County, Kenya</li>
+          <li><a href="https://wa.me/254729396897" target="_blank" rel="noopener">💬 WhatsApp Us</a></li>
+          <li><a href="mailto:beelovefarm25@gmail.com">✉ beelovefarm25@gmail.com</a></li>
+          <li><a href="https://instagram.com/thebeelovefarm" target="_blank" rel="noopener">📸 @thebeelovefarm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>© 2026 Beelove Farm. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20make%20an%20enquiry."
+     class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.89

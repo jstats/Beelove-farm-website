@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Beelove Farm — Climate-Smart Agriculture, Makueni County</title>
+  <meta name="description" content="Learn about Beelove Farm — a pioneering climate-smart agribusiness in Makueni County, Kenya, integrating beekeeping, aquaculture, and community training since 2021." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    /* ── About-specific styles ── */
+    .about-hero {
+      position: relative;
+      height: 480px;
+      margin-top: 68px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+    }
+    .about-hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+    }
+    .about-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(13,74,46,0.25) 0%,
+        rgba(13,74,46,0.5) 55%,
+        rgba(13,74,46,0.88) 100%
+      );
+    }
+    .about-hero-content {
+      position: relative; z-index: 2;
+      padding: 3rem 2rem 3.5rem;
+      width: 100%; max-width: 820px;
+      margin: 0 auto;
+      text-align: center;
+      color: var(--white);
+    }
+    .about-hero-content h1 { color: var(--white); margin: 0.5rem 0 1rem; }
+    .about-hero-content p {
+      color: rgba(255,255,255,0.82);
+      font-size: 1.05rem;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+    /* logo centred in hero */
+    .about-hero-logo {
+      height: 72px; width: 72px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.5);
+      margin: 0 auto 1rem;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Mission strip */
+    .mission-strip {
+      background: var(--green);
+      color: var(--white);
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    .mission-strip blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.9rem);
+      font-style: italic;
+      max-width: 760px;
+      margin: 0 auto 1rem;
+      color: var(--white);
+      line-height: 1.55;
+    }
+    .mission-strip cite {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.6);
+      letter-spacing: 0.05em;
+      font-style: normal;
+    }
+
+    /* Pillars */
+    .about-pillars {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .about-pillar {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .about-pillar:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .about-pillar-icon {
+      font-size: 2.4rem;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+    .about-pillar h4 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--green);
+    }
+    .about-pillar p {
+      font-size: 0.88rem;
+      color: var(--text-mid);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    /* Two-col story sections */
+    .story-section { padding: 5rem 0; }
+    .story-section .two-col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .story-section .two-col-grid.reverse { direction: rtl; }
+    .story-section .two-col-grid.reverse > * { direction: ltr; }
+    .story-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .story-photo img {
+      width: 100%;
+      height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+    .story-text h2 { margin-bottom: 1rem; }
+    .story-text p { color: var(--text-mid); line-height: 1.75; margin-bottom: 1rem; }
+    .story-text p:last-child { margin-bottom: 0; }
+
+    /* Impact numbers */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .impact-card {
+      background: var(--green);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: var(--white);
+    }
+    .impact-card:nth-child(even) { background: var(--gold); }
+    .impact-num {
+      display: block;
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .impact-lbl {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.4;
+    }
+
+    /* Team / founder */
+    .founder-card {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 3rem;
+      align-items: center;
+      background: var(--cream);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-top: 3rem;
+    }
+    .founder-photo {
+      width: 220px; height: 260px;
+      object-fit: cover;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+    }
+    .founder-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .founder-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+    .founder-bio { color: var(--text-mid); line-height: 1.75; }
+
+    @media (max-width: 768px) {
+      .story-section .two-col-grid,
+      .story-section .two-col-grid.reverse { grid-template-columns: 1fr; direction: ltr; }
+      .story-photo img { height: 260px; }
+      .founder-card { grid-template-columns: 1fr; text-align: center; }
+      .founder-photo { width: 160px; height: 180px; margin: 0 auto; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">
+      <img src="images/beelove-logo.jpg" class="nav-logo-img" alt="BeeLove Farm" />
+      <span>BeeLove Farm</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li class="nav-item">
+        <a href="shop-beekeeping.html">Beekeeping</a>
+        <div class="dropdown dropdown-bee">
+          <span class="dropdown-label">Beekeeping</span>
+          <a href="shop-beekeeping.html">🛒 Shop Beekeeping</a>
+          <a href="training-beekeeping.html">🎓 Beekeeping Training</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="shop-fish.html">Fish Farming</a>
+        <div class="dropdown dropdown-fish">
+          <span class="dropdown-label">Fish Farming</span>
+          <a href="shop-fish.html">🛒 Shop Fish Products</a>
+          <a href="training-fish.html">🎓 Fish Farming Training</a>
+        </div>
+      </li>
+      <li><a href="map.html">Suitability Map</a></li>
+      <li><a href="hive-sensors.html">Hive Sensors <span class="nav-badge">Soon</span></a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="about-hero">
+    <img src="images/about-hero.jpg" class="about-hero-img" alt="BeeLove Farm CEO installing a hive with farmers" />
+    <div class="about-hero-overlay"></div>
+    <div class="about-hero-content fade-up">
+      <img src="images/beelove-logo.jpg" class="about-hero-logo" alt="BeeLove Farm" />
+      <span class="section-tag-light">🌿 Est. 2021 · Kiunduani, Makueni County</span>
+      <h1>Who We Are</h1>
+      <p>A pioneering climate-smart agribusiness dedicated to sustainable beekeeping, aquaculture, and community empowerment across Kenya.</p>
+    </div>
+  </section>
+
+  <!-- MISSION QUOTE -->
+  <div class="mission-strip">
+    <blockquote>"Farming with nature, not against it — for sustainable livelihoods and a healthier Kenya."</blockquote>
+    <cite>— BeeLove Farm Mission</cite>
+  </div>
+
+  <main>
+
+    <!-- EXECUTIVE SUMMARY -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="section-header fade-up">
+          <span class="section-tag">Our Story</span>
+          <h2>From Makueni to Kenya</h2>
+          <p>Founded in 2021, BeeLove Farm bridges indigenous knowledge and modern technology to build food security, pollinator health, and climate resilience.</p>
+        </div>
+
+        <div class="about-pillars fade-up delay-1">
+          <div class="about-pillar">
+            <span class="about-pillar-icon">🐝</span>
+            <h4>Apiculture</h4>
+            <p>Sustainable beekeeping using indigenous tree knowledge, queen rearing, and multi-product harvesting — honey, propolis, pollen, and bee venom.</p>
+          </div>
+          <div class="about-pillar">
+            <span class="about-pillar-icon">🐟</span>
+            <h4>Aquaculture</h4>
+            <p>A fingerling production hub for Nile tilapia and African catfish, with Azolla integration for low-cost, sustainable pond feeding.</p>
+          </div>
+          <div class="about-pillar">
+            <span class="about-pillar-icon">🤝</span>
+            <h4>Community Training</h4>
+            <p>Hands-on training for smallholder farmers, women's groups, cooperatives and Maasai communities across Kenya.</p>
+          </div>
+          <div class="about-pillar">
+            <span class="about-pillar-icon">📡</span>
+            <h4>AI for Beekeepers</h4>
+            <p>Developing IoT hive sensors and cloud dashboards to help traditional beekeepers monitor colony health with real-time data.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEEKEEPING STORY -->
+    <section class="story-section section">
+      <div class="container">
+        <div class="two-col-grid fade-up">
+          <div class="story-text">
+            <span class="section-tag">🐝 Apiculture</span>
+            <h2>Restoring Bee Populations in Kenya</h2>
+            <p>Bee populations across Kenya are under threat from pesticides, climate change, and habitat loss. BeeLove Farm is fighting back — identifying indigenous tree species that provide year-round nectar, training farmers in queen rearing, and promoting improved log hives that use less timber and last longer.</p>
+            <p>We go beyond honey. Our programme is diversifying into bee venom therapy, pollen collection for nutritional use, and propolis for natural medicines — building a full-spectrum apiculture enterprise that puts more value into every hive.</p>
+            <p>Through our <strong>AI for Traditional Beekeepers</strong> initiative, we are developing hive-monitoring sensors to collect real-time data on temperature, humidity, weight, and sound — giving smallholder beekeepers the same technology available to commercial operations worldwide.</p>
+            <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+              <a href="shop-beekeeping.html" class="btn btn-gold">Shop Beekeeping</a>
+              <a href="training-beekeeping.html" class="btn btn-outline-green">Beekeeping Training</a>
+            </div>
+          </div>
+          <div class="story-photo">
+            <img src="images/honeycomb-closeup.jpg" alt="Fresh honeycomb inspection at BeeLove Farm" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AQUACULTURE STORY -->
+    <section class="story-section section section-blue-light">
+      <div class="container">
+        <div class="two-col-grid reverse fade-up">
+          <div class="story-text">
+            <span class="section-tag" style="background:var(--blue-light);color:var(--blue-dark);">🐟 Aquaculture</span>
+            <h2>Fingerlings That Feed Families</h2>
+            <p>BeeLove Farm's aquaculture unit is built around one principle: quality that farmers can depend on. We produce disease-screened, size-graded African catfish and Nile tilapia fingerlings from a dedicated hatchery with broodstock ponds, incubation units, and nursery tanks.</p>
+            <p>What sets us apart is Azolla. This fast-growing floating fern is grown on our farm as a natural protein supplement — it reduces expensive commercial feed by up to 38%, keeps pond water clean, and makes fish farming viable for smallholders who would otherwise struggle with feed costs.</p>
+            <p>From pond setup consultations to post-harvest support, we walk with our customers through the full cycle — fingerling to table.</p>
+            <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+              <a href="shop-fish.html" class="btn btn-blue">Shop Fish Products</a>
+              <a href="training-fish.html" class="btn btn-outline-blue">Fish Farming Training</a>
+            </div>
+          </div>
+          <div class="story-photo">
+            <img src="images/catfish-harvest-fresh.jpg" alt="Fresh catfish harvest at BeeLove Farm aquaculture pond" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- IMPACT -->
+    <section class="section section-cream">
+      <div class="container fade-up">
+        <div class="section-header">
+          <span class="section-tag">Our Impact</span>
+          <h2>Growing With Every Season</h2>
+          <p>Since 2021, BeeLove Farm has been building a measurable impact across Makueni County and beyond.</p>
+        </div>
+        <div class="impact-grid">
+          <div class="impact-card">
+            <span class="impact-num">120+</span>
+            <span class="impact-lbl">Beehives Under Management</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-num">500+</span>
+            <span class="impact-lbl">Fingerlings Sold</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-num">80+</span>
+            <span class="impact-lbl">Farmers Trained</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-num">5 yrs</span>
+            <span class="impact-lbl">In Operation</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-num">🌍</span>
+            <span class="impact-lbl">Kenya-wide Training Reach</span>
+          </div>
+          <div class="impact-card">
+            <span class="impact-num">♀</span>
+            <span class="impact-lbl">Women-Led Farmer Groups Supported</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMMUNITY SECTION -->
+    <section class="story-section section">
+      <div class="container">
+        <div class="two-col-grid fade-up">
+          <div class="story-text">
+            <span class="section-tag">🤝 Community First</span>
+            <h2>Training the Next Generation of Farmers</h2>
+            <p>At BeeLove Farm, we believe knowledge is the most valuable product we can share. Our training programmes reach women's groups, youth farmers, Maasai communities, cooperatives, and NGO-supported programmes across Kenya.</p>
+            <p>Participants leave not just with certificates but with hands-on skills, WhatsApp support groups, and access to our fingerlings and beehive products at training-day prices.</p>
+            <p>From the Maasai plains to Makueni's farms, our trainers bring practical, field-tested knowledge — no theory without practice.</p>
+            <div style="margin-top:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;">
+              <a href="training-beekeeping.html" class="btn btn-gold">Beekeeping Courses</a>
+              <a href="training-fish.html" class="btn btn-outline-green">Fish Farming Courses</a>
+            </div>
+          </div>
+          <div class="story-photo">
+            <img src="images/about-hero-2.jpg" alt="BeeLove Farm CEO training farmers on hive installation" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOUNDER -->
+    <section class="section section-cream">
+      <div class="container fade-up">
+        <div class="section-header">
+          <span class="section-tag">Leadership</span>
+          <h2>Meet the Team Behind the Farm</h2>
+        </div>
+        <div class="founder-card">
+          <img src="images/ceo-bee-suit.jpg" class="founder-photo" alt="BeeLove Farm CEO in bee suit" loading="lazy" />
+          <div>
+            <h3 class="founder-name">BeeLove Farm CEO</h3>
+            <p class="founder-title">Founder &amp; Chief Executive · Kiunduani, Makueni County</p>
+            <p class="founder-bio">The driving force behind BeeLove Farm's circular agriculture model, combining deep expertise in apiculture, aquaculture, and community development. Under this leadership, BeeLove Farm has grown from a local beekeeping operation into a multi-enterprise climate-smart agribusiness with national training reach and cutting-edge IoT research into hive monitoring technology.</p>
+            <div style="margin-top:1.25rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+              <a href="https://wa.me/254729396897" class="btn btn-gold btn-sm" target="_blank" rel="noopener">💬 Connect via WhatsApp</a>
+              <a href="mailto:beelovefarm25@gmail.com" class="btn btn-outline-green btn-sm">✉ Email Us</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner fade-up">
+      <div class="container">
+        <h2>Ready to Farm With Us?</h2>
+        <p>Whether you want to buy fingerlings, attend a training, or partner with us — we'd love to hear from you.</p>
+        <div class="cta-actions">
+          <a href="contact.html" class="btn btn-gold">Get in Touch</a>
+          <a href="index.html" class="btn btn-outline-white">Back to Home</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <div class="footer-logo"><img src="images/beelove-logo.jpg" style="height:40px;width:40px;border-radius:50%;vertical-align:middle;margin-right:8px;" alt="BeeLove Farm" />BeeLove Farm</div>
+        <p>Premium honey, healthy fingerlings, and the knowledge to farm well — from Makueni County, Kenya.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="shop-beekeeping.html">Shop Beekeeping</a></li>
+          <li><a href="shop-fish.html">Shop Fish Products</a></li>
+          <li><a href="training-beekeeping.html">Beekeeping Training</a></li>
+          <li><a href="training-fish.html">Fish Farming Training</a></li>
+          <li><a href="map.html">Suitability Map</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>What We Do</h4>
+        <ul>
+          <li><a href="shop-beekeeping.html">Apiculture</a></li>
+          <li><a href="shop-fish.html">Aquaculture</a></li>
+          <li><a href="training-beekeeping.html">Farmer Training</a></li>
+          <li><a href="hive-sensors.html">Hive Sensors (Soon)</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>📍 Kiunduani, Makueni County, Kenya</li>
+          <li><a href="https://wa.me/254729396897" target="_blank" rel="noopener">💬 WhatsApp Us</a></li>
+          <li><a href="mailto:beelovefarm25@gmail.com">✉ beelovefarm25@gmail.com</a></li>
+          <li><a href="https://instagram.com/thebeelovefarm" target="_blank" rel="noopener">📸 @thebeelovefarm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom container"><p>© 2026 BeeLove Farm. All rights reserved.</p></div>
+  </footer>
+
+  <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20make%20an%20enquiry." class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+  <script src="js/mai

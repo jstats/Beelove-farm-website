@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Beelove Farm</title>
+  <meta name="description" content="Buy beekeeping equipment, raw honey, catfish fingerlings and aquaculture supplies from Beelove Farm, Makueni County." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo"><img src="images/beelove-logo.jpg" class="nav-logo-img" alt="BeeLove Farm" /><span>BeeLove Farm</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li class="nav-item">
+        <a href="shop-beekeeping.html">Beekeeping</a>
+        <div class="dropdown dropdown-bee">
+          <span class="dropdown-label">Beekeeping</span>
+          <a href="shop-beekeeping.html">🛒 Shop Beekeeping</a>
+          <a href="training-beekeeping.html">🎓 Beekeeping Training</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a href="shop-fish.html">Fish Farming</a>
+        <div class="dropdown dropdown-fish">
+          <span class="dropdown-label">Fish Farming</span>
+          <a href="shop-fish.html">🛒 Shop Fish Products</a>
+          <a href="training-fish.html">🎓 Fish Farming Training</a>
+        </div>
+      </li>
+      <li><a href="map.html">Suitability Map</a></li>
+      <li><a href="hive-sensors.html">Hive Sensors <span class="nav-badge">Soon</span></a></li>
+      <li><a href="contact.html" class="nav-cta">Contact</a></li>
+    </ul>
+    <button class="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="page-hero">
+    <div class="container">
+      <span class="section-tag-light">🛒 Beelove Store</span>
+      <h1>Shop Our Products</h1>
+      <p>Quality beekeeping equipment, pure raw honey, and aquaculture supplies — delivered across Kenya.</p>
+    </div>
+  </div>
+
+  <main>
+    <section class="section">
+      <div class="container">
+
+        <!-- Filter Bar -->
+        <div class="filter-bar fade-up">
+          <button class="filter-btn active" data-filter="all">All Products</button>
+          <button class="filter-btn" data-filter="beekeeping">🪵 Hives &amp; Equipment</button>
+          <button class="filter-btn" data-filter="bee-products">🍯 Bee Products</button>
+          <button class="filter-btn" data-filter="aquaculture">🐟 Aquaculture</button>
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid fade-up delay-1">
+
+          <!-- ── HIVES ── -->
+          <div class="product-card bg-green" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-hive-ktbh.jpg" alt="Kenya Top Bar Hive" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Hives</div>
+              <h3>Kenya Top Bar Hive (KTBH)</h3>
+              <p>Locally made KTBH — ideal for Kenyan conditions, easy to manage, no foundation needed. Comes fully assembled.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 3,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20KTBH%20hive." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-teal" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-langstroth.jpg" alt="Langstroth Hive" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Hives</div>
+              <h3>Langstroth Hive</h3>
+              <p>8-frame Langstroth hive — standard for commercial production, easy to expand with supers. Painted and ready.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 5,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20Langstroth%20hive." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-amber" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="https://images.unsplash.com/photo-1619457631655-b091860475ce?auto=format&fit=crop&w=500&q=80" alt="Log Traditional Hive" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Hives</div>
+              <h3>Log / Traditional Hive</h3>
+              <p>Traditional hollowed log hive — ideal for remote apiaries and low-maintenance management. Naturally insulated.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 1,500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20log%20hive." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── PROTECTIVE GEAR ── -->
+          <div class="product-card bg-blue" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-bee-veil.jpg" alt="Full Bee Suit" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Protective Gear</div>
+              <h3>Full Bee Suit</h3>
+              <p>Full-body protective suit with integrated veil. Available in S, M, L, XL. Elastic cuffs and ankle zips for secure fit.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 2,800</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20bee%20suit." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-green" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-bee-veil.jpg" alt="Bee Veil Hat" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Protective Gear</div>
+              <h3>Bee Veil / Hat &amp; Veil</h3>
+              <p>Round-brim hat with attached veil — lightweight option for experienced beekeepers during quick inspections.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 800</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20bee%20veil." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── TOOLS ── -->
+          <div class="product-card bg-amber" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-smoker2.jpg" alt="Bee Smoker" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Tools</div>
+              <h3>Bee Smoker</h3>
+              <p>Stainless steel smoker with leather bellows. Durable, easy to light. Essential for every inspection.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 1,200</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20bee%20smoker." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-teal" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-hive-tool.jpg" alt="J-Type Hive Tool" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Tools</div>
+              <h3>Hive Tool (J-Type)</h3>
+              <p>Classic stainless steel J-type hive tool for prying apart frames and scraping propolis. Ergonomic handle.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 350</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20hive%20tool." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-blue" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-bee-brush.jpg" alt="Bee Brush" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Tools</div>
+              <h3>Bee Brush</h3>
+              <p>Soft natural bristle brush for gently sweeping bees off frames during harvest. Won't harm the colony.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 300</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20bee%20brush." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── HONEY PROCESSING ── -->
+          <div class="product-card bg-amber" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-shop.jpg" alt="Manual Honey Extractor" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Processing</div>
+              <h3>Manual Honey Extractor</h3>
+              <p>2-frame manual radial extractor — stainless steel drum, plastic gate valve. Great for small-scale operations.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 12,000</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20enquire%20about%20the%20honey%20extractor." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-green" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-honey-strainer.jpg" alt="Honey Strainer Double Mesh" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Processing</div>
+              <h3>Honey Strainer (Double)</h3>
+              <p>Double-mesh stainless steel strainer — removes wax and debris, leaving crystal-clear pure honey.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 900</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20honey%20strainer." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-teal" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="images/prod-langstroth2.jpg" alt="Beeswax Foundation Sheets" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Hive Accessories</div>
+              <h3>Foundation Sheets</h3>
+              <p>Beeswax-coated foundation sheets for Langstroth frames. Provides a template for straight comb building.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 150 / sheet</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20foundation%20sheets." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-blue" data-category="beekeeping">
+            <div class="product-img-wrap">
+              <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80" alt="Frame Feeder with Ladders" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Hive Accessories</div>
+              <h3>Frame Feeder</h3>
+              <p>Frame-sized plastic feeder for supplemental feeding during dearth periods. Fits standard Langstroth frames.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 400</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20a%20frame%20feeder." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── BEE PRODUCTS ── -->
+          <div class="product-card bg-gold" data-category="bee-products">
+            <div class="product-img-wrap">
+              <img src="images/prod-honey-150g.jpg" alt="Raw Honey 150g Jar" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Honey</div>
+              <h3>Raw Honey — 150g Jar</h3>
+              <p>Pure, unfiltered, unheated raw honey from Makueni's diverse flora. Rich in enzymes and natural goodness.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 400</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20150g%20raw%20honey." class="btn btn-sm btn-green" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-gold" data-category="bee-products">
+            <div class="product-img-wrap">
+              <img src="images/prod-honey-1kg.jpg" alt="Raw Honey 1kg Jar" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Honey</div>
+              <h3>Raw Honey — 1kg Jar</h3>
+              <p>1 kilogram of our signature raw honey. Perfect for families, bulk buyers, and resellers. Discount for 6+ jars.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 1,800</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%201kg%20raw%20honey." class="btn btn-sm btn-green" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── AQUACULTURE ── -->
+          <div class="product-card bg-blue" data-category="aquaculture">
+            <div class="product-img-wrap">
+              <img src="https://images.unsplash.com/photo-1515735543535-12664d2453f8?auto=format&fit=crop&w=500&q=80" alt="Catfish Fingerlings" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Fingerlings</div>
+              <h3>Catfish Fingerlings</h3>
+              <p>African Catfish (<em>Clarias gariepinus</em>) fingerlings — healthy, disease-screened, size-graded. Min. order: 100 pcs.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 20 / pc</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20catfish%20fingerlings." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card bg-teal" data-category="aquaculture">
+            <div class="product-img-wrap">
+              <img src="https://images.unsplash.com/photo-1541441056316-443fff347c40?auto=format&fit=crop&w=500&q=80" alt="Azolla Aquatic Plant" loading="lazy" />
+            </div>
+            <div class="product-body">
+              <div class="product-tag">Feed Supplement</div>
+              <h3>Azolla Starter Kit</h3>
+              <p>Azolla fern — fast-growing aquatic plant with ~25% protein, ideal as a low-cost supplement for catfish and tilapia.</p>
+              <div class="product-footer">
+                <span class="product-price">KSH 500</span>
+                <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20order%20an%20Azolla%20starter%20kit." class="btn btn-sm btn-gold" target="_blank" rel="noopener">Order via WhatsApp</a>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /product-grid -->
+
+        <!-- Ordering Note -->
+        <div class="shop-note fade-up delay-2">
+          <div class="shop-note-icon">💬</div>
+          <div>
+            <strong>How to Order</strong>
+            <p>All orders are placed via WhatsApp. Click any "Order via WhatsApp" button and we'll confirm availability, arrange payment, and organise delivery or pickup from Makueni.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-banner">
+      <div class="container">
+        <h2>Need a Bulk Quote?</h2>
+        <p>Training groups, NGOs, and resellers — contact us for volume pricing on hives, honey, and fingerlings.</p>
+        <div class="cta-actions">
+          <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27m%20interested%20in%20bulk%20pricing." class="btn btn-gold" target="_blank" rel="noopener">💬 WhatsApp for Bulk Quote</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-grid container">
+      <div class="footer-brand">
+        <div class="footer-logo">🐝 Beelove Farm</div>
+        <p>Premium honey, healthy fingerlings, and the knowledge to farm well — from Makueni County, Kenya.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/thebeelovefarm" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </a>
+          <a href="https://wa.me/254729396897" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+          <li><a href="shop.html">Shop</a></li>
+          <li><a href="training.html">Training</a></li>
+          <li><a href="map.html">Suitability Map</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="shop.html?filter=bee-products">Raw Honey</a></li>
+          <li><a href="shop.html?filter=beekeeping">Hives &amp; Equipment</a></li>
+          <li><a href="shop.html?filter=aquaculture">Catfish Fingerlings</a></li>
+          <li><a href="shop.html?filter=aquaculture">Azolla Starter Kit</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li>📍 Makueni County, Kenya</li>
+          <li><a href="https://wa.me/254729396897" target="_blank" rel="noopener">💬 WhatsApp Us</a></li>
+          <li><a href="mailto:beelovefarm25@gmail.com">✉ beelovefarm25@gmail.com</a></li>
+          <li><a href="https://instagram.com/thebeelovefarm" target="_blank" rel="noopener">📸 @thebeelovefarm</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom container">
+      <p>© 2026 Beelove Farm. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/254729396897?text=Hello%20Beelove%20Farm%2C%20I%27d%20like%20to%20make%20an%20enquiry."
+     class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Apply URL filter param on load
+    const params = new URLSearchParams(window.location.search);
+    const filterParam = params.get('filter');
+    if (filterParam) {
+      const btn = document.querySelector('[data-filter="' + filterParam + '"]');
+      if (btn) 
