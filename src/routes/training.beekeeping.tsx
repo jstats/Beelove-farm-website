@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import training1 from "@/assets/training1.jpg";
-import training2 from "@/assets/training2.jpg";
-import training4 from "@/assets/training4.jpg";
-import honeycomb from "@/assets/honeycomb-frames.jpg";
+import trainingCommunity from "@/assets/training-community.jpg";
+import trainingOutdoor from "@/assets/training-outdoor-2.jpg";
+import trainingCircle from "@/assets/training-circle.jpg";
+import beekeeperApiary from "@/assets/beekeeper-apiary.jpg";
 
-const COURSE_IMAGES = [honeycomb, training4, training1, training2];
+const COURSE_IMAGES = [beekeeperApiary, trainingCommunity, trainingOutdoor, trainingCircle];
 
 export const Route = createFileRoute("/training/beekeeping")({
   head: () => ({
