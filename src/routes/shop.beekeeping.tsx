@@ -2,6 +2,19 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
+import shopInterior from "@/assets/prod-shop.jpg";
+import langstrothImg from "@/assets/prod-langstroth.jpg";
+import smokerImg from "@/assets/prod-smoker.jpg";
+import smoker2Img from "@/assets/prod-smoker2.jpg";
+import honeycombImg from "@/assets/honeycomb-frames.jpg";
+
+const PRODUCT_IMAGES: Record<string, string> = {
+  "Langstroth Hive (10-frame)": langstrothImg,
+  "Bee Smoker": smokerImg,
+  "Hive Tool (J-Type)": smoker2Img,
+  "Raw Honey — 150g Jar": honeycombImg,
+  "Raw Honey — 1kg Jar": honeycombImg,
+};
 
 export const Route = createFileRoute("/shop/beekeeping")({
   head: () => ({
@@ -108,7 +121,11 @@ function ShopBeekeepingPage() {
             </div>
           </div>
           <div className="md:col-span-5 min-h-[200px]">
-            <Placeholder label="Beelove honey shop interior" tone="honey" />
+            <img
+              src={shopInterior}
+              alt="Beelove Farm shop interior with raw honey jars and beekeeping equipment"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </section>
@@ -171,7 +188,15 @@ function ProductCard({ product }: { product: Product }) {
   return (
     <article className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col hover:-translate-y-0.5 transition-transform">
       <div className="h-44">
-        <Placeholder label={product.name} tone={product.tone} />
+        {PRODUCT_IMAGES[product.name] ? (
+          <img
+            src={PRODUCT_IMAGES[product.name]}
+            alt={product.name}
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <Placeholder label={product.name} tone={product.tone} />
+        )}
       </div>
       <div className="p-6 flex flex-col flex-1">
         <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-amber mb-2">

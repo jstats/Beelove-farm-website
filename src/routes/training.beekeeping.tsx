@@ -1,7 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
+import training1 from "@/assets/training1.jpg";
+import training2 from "@/assets/training2.jpg";
+import training4 from "@/assets/training4.jpg";
+import honeycomb from "@/assets/honeycomb-frames.jpg";
+
+const COURSE_IMAGES = [honeycomb, training4, training1, training2];
 
 export const Route = createFileRoute("/training/beekeeping")({
   head: () => ({
@@ -109,7 +114,11 @@ function TrainingBeekeepingPage() {
             </p>
           </div>
           <div className="md:col-span-5 min-h-[200px]">
-            <Placeholder label="Beekeeper holding live honeycomb frame" tone="amber" />
+            <img
+              src={training1}
+              alt="Beelove trainer leading a beekeeping class in Makueni"
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </section>
@@ -139,13 +148,17 @@ function TrainingBeekeepingPage() {
           <h2 className="font-display text-4xl mt-2">Choose your course</h2>
         </div>
         <div className="grid md:grid-cols-2 gap-4">
-          {COURSES.map((c) => (
+          {COURSES.map((c, i) => (
             <article
               key={c.title}
               className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col"
             >
               <div className="h-40">
-                <Placeholder label={c.title} tone={c.tone} />
+                <img
+                  src={COURSE_IMAGES[i]}
+                  alt={c.title}
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div className="p-8 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-3">

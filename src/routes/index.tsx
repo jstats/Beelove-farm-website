@@ -3,6 +3,8 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
 import { ArrowRight, Sparkles } from "lucide-react";
+import heroImg from "@/assets/training4.jpg";
+import langstrothImg from "@/assets/prod-langstroth.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -46,13 +48,12 @@ function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-min">
           {/* Hero Tile */}
           <div className="md:col-span-8 md:row-span-2 relative overflow-hidden rounded-[24px] bg-umber text-cream p-8 md:p-12 ring-1 ring-black/5 min-h-[420px] md:min-h-[520px]">
-            <div className="absolute inset-0 opacity-30">
-              <Placeholder
-                label="Beelove apiary at golden hour"
-                tone="amber"
-                className="!bg-amber/20"
-              />
-            </div>
+            <img
+              src={heroImg}
+              alt="Beelove Farm apiary with hives in a Makueni cornfield"
+              className="absolute inset-0 w-full h-full object-cover opacity-45"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-umber via-umber/70 to-umber/30" />
             <div className="relative z-10 flex flex-col h-full justify-end">
               <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber/20 border border-amber/40 text-honey text-[11px] font-medium uppercase tracking-[0.18em] mb-6 w-fit">
                 <Sparkles className="size-3" />
@@ -117,7 +118,8 @@ function HomePage() {
             trainHref="/training/beekeeping"
             shopLabel="Shop Beekeeping"
             trainLabel="Beekeeping Training"
-            placeholder="Honey jar on wooden table"
+            image={langstrothImg}
+            imageAlt="Stacked yellow Langstroth hive boxes at Beelove Farm"
           />
           <EnterpriseTile
             tone="teal"
@@ -259,6 +261,8 @@ function EnterpriseTile({
   shopLabel,
   trainLabel,
   placeholder,
+  image,
+  imageAlt,
 }: {
   tone: "amber" | "teal";
   tag: string;
@@ -268,7 +272,9 @@ function EnterpriseTile({
   trainHref: string;
   shopLabel: string;
   trainLabel: string;
-  placeholder: string;
+  placeholder?: string;
+  image?: string;
+  imageAlt?: string;
 }) {
   const bg = tone === "amber" ? "bg-amber" : "bg-teal";
   const accentBtn =
@@ -301,7 +307,11 @@ function EnterpriseTile({
         </div>
       </div>
       <div className="h-44 bg-umber/30">
-        <Placeholder label={placeholder} tone="umber" />
+        {image ? (
+          <img src={image} alt={imageAlt ?? ""} className="w-full h-full object-cover" />
+        ) : (
+          <Placeholder label={placeholder ?? ""} tone="umber" />
+        )}
       </div>
     </div>
   );
