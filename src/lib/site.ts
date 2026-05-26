@@ -11,5 +11,7 @@ export const NAV_LINKS = [
   { to: "/about", label: "About" },
   { to: "/shop/beekeeping", label: "Beekeeping" },
   { to: "/shop/fish", label: "Fish Farming" },
-  { to: "/shop", label: "Shop" },
+  { to: "/map", label: "Suitability Map" },
+  { to: "/hive-sensors", label: "Hive Sensors" },
+  { to: "/contact", label: "Contact" },
 ] as const;
