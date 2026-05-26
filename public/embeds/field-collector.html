@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Beelove Farm — Field Data Collector</title>
+  <style>
+    :root {
+      --amber: #f59e0b; --amber-dark: #b45309; --amber-light: #fef3c7;
+      --green: #15803d; --green-light: #dcfce7;
+      --dark: #1c1917; --mid: #57534e; --light: #fafaf9;
+      --border: #e7e5e4; --red: #dc2626; --blue: #1d4ed8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--light); color: var(--dark); }
+
+    header { background: linear-gradient(135deg, var(--amber-dark), var(--amber)); color: white; padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .header-left { display: flex; align-items: center; gap: 10px; }
+    .header-left h1 { font-size: 16px; font-weight: 700; }
+    .header-left p { font-size: 11px; opacity: 0.85; }
+    .index-live { background: rgba(255,255,255,0.2); border-radius: 10px; padding: 6px 10px; text-align: center; }
+    .index-live .val { font-size: 20px; font-weight: 900; }
+    .index-live .lbl { font-size: 9px; opacity: 0.85; text-transform: uppercase; }
+
+    .sync-banner { display: none; padding: 7px 16px; font-size: 12px; font-weight: 600; text-align: center; }
+
+    .tab-bar { display: flex; background: white; border-bottom: 2px solid var(--border); position: sticky; top: 62px; z-index: 99; overflow-x: auto; }
+    .tab-bar button { flex-shrink: 0; padding: 11px 10px; border: none; background: none; font-size: 12px; font-weight: 600; color: var(--mid); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; white-space: nowrap; }
+    .tab-bar button.active { color: var(--amber-dark); border-bottom-color: var(--amber); }
+
+    .tab-content { display: none; padding: 14px; max-width: 600px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+
+    .section { background: white; border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+    .section-title { font-size: 13px; font-weight: 700; color: var(--amber-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+
+    label { display: block; font-size: 13px; font-weight: 600; color: var(--dark); margin-bottom: 5px; margin-top: 11px; }
+    label:first-of-type { margin-top: 0; }
+    input[type="text"], input[type="number"], input[type="date"], select, textarea { width: 100%; padding: 9px 11px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; color: var(--dark); background: var(--light); -webkit-appearance: none; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amber); background: white; }
+    textarea { min-height: 70px; resize: vertical; }
+
+    .gps-row { display: flex; gap: 8px; }
+    .gps-row input { flex: 1; }
+    .gps-btn { background: var(--green); color: white; border: none; border-radius: 8px; padding: 9px 12px; font-size: 12px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+    .gps-status { font-size: 11px; color: var(--mid); margin-top: 3px; min-height: 15px; }
+    .gps-status.success { color: var(--green); } .gps-status.error { color: var(--red); }
+
+    .checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 5px; }
+    .checkbox-item { display: flex; align-items: center; gap: 7px; background: var(--light); border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 9px; cursor: pointer; font-size: 12px; transition: all 0.15s; }
+    .checkbox-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--amber); cursor: pointer; flex-shrink: 0; }
+    .checkbox-item:has(input:checked) { background: var(--amber-light); border-color: var(--amber); }
+
+    .radio-group { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+    .radio-item { display: flex; align-items: center; gap: 6px; background: var(--light); border: 1.5px solid var(--border); border-radius: 8px; padding: 7px 10px; cursor: pointer; font-size: 12px; transition: all 0.15s; }
+    .radio-item input[type="radio"] { accent-color: var(--amber); }
+    .radio-item:has(input:checked) { background: var(--amber-light); border-color: var(--amber); }
+
+    /* Season tabs */
+    .season-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+    .season-tab { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--border); background: var(--light); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; color: var(--mid); }
+    .season-tab.active { background: var(--amber); border-color: var(--amber-dark); color: white; }
+    .season-panel { display: none; } .season-panel.active { display: block; }
+
+    /* Calculated index display */
+    .index-display { display: flex; gap: 12px; margin-top: 10px; }
+    .index-box { flex: 1; border-radius: 10px; padding: 12px; text-align: center; border: 2px solid var(--border); }
+    .index-box .score { font-size: 32px; font-weight: 900; line-height: 1; }
+    .index-box .label { font-size: 11px; font-weight: 600; text-transform: uppercase; color: var(--mid); margin-top: 3px; }
+    .index-box .sub { font-size: 10px; color: var(--mid); margin-top: 2px; }
+    .index-flag { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 8px 12px; font-size: 12px; color: var(--red); margin-top: 8px; display: none; }
+
+    /* Score buttons */
+    .score-bar { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 5px; }
+    .score-btn { width: 38px; height: 38px; border-radius: 8px; border: 2px solid var(--border); background: var(--light); font-weight: 700; font-size: 14px; cursor: pointer; transition: all 0.15s; }
+    .score-btn.selected { background: var(--amber); border-color: var(--amber-dark); color: white; }
+
+    /* Risk badge */
+    .risk-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; margin-left: 6px; }
+    .risk-high { background: #fee2e2; color: #b91c1c; }
+    .risk-med { background: #fef3c7; color: #92400e; }
+    .risk-low { background: #dcfce7; color: #15803d; }
+
+    .submit-btn { width: 100%; background: linear-gradient(135deg, var(--amber-dark), var(--amber)); color: white; border: none; border-radius: 12px; padding: 15px; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; box-shadow: 0 4px 12px rgba(180,83,9,0.25); }
+    .clear-btn { width: 100%; background: white; color: var(--mid); border: 1.5px solid var(--border); border-radius: 12px; padding: 11px; font-size: 13px; font-weight: 600; cursor: pointer; margin-top: 6px; }
+
+    /* Records */
+    .records-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .records-count { background: var(--amber-light); color: var(--amber-dark); font-weight: 700; padding: 4px 12px; border-radius: 20px; font-size: 12px; }
+    .export-btn { background: var(--green); color: white; border: none; border-radius: 8px; padding: 7px 14px; font-size: 12px; font-weight: 700; cursor: pointer; }
+    .record-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; }
+    .record-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 6px; }
+    .score-badge { width: 34px; height: 34px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; color: white; flex-shrink: 0; }
+    .record-detail { font-size: 11px; color: var(--mid); line-height: 1.7; }
+    .dual-score { display: flex; gap: 6px; margin-top: 4px; }
+    .dual-badge { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--dark); color: white; padding: 10px 20px; border-radius: 20px; font-size: 13px; font-weight: 600; z-index: 999; opacity: 0; transition: opacity 0.3s; pointer-events: none; white-space: nowrap; }
+    .toast.show { opacity: 1; }
+
+    .required { color: var(--red); margin-left: 2px; }
+    .hint { font-size: 11px; color: var(--mid); margin-top: 3px; line-height: 1.4; }
+    .divider { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div style="font-size:22px">🐝</div>
+    <div>
+      <h1>Beelove Farm Field Collector</h1>
+      <p>Beekeeping Suitability Assessment</p>
+    </div>
+  </div>
+  <div class="index-live">
+    <div class="val" id="headerScore">—</div>
+    <div class="lbl">Index</div>
+  </div>
+</header>
+
+<div class="sync-banner" id="syncBanner"></div>
+
+<div class="tab-bar">
+  <button class="active" onclick="showTab('collect',this)">📋 Collect</button>
+  <button onclick="showTab('records',this)">📂 Records</button>
+  <button onclick="showTab('guide',this)">📖 Guide</button>
+  <button onclick="showTab('settings',this)">⚙️ Sync</button>
+</div>
+
+<!-- ═══════════════════════ COLLECT TAB ═══════════════════════ -->
+<div id="tab-collect" class="tab-content active">
+<form id="fieldForm">
+
+  <!-- 1. Collector Info -->
+  <div class="section">
+    <div class="section-title">👤 Collector Info</div>
+    <label>Collector Name <span class="required">*</span></label>
+    <input type="text" id="collectorName" placeholder="Your name" />
+    <label>Date <span class="required">*</span></label>
+    <input type="date" id="collDate" />
+    <label>Apiary Name</label>
+    <input type="text" id="stopNo" placeholder="e.g. Mbooni South Apiary" />
+  </div>
+
+  <!-- 2. Location -->
+  <div class="section">
+    <div class="section-title">📍 Location</div>
+    <label>County <span class="required">*</span></label>
+    <select id="countySelect" onchange="populateSubCounties()">
+      <option value="">— Select County —</option>
+    </select>
+    <label>Sub-County <span class="required">*</span></label>
+    <select id="subCounty">
+      <option value="">— Select County first —</option>
+    </select>
+    <label>Area / Village Name <span class="required">*</span></label>
+    <input type="text" id="areaName" placeholder="e.g. Mbooni Hills, Wote Town..." />
+    <label>Location</label>
+    <button type="button" id="locationBtn" onclick="captureGPS()" style="width:100%;background:var(--green);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
+      <span style="font-size:20px">📍</span> Capture Location
+    </button>
+    <div id="locationCard" style="display:none;margin-top:8px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <div><div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Latitude</div><div id="dispLat" style="font-size:14px;font-weight:600;color:var(--dark);">—</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Longitude</div><div id="dispLng" style="font-size:14px;font-weight:600;color:var(--dark);">—</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Altitude</div><div id="dispAlt" style="font-size:14px;font-weight:600;color:var(--dark);">—</div></div>
+        <div><div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Accuracy</div><div id="dispAcc" style="font-size:14px;font-weight:600;color:var(--dark);">—</div></div>
+      </div>
+      <button type="button" onclick="captureGPS()" style="margin-top:8px;width:100%;background:none;border:1px solid #86efac;border-radius:8px;padding:6px;font-size:12px;font-weight:600;color:var(--green);cursor:pointer;">🔄 Recapture</button>
+    </div>
+    <div id="gpsStatus" style="font-size:11px;color:var(--mid);margin-top:4px;min-height:15px;">Tap Capture Location to record GPS, altitude and accuracy</div>
+    <!-- Hidden fields for form data -->
+    <input type="hidden" id="gpsCoords" />
+    <input type="hidden" id="altitude" />
+  </div>
+
+  <!-- 3. Vegetation & Seasonal Forage -->
+  <div class="section">
+    <div class="section-title">🌿 Vegetation & Seasonal Forage</div>
+    <label>Overall Vegetation Density <span class="required">*</span></label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="vegDensity" value="Dense" onchange="recalcIndex()" /> Dense</label>
+      <label class="radio-item"><input type="radio" name="vegDensity" value="Moderate" onchange="recalcIndex()" /> Moderate</label>
+      <label class="radio-item"><input type="radio" name="vegDensity" value="Sparse" onchange="recalcIndex()" /> Sparse</label>
+      <label class="radio-item"><input type="radio" name="vegDensity" value="Very Sparse" onchange="recalcIndex()" /> Very Sparse</label>
+    </div>
+
+    <label style="margin-top:14px;">Flowering Plants by Season</label>
+    <p class="hint">Select the season then tick which plants are flowering or known to flower in that season at this location.</p>
+
+    <div class="season-tabs" style="margin-top:8px;">
+      <div class="season-tab active" onclick="showSeason('lr',this)">🌧️ Long Rains (Mar–May)</div>
+      <div class="season-tab" onclick="showSeason('sr',this)">🌦️ Short Rains (Oct–Dec)</div>
+      <div class="season-tab" onclick="showSeason('cd',this)">🌬️ Cool Dry (Jun–Aug)</div>
+      <div class="season-tab" onclick="showSeason('hd',this)">☀️ Hot Dry (Jan–Feb)</div>
+    </div>
+
+    <!-- Long Rains -->
+    <div class="season-panel active" id="season-lr">
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Acacia" onchange="recalcIndex()" />🌾 Acacia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Calliandra" onchange="recalcIndex()" />🌺 Calliandra</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Croton" onchange="recalcIndex()" />🌳 Croton</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Sunflower" onchange="recalcIndex()" />🌻 Sunflower</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Mango" onchange="recalcIndex()" />🥭 Mango</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Avocado" onchange="recalcIndex()" />🥑 Avocado</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Coffee" onchange="recalcIndex()" />☕ Coffee</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Macadamia" onchange="recalcIndex()" />🌰 Macadamia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Tithonia" onchange="recalcIndex()" />🌼 Tithonia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Moringa" onchange="recalcIndex()" />🌱 Moringa</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Leucaena" onchange="recalcIndex()" />🌿 Leucaena</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Wild Flowers" onchange="recalcIndex()" />💐 Wild Flowers</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Eucalyptus" onchange="recalcIndex()" />🌲 Eucalyptus</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Citrus" onchange="recalcIndex()" />🍊 Citrus</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Baobab" onchange="recalcIndex()" />🌴 Baobab</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_lr" value="Other" onchange="recalcIndex()" />➕ Other</label>
+      </div>
+    </div>
+    <!-- Short Rains -->
+    <div class="season-panel" id="season-sr">
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Acacia" onchange="recalcIndex()" />🌾 Acacia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Calliandra" onchange="recalcIndex()" />🌺 Calliandra</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Croton" onchange="recalcIndex()" />🌳 Croton</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Sunflower" onchange="recalcIndex()" />🌻 Sunflower</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Mango" onchange="recalcIndex()" />🥭 Mango</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Avocado" onchange="recalcIndex()" />🥑 Avocado</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Coffee" onchange="recalcIndex()" />☕ Coffee</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Macadamia" onchange="recalcIndex()" />🌰 Macadamia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Tithonia" onchange="recalcIndex()" />🌼 Tithonia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Citrus" onchange="recalcIndex()" />🍊 Citrus</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Wild Flowers" onchange="recalcIndex()" />💐 Wild Flowers</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Leucaena" onchange="recalcIndex()" />🌿 Leucaena</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Baobab" onchange="recalcIndex()" />🌴 Baobab</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_sr" value="Other" onchange="recalcIndex()" />➕ Other</label>
+      </div>
+    </div>
+    <!-- Cool Dry -->
+    <div class="season-panel" id="season-cd">
+      <p class="hint" style="margin-bottom:8px;">Cool dry season (Jun–Aug) is typically a dearth period. Note any plants still providing forage.</p>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Acacia" onchange="recalcIndex()" />🌾 Acacia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Eucalyptus" onchange="recalcIndex()" />🌲 Eucalyptus</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Leucaena" onchange="recalcIndex()" />🌿 Leucaena</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Moringa" onchange="recalcIndex()" />🌱 Moringa</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Wild Flowers" onchange="recalcIndex()" />💐 Wild Flowers</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Calliandra" onchange="recalcIndex()" />🌺 Calliandra</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="None observed" onchange="recalcIndex()" />❌ None observed</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_cd" value="Other" onchange="recalcIndex()" />➕ Other</label>
+      </div>
+    </div>
+    <!-- Hot Dry -->
+    <div class="season-panel" id="season-hd">
+      <p class="hint" style="margin-bottom:8px;">Hot dry season (Jan–Feb). Some acacia species flower here — important for year-round productivity assessment.</p>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Acacia" onchange="recalcIndex()" />🌾 Acacia</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Baobab" onchange="recalcIndex()" />🌴 Baobab</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Sisal" onchange="recalcIndex()" />🪴 Sisal</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Moringa" onchange="recalcIndex()" />🌱 Moringa</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Wild Shrubs" onchange="recalcIndex()" />🌿 Wild Shrubs</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Citrus" onchange="recalcIndex()" />🍊 Citrus</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="None observed" onchange="recalcIndex()" />❌ None observed</label>
+        <label class="checkbox-item"><input type="checkbox" name="flora_hd" value="Other" onchange="recalcIndex()" />➕ Other</label>
+      </div>
+    </div>
+
+    <label>Other Plants Not Listed</label>
+    <input type="text" id="otherFlora" placeholder="e.g. Grevillea, Sesbania..." />
+  </div>
+
+  <!-- 4. Water Sources -->
+  <div class="section">
+    <div class="section-title">💧 Water Sources</div>
+    <label>Sources Within 1km (select all present)</label>
+    <div class="checkbox-grid">
+      <label class="checkbox-item"><input type="checkbox" name="water" value="River" onchange="recalcIndex()" />🏞️ River</label>
+      <label class="checkbox-item"><input type="checkbox" name="water" value="Dam/Reservoir" onchange="recalcIndex()" />💧 Dam/Reservoir</label>
+      <label class="checkbox-item"><input type="checkbox" name="water" value="Borehole" onchange="recalcIndex()" />⛏️ Borehole</label>
+      <label class="checkbox-item"><input type="checkbox" name="water" value="Seasonal Stream" onchange="recalcIndex()" />〰️ Seasonal Stream</label>
+      <label class="checkbox-item"><input type="checkbox" name="water" value="Water Pan" onchange="recalcIndex()" />🪣 Water Pan</label>
+      <label class="checkbox-item"><input type="checkbox" name="water" value="None" onchange="recalcIndex()" />❌ None</label>
+    </div>
+    <label>Estimated Distance to Nearest Water</label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="waterDist" value="<200m" /> &lt;200m</label>
+      <label class="radio-item"><input type="radio" name="waterDist" value="200-500m" /> 200–500m</label>
+      <label class="radio-item"><input type="radio" name="waterDist" value="500m-1km" /> 500m–1km</label>
+      <label class="radio-item"><input type="radio" name="waterDist" value=">1km" /> &gt;1km</label>
+    </div>
+  </div>
+
+  <!-- 5. Land Use -->
+  <div class="section">
+    <div class="section-title">🗺️ Land Use</div>
+    <label>Primary Land Use <span class="required">*</span></label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="landUse" value="Natural Bush/Forest" onchange="recalcIndex()" /> Natural Bush/Forest</label>
+      <label class="radio-item"><input type="radio" name="landUse" value="Mixed Smallholder" onchange="recalcIndex()" /> Mixed Smallholder</label>
+      <label class="radio-item"><input type="radio" name="landUse" value="Large-scale Farming" onchange="recalcIndex()" /> Large-scale Farm</label>
+      <label class="radio-item"><input type="radio" name="landUse" value="Settlement" onchange="recalcIndex()" /> Settlement</label>
+      <label class="radio-item"><input type="radio" name="landUse" value="Rangeland" onchange="recalcIndex()" /> Rangeland</label>
+      <label class="radio-item"><input type="radio" name="landUse" value="Mixed" onchange="recalcIndex()" /> Mixed</label>
+    </div>
+  </div>
+
+  <!-- 6. Cash Crops & Pesticide Risk -->
+  <div class="section">
+    <div class="section-title">🌾 Cash Crops & Pesticide Risk</div>
+    <p class="hint" style="margin-bottom:10px;">Cash crops indicate both forage potential AND pesticide pressure. Select all crops grown in or near this area.</p>
+
+    <label>Cash Crops Present (select all)</label>
+    <div class="checkbox-grid">
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Oranges/Pixies" onchange="recalcIndex()" />🍊 Oranges/Pixies <span class="risk-badge risk-high">High</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Mango" onchange="recalcIndex()" />🥭 Mango <span class="risk-badge risk-med">Med</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Avocado" onchange="recalcIndex()" />🥑 Avocado <span class="risk-badge risk-med">Med</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Tomatoes" onchange="recalcIndex()" />🍅 Tomatoes <span class="risk-badge risk-high">High</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="French Beans" onchange="recalcIndex()" />🫘 French Beans <span class="risk-badge risk-high">High</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Passion Fruit" onchange="recalcIndex()" />🍈 Passion Fruit <span class="risk-badge risk-high">High</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Watermelon" onchange="recalcIndex()" />🍉 Watermelon <span class="risk-badge risk-med">Med</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Coffee" onchange="recalcIndex()" />☕ Coffee <span class="risk-badge risk-med">Med</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Tea" onchange="recalcIndex()" />🍵 Tea <span class="risk-badge risk-low">Low</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Macadamia" onchange="recalcIndex()" />🌰 Macadamia <span class="risk-badge risk-low">Low</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Roses/Cut Flowers" onchange="recalcIndex()" />🌹 Cut Flowers <span class="risk-badge risk-high">High</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Pyrethrum" onchange="recalcIndex()" />🌼 Pyrethrum <span class="risk-badge risk-low">Safe</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Sugarcane" onchange="recalcIndex()" />🎍 Sugarcane <span class="risk-badge risk-low">Low</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Maize" onchange="recalcIndex()" />🌽 Maize <span class="risk-badge risk-low">Low</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="Chillies" onchange="recalcIndex()" />🌶️ Chillies <span class="risk-badge risk-med">Med</span></label>
+      <label class="checkbox-item"><input type="checkbox" name="crops" value="None" onchange="recalcIndex()" />✅ No cash crops</label>
+    </div>
+
+    <div id="pesticideDetails" style="display:none; margin-top:12px;">
+      <hr class="divider" />
+      <label>Spraying Frequency</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="sprayFreq" value="Weekly" onchange="recalcIndex()" /> Weekly</label>
+        <label class="radio-item"><input type="radio" name="sprayFreq" value="Fortnightly" onchange="recalcIndex()" /> Fortnightly</label>
+        <label class="radio-item"><input type="radio" name="sprayFreq" value="Monthly" onchange="recalcIndex()" /> Monthly</label>
+        <label class="radio-item"><input type="radio" name="sprayFreq" value="Seasonal only" onchange="recalcIndex()" /> Seasonal only</label>
+        <label class="radio-item"><input type="radio" name="sprayFreq" value="Unknown" onchange="recalcIndex()" /> Unknown</label>
+      </div>
+
+      <label>Which Months Do Farmers Spray? (select all)</label>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Jan" />Jan</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Feb" />Feb</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Mar" />Mar</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Apr" />Apr</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="May" />May</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Jun" />Jun</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Jul" />Jul</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Aug" />Aug</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Sep" />Sep</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Oct" />Oct</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Nov" />Nov</label>
+        <label class="checkbox-item"><input type="checkbox" name="sprayMonths" value="Dec" />Dec</label>
+      </div>
+
+      <label>Pesticide Type (if known)</label>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="pesticideType" value="Organophosphate" />⚠️ Organophosphate</label>
+        <label class="checkbox-item"><input type="checkbox" name="pesticideType" value="Pyrethroid" />⚠️ Pyrethroid</label>
+        <label class="checkbox-item"><input type="checkbox" name="pesticideType" value="Fungicide" />🍄 Fungicide</label>
+        <label class="checkbox-item"><input type="checkbox" name="pesticideType" value="Herbicide" />🌿 Herbicide</label>
+        <label class="checkbox-item"><input type="checkbox" name="pesticideType" value="Unknown" />❓ Unknown</label>
+      </div>
+
+      <label>Distance to Nearest Agrochemical Store</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="agrochem" value="<500m" onchange="recalcIndex()" /> &lt;500m</label>
+        <label class="radio-item"><input type="radio" name="agrochem" value="500m-2km" onchange="recalcIndex()" /> 500m–2km</label>
+        <label class="radio-item"><input type="radio" name="agrochem" value=">2km" onchange="recalcIndex()" /> &gt;2km</label>
+        <label class="radio-item"><input type="radio" name="agrochem" value="None nearby" onchange="recalcIndex()" /> None nearby</label>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Existing Hives & Productivity -->
+  <div class="section">
+    <div class="section-title">🏠 Existing Hives & Productivity</div>
+    <label>Are there existing hives in this area?</label>
+    <div class="radio-group">
+      <label class="radio-item"><input type="radio" name="hivesExist" value="Yes" onclick="toggleHiveDetails(true)" /> Yes</label>
+      <label class="radio-item"><input type="radio" name="hivesExist" value="No" onclick="toggleHiveDetails(false)" /> No</label>
+      <label class="radio-item"><input type="radio" name="hivesExist" value="Unknown" onclick="toggleHiveDetails(false)" /> Unknown</label>
+    </div>
+
+    <div id="hiveDetails" style="display:none; margin-top:12px;">
+      <hr class="divider" />
+
+      <!-- General hive info -->
+      <label>Date of Last Installation</label>
+      <input type="date" id="installDate" />
+
+      <label>Date of Last Inspection / Cleaning</label>
+      <input type="date" id="lastInspection" />
+      <p class="hint">Regular inspection reduces absconding and improves colony health</p>
+
+      <label>Hive Housing / Environment</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="hiveHousing" value="Bee house" /> 🏠 Bee house</label>
+        <label class="radio-item"><input type="radio" name="hiveHousing" value="Open area" /> 🌳 Open area</label>
+        <label class="radio-item"><input type="radio" name="hiveHousing" value="Shade structure" /> ⛺ Shade structure</label>
+        <label class="radio-item"><input type="radio" name="hiveHousing" value="Mixed" /> Mixed</label>
+      </div>
+
+      <label>Hive Placement Height</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="hivePlacement" value="Tree-mounted (high)" /> Tree-mounted</label>
+        <label class="radio-item"><input type="radio" name="hivePlacement" value="Waist height" /> Waist height</label>
+        <label class="radio-item"><input type="radio" name="hivePlacement" value="Ground level" /> Ground level</label>
+        <label class="radio-item"><input type="radio" name="hivePlacement" value="Mixed" /> Mixed</label>
+      </div>
+
+      <label>How Were Hives Baited? (select all used)</label>
+      <div class="checkbox-grid">
+        <label class="checkbox-item"><input type="checkbox" name="hiveBait" value="Propolis" />🟤 Propolis</label>
+        <label class="checkbox-item"><input type="checkbox" name="hiveBait" value="Beeswax" />🕯️ Beeswax</label>
+        <label class="checkbox-item"><input type="checkbox" name="hiveBait" value="Lemongrass oil" />🌿 Lemongrass oil</label>
+        <label class="checkbox-item"><input type="checkbox" name="hiveBait" value="None" />❌ None</label>
+        <label class="checkbox-item"><input type="checkbox" name="hiveBait" value="Unknown" />❓ Unknown</label>
+      </div>
+
+      <hr class="divider" />
+      <p style="font-size:12px;font-weight:700;color:var(--amber-dark);margin-bottom:10px;">📊 Data by Hive Type</p>
+      <p class="hint" style="margin-bottom:10px;">Fill in only the hive types present at this location. Leave others blank.</p>
+
+      <!-- Hive type cards -->
+      <div id="hiveTypeCards" style="display:flex;flex-direction:column;gap:10px;">
+
+        <!-- KTBH -->
+        <div style="border:2px solid #fbbf24;border-radius:10px;overflow:hidden;">
+          <div style="background:#fbbf24;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:13px;">🪵 Kenya Top Bar Hive (KTBH)</span>
+            <span style="font-size:11px;color:#78350f;">Typical yield: 20–30 kg/season</span>
+          </div>
+          <div style="padding:10px 12px;background:white;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div><label style="margin:0 0 3px;font-size:11px;">Installed</label><input type="number" id="ktbh_installed" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Colonized</label><input type="number" id="ktbh_colonized" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Absconded</label><input type="number" id="ktbh_absconded" min="0" placeholder="0" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Honey yield (kg)</label><input type="number" id="ktbh_honey" min="0" placeholder="0" style="font-size:14px;" /></div>
+            </div>
+            <div id="ktbh_rate" style="margin-top:6px;font-size:12px;font-weight:700;color:var(--amber-dark);min-height:16px;"></div>
+          </div>
+        </div>
+
+        <!-- Langstroth -->
+        <div style="border:2px solid #34d399;border-radius:10px;overflow:hidden;">
+          <div style="background:#34d399;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:13px;">📦 Langstroth</span>
+            <span style="font-size:11px;color:#064e3b;">Typical yield: 30–60 kg/season</span>
+          </div>
+          <div style="padding:10px 12px;background:white;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div><label style="margin:0 0 3px;font-size:11px;">Installed</label><input type="number" id="lang_installed" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Colonized</label><input type="number" id="lang_colonized" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Absconded</label><input type="number" id="lang_absconded" min="0" placeholder="0" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Honey yield (kg)</label><input type="number" id="lang_honey" min="0" placeholder="0" style="font-size:14px;" /></div>
+            </div>
+            <div id="lang_rate" style="margin-top:6px;font-size:12px;font-weight:700;color:#15803d;min-height:16px;"></div>
+          </div>
+        </div>
+
+        <!-- Log/Traditional -->
+        <div style="border:2px solid #a78bfa;border-radius:10px;overflow:hidden;">
+          <div style="background:#a78bfa;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-weight:700;font-size:13px;">🪵 Log / Traditional</span>
+            <span style="font-size:11px;color:#2e1065;">Typical yield: 10–15 kg/season</span>
+          </div>
+          <div style="padding:10px 12px;background:white;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <div><label style="margin:0 0 3px;font-size:11px;">Installed</label><input type="number" id="log_installed" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Colonized</label><input type="number" id="log_colonized" min="0" placeholder="0" onchange="updateHiveSummary()" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Absconded</label><input type="number" id="log_absconded" min="0" placeholder="0" style="font-size:14px;" /></div>
+              <div><label style="margin:0 0 3px;font-size:11px;">Honey yield (kg)</label><input type="number" id="log_honey" min="0" placeholder="0" style="font-size:14px;" /></div>
+            </div>
+            <div id="log_rate" style="margin-top:6px;font-size:12px;font-weight:700;color:#7c3aed;min-height:16px;"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Overall summary (auto-calculated) -->
+      <div id="hiveSummaryBox" style="display:none;margin-top:10px;background:#fef3c7;border:1.5px solid #fbbf24;border-radius:10px;padding:12px;">
+        <p style="font-size:11px;font-weight:700;color:var(--amber-dark);text-transform:uppercase;margin-bottom:8px;">📋 Overall Summary (auto-calculated)</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">
+          <div><div style="font-size:18px;font-weight:800;color:var(--dark);" id="summTotal">0</div><div style="font-size:10px;color:var(--mid);">Total Installed</div></div>
+          <div><div style="font-size:18px;font-weight:800;color:var(--green);" id="summColonized">0</div><div style="font-size:10px;color:var(--mid);">Colonized</div></div>
+          <div><div style="font-size:18px;font-weight:800;color:var(--amber-dark);" id="summRate">—%</div><div style="font-size:10px;color:var(--mid);">Overall Rate</div></div>
+        </div>
+        <div id="colonRateDisplay" style="margin-top:6px;font-size:12px;font-weight:600;color:var(--amber-dark);text-align:center;"></div>
+      </div>
+
+      <hr class="divider" />
+      <label>Number of Harvests Per Year</label>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="harvestsPerYear" value="3+" /> 3+</label>
+        <label class="radio-item"><input type="radio" name="harvestsPerYear" value="2" /> 2</label>
+        <label class="radio-item"><input type="radio" name="harvestsPerYear" value="1" /> 1</label>
+        <label class="radio-item"><input type="radio" name="harvestsPerYear" value="Irregular" /> Irregular</label>
+      </div>
+
+      <label>Estimated Colony Strength</label>
+      <p class="hint">What % of frames in colonized hives are covered with bees?</p>
+      <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="colonyStrength" value=">75% frames covered" /> Strong (&gt;75%)</label>
+        <label class="radio-item"><input type="radio" name="colonyStrength" value="50-75% frames covered" /> Medium (50–75%)</label>
+        <label class="radio-item"><input type="radio" name="colonyStrength" value="25-50% frames covered" /> Weak (25–50%)</label>
+        <label class="radio-item"><input type="radio" name="colonyStrength" value="<25% frames covered" /> Very Weak (&lt;25%)</label>
+      </div>
+
+      <hr class="divider" />
+      <p style="font-size:12px;font-weight:700;color:var(--amber-dark);margin-bottom:10px;">🐝 Most Recent Swarming Season</p>
+      <label>Catcher Boxes / Traps Deployed</label>
+      <input type="number" id="trapsDeployed" placeholder="e.g. 10" min="0" />
+      <label>Traps That Were Colonized (natural swarms)</label>
+      <input type="number" id="trapsColonized" placeholder="e.g. 7" min="0" />
+      <p class="hint" id="swarmRateDisplay" style="color:var(--amber-dark); font-weight:600;"></p>
+    </div>
+  </div>
+
+  <!-- 8. Threats -->
+  <div class="section">
+    <div class="section-title">⚠️ Threats Observed</div>
+    <div class="checkbox-grid">
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Pesticide use" onchange="recalcIndex()" />🧪 Pesticide use</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Heavy livestock" onchange="recalcIndex()" />🐄 Heavy livestock</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Charcoal burning" onchange="recalcIndex()" />🔥 Charcoal burning</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Deforestation" onchange="recalcIndex()" />🪓 Deforestation</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Urban expansion" onchange="recalcIndex()" />🏗️ Urban expansion</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Drought/water scarcity" onchange="recalcIndex()" />☀️ Drought</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Small Hive Beetle" onchange="recalcIndex()" />🪲 Small Hive Beetle</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Wax Moth" onchange="recalcIndex()" />🦋 Wax Moth</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Ant infestation" onchange="recalcIndex()" />🐜 Ant infestation</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Honey badger" onchange="recalcIndex()" />🦡 Honey badger</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="Vandalism risk" onchange="recalcIndex()" />🔓 Vandalism risk</label>
+      <label class="checkbox-item"><input type="checkbox" name="threats" value="None observed" onchange="recalcIndex()" />✅ None observed</label>
+    </div>
+  </div>
+
+  <!-- 9. Suitability Assessment -->
+  <div class="section">
+    <div class="section-title">⭐ Suitability Assessment</div>
+
+    <div class="index-display">
+      <div class="index-box" id="calcBox" style="border-color: #e7e5e4;">
+        <div class="score" id="calcScore" style="color: #57534e;">—</div>
+        <div class="label">Calculated Index</div>
+        <div class="sub">From your field data</div>
+      </div>
+      <div class="index-box" style="border-color: var(--amber);">
+        <div class="score" id="subjScoreDisplay" style="color: var(--amber-dark);">—</div>
+        <div class="label">Your Assessment</div>
+        <div class="sub">Apiarist judgment</div>
+      </div>
+    </div>
+
+    <div class="index-flag" id="indexFlag">
+      ⚠️ Your score and the calculated index differ by more than 2 points. Please add a note explaining what you observed that the form may not capture.
+    </div>
+
+    <label style="margin-top:14px;">Your Overall Score (1=Poor, 10=Excellent) <span class="required">*</span></label>
+    <div class="score-bar" id="scoreBar"></div>
+    <input type="hidden" id="suitabilityScore" value="" />
+
+    <label>Additional Notes</label>
+    <textarea id="notes" placeholder="Any observations not captured above — local knowledge, unusual features, farmer feedback, things that surprised you..."></textarea>
+    <p class="hint" style="margin-top:6px;">📸 Take 1–2 photos of the landscape. Label with stop number and area name.</p>
+  </div>
+
+  <button type="button" class="submit-btn" onclick="saveRecord()">💾 Save This Stop</button>
+  <button type="button" class="clear-btn" onclick="clearForm()">🗑️ Clear Form</button>
+  <div style="height:20px;"></div>
+</form>
+</div>
+
+<!-- ═══════════════════════ RECORDS TAB ═══════════════════════ -->
+<div id="tab-records" class="tab-content">
+  <div class="records-header">
+    <span class="records-count" id="recordsCount">0 stops</span>
+    <button class="export-btn" onclick="exportCSV()">📊 Export CSV</button>
+  </div>
+  <div id="recordsList"></div>
+</div>
+
+<!-- ═══════════════════════ GUIDE TAB ═══════════════════════ -->
+<div id="tab-guide" class="tab-content">
+  <div class="section">
+    <div class="section-title">🎯 What You Are Doing</div>
+    <p style="font-size:13px;color:var(--mid);line-height:1.7;">You are collecting ground-truth data that satellites cannot capture — the real conditions on the ground. Your observations directly feed into Beelove Farm's Kenya Beekeeping Suitability Map. Aim for <strong>8–12 stops per day</strong>, spread across different land types and areas.</p>
+  </div>
+  <div class="section">
+    <div class="section-title">✅ Signs of High Suitability (7–10)</div>
+    <ul style="font-size:13px;color:var(--mid);line-height:2.2;padding-left:16px;">
+      <li>Diverse flowering plants across multiple seasons</li>
+      <li>Dense natural vegetation or healthy mixed smallholder farms</li>
+      <li>Permanent water source within 500m</li>
+      <li>Existing hives with 70%+ colonization rate</li>
+      <li>Low pesticide pressure / no high-risk cash crops nearby</li>
+      <li>No history of frequent absconding</li>
+      <li>Strong swarming season (high trap colonization)</li>
+    </ul>
+  </div>
+  <div class="section">
+    <div class="section-title">⚠️ Pesticide Risk — What to Look For</div>
+    <ul style="font-size:13px;color:var(--mid);line-height:2.2;padding-left:16px;">
+      <li>Ask local farmers what cash crops they grow and how often they spray</li>
+      <li>Citrus (oranges, pixies), tomatoes, French beans = high spray frequency</li>
+      <li>Note any agrochemical stores or dealer signs nearby</li>
+      <li>Dead bees near hive entrances = pesticide poisoning indicator</li>
+      <li>Ask what pesticide brand they use if possible</li>
+    </ul>
+  </div>
+  <div class="section">
+    <div class="section-title">🐝 African Bee Notes</div>
+    <ul style="font-size:13px;color:var(--mid);line-height:2.2;padding-left:16px;">
+      <li><em>Apis mellifera scutellata</em> absconds when stressed — always ask about absconding history</li>
+      <li>Propolis-baited hives colonize significantly better than wax-baited ones</li>
+      <li>Tree-mounted hives generally colonize better than waist-height</li>
+      <li>Swarming season trap success rate = best indicator of local bee population density</li>
+    </ul>
+  </div>
+  <div class="section">
+    <div class="section-title">📊 About the Dual Index</div>
+    <p style="font-size:13px;color:var(--mid);line-height:1.7;">The form automatically calculates a suitability score from your field data. You also give your own gut score. When they differ by more than 2 points, add a note — you probably observed something important that the form doesn't capture yet. Those notes help us improve the algorithm.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════ SETTINGS TAB ═══════════════════════ -->
+<div id="tab-settings" class="tab-content">
+  <div class="section">
+    <div class="section-title">☁️ Google Sheets Live Sync</div>
+    <p style="font-size:13px;color:var(--mid);line-height:1.6;margin-bottom:12px;">Every stop is saved to Google Sheets instantly. If you have no signal, stops queue automatically and sync when signal returns.</p>
+    <label>Apps Script Web App URL</label>
+    <input type="text" id="scriptUrl" placeholder="https://script.google.com/macros/s/..." style="font-size:12px;" />
+    <button type="button" class="submit-btn" style="margin-top:10px;" onclick="saveScriptUrl()">💾 Save & Connect</button>
+    <button type="button" class="clear-btn" onclick="testConnection()">🔌 Test Connection</button>
+    <div id="connStatus" style="margin-top:8px;font-size:13px;font-weight:600;min-height:18px;"></div>
+  </div>
+  <div class="section">
+    <div class="section-title">📤 Pending Queue</div>
+    <div id="pendingCount" style="font-size:28px;font-weight:900;color:var(--amber-dark);">0</div>
+    <p style="font-size:13px;color:var(--mid);margin:4px 0 12px;">stops waiting to sync</p>
+    <button type="button" class="submit-btn" onclick="syncPending()">🔄 Sync Now</button>
+  </div>
+  <div class="section">
+    <div class="section-title">📋 Setup Steps</div>
+    <ol style="font-size:13px;color:var(--mid);line-height:2.4;padding-left:16px;">
+      <li>Open <strong>Google Sheets</strong> → create new sheet: <em>"Beelove Field Data"</em></li>
+      <li>Click <strong>Extensions → Apps Script</strong></li>
+      <li>Paste the contents of <strong>google_apps_script.js</strong></li>
+      <li>Click <strong>Deploy → New deployment → Web app</strong></li>
+      <li>Set access to <strong>Anyone</strong> → Deploy → copy URL</li>
+      <li>Paste URL above and tap <strong>Save & Connect</strong></li>
+    </ol>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ─── Kenya Counties & Sub-Counties ────────────────────────
+const KENYA_LOCATIONS = {
+  "Baringo":["Baringo Central","Baringo North","Baringo South","Eldama Ravine","Mogotio","Tiaty"],
+  "Bomet":["Bomet Central","Bomet East","Chepalungu","Konoin","Sotik"],
+  "Bungoma":["Bumula","Kabuchai","Kanduyi","Kimilili","Mt. Elgon","Sirisia","Tongaren","Webuye East","Webuye West"],
+  "Busia":["Budalangi","Butula","Funyula","Matayos","Nambale","Teso North","Teso South"],
+  "Elgeyo Marakwet":["Keiyo North","Keiyo South","Marakwet East","Marakwet West"],
+  "Embu":["Manyatta","Mbeere North","Mbeere South","Runyenjes"],
+  "Garissa":["Balambala","Daadab","Fafi","Garissa Township","Hulugho","Ijara","Lagdera"],
+  "Homa Bay":["Homa Bay Town","Kabondo Kasipul","Karachuonyo","Kasipul","Mbita","Ndhiwa","Rangwe","Suba North","Suba South"],
+  "Isiolo":["Garbatulla","Isiolo","Merti"],
+  "Kajiado":["Kajiado Central","Kajiado East","Kajiado North","Kajiado South","Kajiado West"],
+  "Kakamega":["Butere","Ikolomani","Khwisero","Likuyani","Lugari","Lurambi","Malava","Matungu","Mumias East","Mumias West","Navakholo","Shinyalu"],
+  "Kericho":["Ainamoi","Belgut","Bureti","Kipkelion East","Kipkelion West","Sigowet/Soin"],
+  "Kiambu":["Gatundu North","Gatundu South","Githunguri","Juja","Kabete","Kiambaa","Kiambu","Kikuyu","Lari","Limuru","Ruiru","Thika Town"],
+  "Kilifi":["Ganze","Kaloleni","Kilifi North","Kilifi South","Magarini","Malindi","Rabai"],
+  "Kirinyaga":["Gichugu","Kirinyaga Central","Mwea","Ndia"],
+  "Kisii":["Bobasi","Bomachoge Borabu","Bomachoge Chache","Bonchari","Kitutu Chache North","Kitutu Chache South","Nyaribari Chache","Nyaribari Masaba","South Mugirango"],
+  "Kisumu":["Kisumu Central","Kisumu East","Kisumu West","Muhoroni","Nyakach","Nyando","Seme"],
+  "Kitui":["Kitui Central","Kitui East","Kitui Rural","Kitui South","Kitui West","Mwingi Central","Mwingi North","Mwingi West"],
+  "Kwale":["Kinango","Lungalunga","Matuga","Msambweni"],
+  "Laikipia":["Laikipia Central","Laikipia East","Laikipia North","Laikipia West","Nyahururu"],
+  "Lamu":["Lamu East","Lamu West"],
+  "Machakos":["Kathiani","Machakos Town","Masinga","Matungulu","Mavoko","Mwala","Yatta"],
+  "Makueni":["Kaiti","Kibwezi East","Kibwezi West","Kilome","Makueni","Mbooni"],
+  "Mandera":["Banissa","Lafey","Mandera East","Mandera North","Mandera South","Mandera West"],
+  "Marsabit":["Laisamis","Moyale","North Horr","Saku"],
+  "Meru":["Buuri","Igembe Central","Igembe North","Igembe South","Imenti Central","Imenti North","Imenti South","Tigania East","Tigania West"],
+  "Migori":["Awendo","Kuria East","Kuria West","Mabera","Ntimaru","Rongo","Suna East","Suna West","Uriri"],
+  "Mombasa":["Changamwe","Jomvu","Kisauni","Likoni","Mvita","Nyali"],
+  "Murang'a":["Gatanga","Kahuro","Kandara","Kangema","Kigumo","Kiharu","Mathioya","Murang'a South"],
+  "Nairobi":["Dagoretti North","Dagoretti South","Embakasi Central","Embakasi East","Embakasi North","Embakasi South","Embakasi West","Kamkunji","Kasarani","Kibra","Lang'ata","Makadara","Mathare","Roysambu","Ruaraka","Starehe","Westlands"],
+  "Nakuru":["Bahati","Gilgil","Kuresoi North","Kuresoi South","Molo","Naivasha","Nakuru Town East","Nakuru Town West","Njoro","Rongai","Subukia"],
+  "Nandi":["Aldai","Chesumei","Emgwen","Mosop","Nandi Hills","Tindiret"],
+  "Narok":["Narok East","Narok North","Narok South","Narok West","Transmara East","Transmara West"],
+  "Nyamira":["Borabu","Manga","Masaba North","Nyamira North","Nyamira South"],
+  "Nyandarua":["Kinangop","Kipipiri","Ndaragwa","Ol Jorok","Ol Kalou"],
+  "Nyeri":["Kieni","Mathira","Mukurweini","Nyeri Town","Othaya","Tetu"],
+  "Samburu":["Samburu East","Samburu North","Samburu West"],
+  "Siaya":["Alego Usonga","Bondo","Gem","Rarieda","Ugenya","Ugunja"],
+  "Taita Taveta":["Mwatate","Taveta","Voi","Wundanyi"],
+  "Tana River":["Bura","Galole","Garsen"],
+  "Tharaka Nithi":["Chuka/Igambang'ombe","Maara","Tharaka"],
+  "Trans Nzoia":["Cherangany","Endebess","Kiminini","Kwanza","Trans Nzoia East","Trans Nzoia West"],
+  "Turkana":["Kibish","Loima","Turkana Central","Turkana East","Turkana North","Turkana South","Turkana West"],
+  "Uasin Gishu":["Ainabkoi","Kapseret","Kesses","Moiben","Soy","Turbo"],
+  "Vihiga":["Emuhaya","Hamisi","Luanda","Sabatia","Vihiga"],
+  "Wajir":["Eldas","Tarbaj","Wajir East","Wajir North","Wajir South","Wajir West"],
+  "West Pokot":["Kacheliba","Kapenguria","Pokot South","West Pokot"]
+};
+
+function initLocationDropdowns() {
+  const countySelect = document.getElementById('countySelect');
+  Object.keys(KENYA_LOCATIONS).sort().forEach(county => {
+    const opt = document.createElement('option');
+    opt.value = county; opt.textContent = county;
+    countySelect.appendChild(opt);
+  });
+}
+
+function populateSubCounties() {
+  const county = document.getElementById('countySelect').value;
+  const subSelect = document.getElementById('subCounty');
+  subSelect.innerHTML = '<option value="">— Select Sub-County —</option>';
+  if (!county || !KENYA_LOCATIONS[county]) return;
+  KENYA_LOCATIONS[county].forEach(sc => {
+    const opt = document.createElement('option');
+    opt.value = sc; opt.textContent = sc;
+    subSelect.appendChild(opt);
+  });
+}
+
+// ─── Sync ──────────────────────────────────────────────────
+const SCRIPT_URL_KEY = 'beelove_script_url';
+const PENDING_KEY = 'beelove_pending_sync';
+function getScriptUrl() { return localStorage.getItem(SCRIPT_URL_KEY) || ''; }
+
+function saveScriptUrl() {
+  const url = document.getElementById('scriptUrl').value.trim();
+  if (!url.startsWith('https://script.google.com')) { showConnStatus('❌ Invalid Apps Script URL', 'var(--red)'); return; }
+  localStorage.setItem(SCRIPT_URL_KEY, url);
+  showConnStatus('✅ Saved! Tap Test Connection to verify.', 'var(--green)');
+}
+async function testConnection() {
+  const url = getScriptUrl();
+  if (!url) { showConnStatus('⚠️ No URL saved yet', 'orange'); return; }
+  showConnStatus('🔄 Testing...', 'var(--mid)');
+  try {
+    const res = await fetch(url + '?test=1');
+    const data = await res.json();
+    showConnStatus(data.success !== undefined ? '✅ Connected to Google Sheets!' : '⚠️ Connected but unexpected response', data.success !== undefined ? 'var(--green)' : 'orange');
+  } catch(e) { showConnStatus('❌ Connection failed. Check URL.', 'var(--red)'); }
+}
+async function syncToSheets(record) {
+  const url = getScriptUrl();
+  if (!url) return false;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(record),
+      mode: 'no-cors'
+    });
+    return true; // no-cors: can't read response, but if no error the data reached Apps Script
+  } catch(e) { return false; }
+}
+function addToPending(record) {
+  const q = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+  q.push(record); localStorage.setItem(PENDING_KEY, JSON.stringify(q)); updatePendingCount();
+}
+async function syncPending() {
+  const url = getScriptUrl();
+  if (!url) { showToast('⚠️ Add Apps Script URL in Sync tab first'); return; }
+  const q = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+  if (!q.length) { showToast('✅ Nothing pending — all synced!'); return; }
+  showToast(`🔄 Syncing ${q.length} stop(s)...`);
+  const failed = [];
+  for (const r of q) { if (!await syncToSheets(r)) failed.push(r); }
+  localStorage.setItem(PENDING_KEY, JSON.stringify(failed));
+  updatePendingCount();
+  showToast(failed.length === 0 ? '✅ All stops synced!' : `⚠️ ${failed.length} stop(s) still pending`);
+}
+function updatePendingCount() {
+  const q = JSON.parse(localStorage.getItem(PENDING_KEY) || '[]');
+  const el = document.getElementById('pendingCount'); if (el) el.textContent = q.length;
+}
+function showConnStatus(msg, color) { const el = document.getElementById('connStatus'); if (el) { el.textContent = msg; el.style.color = color; } }
+function showBanner(msg, color, bg) {
+  const b = document.getElementById('syncBanner');
+  b.textContent = msg; b.style.color = color; b.style.background = bg; b.style.display = 'block';
+  setTimeout(() => b.style.display = 'none', 6000);
+}
+setInterval(() => { if (navigator.onLine && getScriptUrl()) { const q = JSON.parse(localStorage.getItem(PENDING_KEY)||'[]'); if (q.length) syncPending(); } }, 30000);
+
+// ─── Init ──────────────────────────────────────────────────
+initLocationDropdowns();
+document.getElementById('collDate').valueAsDate = new Date();
+const savedUrl = getScriptUrl();
+if (savedUrl) { const el = document.getElementById('scriptUrl'); if (el) el.value = savedUrl; }
+updatePendingCount();
+
+// ─── Score bar ─────────────────────────────────────────────
+const scoreBar = document.getElementById('scoreBar');
+for (let i = 1; i <= 10; i++) {
+  const btn = document.createElement('button');
+  btn.type = 'button'; btn.className = 'score-btn'; btn.textContent = i;
+  btn.onclick = () => {
+    document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    document.getElementById('suitabilityScore').value = i;
+    document.getElementById('subjScoreDisplay').textContent = i;
+    document.getElementById('subjScoreDisplay').style.color = scoreColor(i);
+    checkIndexDivergence();
+  };
+  scoreBar.appendChild(btn);
+}
+
+// ─── Tabs ──────────────────────────────────────────────────
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'records') renderRecords();
+}
+
+// ─── Season tabs ───────────────────────────────────────────
+function showSeason(id, el) {
+  document.querySelectorAll('.season-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.season-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('season-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ─── GPS ───────────────────────────────────────────────────
+function captureGPS() {
+  const status = document.getElementById('gpsStatus');
+  const btn = document.getElementById('locationBtn');
+  btn.textContent = '⏳ Getting location...';
+  btn.style.background = '#92400e';
+  status.textContent = '📡 Acquiring GPS signal — hold still...';
+
+  if (!navigator.geolocation) {
+    status.textContent = '❌ GPS not supported on this device';
+    btn.textContent = '📍 Capture Location'; btn.style.background = 'var(--green)'; return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      const lat  = pos.coords.latitude.toFixed(6);
+      const lng  = pos.coords.longitude.toFixed(6);
+      const alt  = pos.coords.altitude != null ? Math.round(pos.coords.altitude) + ' m' : 'N/A';
+      const acc  = '± ' + Math.round(pos.coords.accuracy) + ' m';
+
+      // Fill hidden fields (used in save/export)
+      document.getElementById('gpsCoords').value = `${lat}, ${lng}`;
+      document.getElementById('altitude').value = alt;
+
+      // Show location card
+      document.getElementById('dispLat').textContent = lat;
+      document.getElementById('dispLng').textContent = lng;
+      document.getElementById('dispAlt').textContent = alt;
+      document.getElementById('dispAcc').textContent = acc;
+      document.getElementById('locationCard').style.display = 'block';
+
+      status.textContent = '✅ Location captured successfully';
+      btn.innerHTML = '<span style="font-size:20px">✅</span> Location Captured';
+      btn.style.background = 'var(--green)';
+    },
+    err => {
+      const msgs = { 1:'Permission denied — allow location access in browser settings', 2:'GPS signal unavailable — move to open area and retry', 3:'Timed out — retry in open area' };
+      status.textContent = '❌ ' + (msgs[err.code] || 'GPS failed');
+      btn.innerHTML = '<span style="font-size:20px">📍</span> Retry Location';
+      btn.style.background = 'var(--green)';
+    },
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
+  );
+}
+
+// ─── Toggle sections ───────────────────────────────────────
+function toggleHiveDetails(show) { document.getElementById('hiveDetails').style.display = show ? 'block' : 'none'; }
+
+// Show pesticide details when high-risk crops selected
+document.querySelectorAll('input[name="crops"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    const highRisk = ['Oranges/Pixies','Tomatoes','French Beans','Passion Fruit','Roses/Cut Flowers'];
+    const selected = [...document.querySelectorAll('input[name="crops"]:checked')].map(c => c.value);
+    const hasHighRisk = selected.some(s => highRisk.includes(s));
+    const hasCrops = selected.length > 0 && !selected.includes('None');
+    document.getElementById('pesticideDetails').style.display = (hasHighRisk || hasCrops) ? 'block' : 'none';
+  });
+});
+
+// ─── Disaggregated Hive Summary ───────────────────────────
+function updateHiveSummary() {
+  const types = [
+    { prefix: 'ktbh', label: 'KTBH',         rateId: 'ktbh_rate' },
+    { prefix: 'lang', label: 'Langstroth',    rateId: 'lang_rate' },
+    { prefix: 'log',  label: 'Log/Trad',      rateId: 'log_rate'  }
+  ];
+  let grandInstalled = 0, grandColonized = 0;
+
+  types.forEach(t => {
+    const inst  = parseInt(document.getElementById(t.prefix + '_installed').value)  || 0;
+    const colon = parseInt(document.getElementById(t.prefix + '_colonized').value)  || 0;
+    const rateEl = document.getElementById(t.rateId);
+    if (inst > 0) {
+      const pct = Math.round(Math.min(colon, inst) / inst * 100);
+      const badge = pct >= 70 ? '✅ Good' : pct >= 40 ? '⚠️ Moderate' : '❌ Low';
+      rateEl.innerHTML = `<span style="font-size:12px;color:#57534e">Colonization rate: <strong>${pct}%</strong> ${badge}</span>`;
+    } else {
+      rateEl.textContent = '';
+    }
+    grandInstalled  += inst;
+    grandColonized  += Math.min(colon, inst);
+  });
+
+  const box      = document.getElementById('hiveSummaryBox');
+  const summTotal    = document.getElementById('summTotal');
+  const summColonized = document.getElementById('summColonized');
+  const summRate = document.getElementById('summRate');
+  const colonDisplay = document.getElementById('colonRateDisplay');
+
+  if (grandInstalled > 0) {
+    box.style.display = 'block';
+    const overallPct = Math.round(grandColonized / grandInstalled * 100);
+    const badge = overallPct >= 70 ? '✅ Good' : overallPct >= 40 ? '⚠️ Moderate' : '❌ Low';
+    summTotal.textContent     = grandInstalled;
+    summColonized.textContent = grandColonized;
+    summRate.textContent      = overallPct + '%';
+    colonDisplay.innerHTML    = `Overall colonization: <strong>${overallPct}%</strong> ${badge}`;
+  } else {
+    box.style.display = 'none';
+    colonDisplay.textContent = '';
+  }
+
+  recalcIndex();
+}
+
+// Auto-calculate swarm rate
+document.getElementById('trapsDeployed').addEventListener('input', updateSwarmDisplay);
+document.getElementById('trapsColonized').addEventListener('input', updateSwarmDisplay);
+function updateSwarmDisplay() {
+  const deployed = parseInt(document.getElementById('trapsDeployed').value) || 0;
+  const colonized = parseInt(document.getElementById('trapsColonized').value) || 0;
+  const el = document.getElementById('swarmRateDisplay');
+  if (deployed > 0 && colonized <= deployed) {
+    const pct = Math.round(colonized / deployed * 100);
+    el.textContent = `Swarm capture rate: ${pct}% — ${pct >= 60 ? 'High local bee population' : pct >= 30 ? 'Moderate bee population' : 'Low bee population'}`;
+  } else el.textContent = '';
+}
+
+// ─── Calculated Index ──────────────────────────────────────
+function getCheckboxValues(name) { return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(c => c.value); }
+function getRadioValue(name) { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; }
+
+function recalcIndex() {
+  let score = 0;
+
+  // Vegetation density (max 2.0)
+  const vegMap = {'Dense':2.0,'Moderate':1.5,'Sparse':0.8,'Very Sparse':0.3};
+  score += vegMap[getRadioValue('vegDensity')] || 0;
+
+  // Forage diversity across all seasons (max 2.0)
+  const allFlora = new Set([
+    ...getCheckboxValues('flora_lr'), ...getCheckboxValues('flora_sr'),
+    ...getCheckboxValues('flora_cd'), ...getCheckboxValues('flora_hd')
+  ]);
+  allFlora.delete('None observed'); allFlora.delete('Other');
+  score += Math.min(allFlora.size / 7 * 2.0, 2.0);
+
+  // Year-round forage bonus (max 0.5) - plants in 3+ seasons
+  const seasons = ['lr','sr','cd','hd'].filter(s => getCheckboxValues('flora_'+s).filter(v => v !== 'None observed').length > 0);
+  if (seasons.length >= 3) score += 0.5;
+  else if (seasons.length >= 2) score += 0.25;
+
+  // Water availability (max 1.5)
+  const water = getCheckboxValues('water');
+  const hasPerm = water.some(w => ['River','Dam/Reservoir'].includes(w));
+  const hasSeas = water.some(w => ['Borehole','Seasonal Stream','Water Pan'].includes(w));
+  const waterDist = getRadioValue('waterDist');
+  let waterScore = hasPerm ? 1.5 : hasSeas ? 0.8 : 0;
+  if (waterDist === '<200m') waterScore = Math.min(waterScore * 1.1, 1.5);
+  else if (waterDist === '>1km') waterScore *= 0.7;
+  score += waterScore;
+
+  // Land use (max 1.0)
+  const landMap = {'Natural Bush/Forest':1.0,'Mixed Smallholder':0.8,'Rangeland':0.6,'Mixed':0.7,'Large-scale Farming':0.4,'Settlement':0.2};
+  score += landMap[getRadioValue('landUse')] || 0;
+
+  // Colonization rate — sum across all three hive types (max 1.0)
+  const _inst = ['ktbh','lang','log'].reduce((s,p) => s + (parseInt(document.getElementById(p+'_installed').value)||0), 0);
+  const _colon= ['ktbh','lang','log'].reduce((s,p) => s + (parseInt(document.getElementById(p+'_colonized').value)||0), 0);
+  if (_inst > 0 && _colon > 0) {
+    const cr = Math.min(_colon, _inst) / _inst;
+    score += cr >= 0.7 ? 1.0 : cr >= 0.5 ? 0.7 : cr >= 0.3 ? 0.4 : 0.1;
+  }
+
+  // Pesticide / crop risk penalty (max -2.0)
+  const crops = getCheckboxValues('crops');
+  const cropRisk = {'Oranges/Pixies':1.2,'Tomatoes':1.3,'French Beans':1.4,'Passion Fruit':1.1,'Roses/Cut Flowers':1.5,'Watermelon':0.6,'Avocado':0.5,'Mango':0.5,'Coffee':0.4,'Chillies':0.5};
+  const sprayMap = {'Weekly':1.3,'Fortnightly':0.9,'Monthly':0.5,'Seasonal only':0.2,'Unknown':0.4};
+  const sprayMult = sprayMap[getRadioValue('sprayFreq')] || 0.3;
+  let pestPenalty = 0;
+  crops.forEach(c => { if (cropRisk[c]) pestPenalty += cropRisk[c] * sprayMult; });
+  score -= Math.min(pestPenalty, 2.0);
+
+  // Threats penalty (max -1.5)
+  const threats = getCheckboxValues('threats').filter(t => t !== 'None observed');
+  score -= Math.min(threats.length * 0.25, 1.5);
+
+  // Normalize to 1–10
+  const normalized = Math.max(1, Math.min(10, Math.round((score / 8.5) * 9 + 1)));
+
+  // Display
+  const calcEl = document.getElementById('calcScore');
+  const calcBox = document.getElementById('calcBox');
+  const headerEl = document.getElementById('headerScore');
+  if (score > 0 || getRadioValue('vegDensity')) {
+    calcEl.textContent = normalized;
+    calcEl.style.color = scoreColor(normalized);
+    calcBox.style.borderColor = scoreColor(normalized);
+    headerEl.textContent = normalized;
+  }
+
+  checkIndexDivergence();
+  return normalized;
+}
+
+function checkIndexDivergence() {
+  const calc = parseInt(document.getElementById('calcScore').textContent) || 0;
+  const subj = parseInt(document.getElementById('suitabilityScore').value) || 0;
+  const flag = document.getElementById('indexFlag');
+  if (calc > 0 && subj > 0 && Math.abs(calc - subj) > 2) flag.style.display = 'block';
+  else flag.style.display = 'none';
+}
+
+function scoreColor(s) {
+  if (s >= 9) return '#15803d'; if (s >= 7) return '#22c55e'; if (s >= 5) return '#fbbf24';
+  if (s >= 3) return '#f97316'; return '#ef4444';
+}
+
+// ─── Save Record ───────────────────────────────────────────
+function saveRecord() {
+  const name = document.getElementById('collectorName').value.trim();
+  const area = document.getElementById('areaName').value.trim();
+  const score = document.getElementById('suitabilityScore').value;
+  const vegDensity = getRadioValue('vegDensity');
+  const landUse = getRadioValue('landUse');
+  const county = document.getElementById('countySelect').value;
+  if (!name) { showToast('⚠️ Enter collector name'); return; }
+  if (!county) { showToast('⚠️ Select a county'); return; }
+  if (!area) { showToast('⚠️ Enter area/village name'); return; }
+  if (!score) { showToast('⚠️ Select a suitability score'); return; }
+  if (!vegDensity) { showToast('⚠️ Select vegetation density'); return; }
+
+  const calcScore = recalcIndex();
+
+  // Aggregate hive totals from all three types
+  const _ktbhInst  = parseInt(document.getElementById('ktbh_installed').value) || 0;
+  const _ktbhColon = parseInt(document.getElementById('ktbh_colonized').value) || 0;
+  const _langInst  = parseInt(document.getElementById('lang_installed').value) || 0;
+  const _langColon = parseInt(document.getElementById('lang_colonized').value) || 0;
+  const _logInst   = parseInt(document.getElementById('log_installed').value)  || 0;
+  const _logColon  = parseInt(document.getElementById('log_colonized').value)  || 0;
+  const _totalInst  = _ktbhInst + _langInst + _logInst;
+  const _totalColon = _ktbhColon + _langColon + _logColon;
+
+  const record = {
+    id: Date.now(), timestamp: new Date().toISOString(),
+    date: document.getElementById('collDate').value,
+    stopNo: document.getElementById('stopNo').value,
+    collector: name, area,
+    county: document.getElementById('countySelect').value,
+    subCounty: document.getElementById('subCounty').value,
+    gps: document.getElementById('gpsCoords').value,
+    altitude: document.getElementById('altitude').value,
+    vegDensity, landUse,
+    flora_lr: getCheckboxValues('flora_lr').join(', '),
+    flora_sr: getCheckboxValues('flora_sr').join(', '),
+    flora_cd: getCheckboxValues('flora_cd').join(', '),
+    flora_hd: getCheckboxValues('flora_hd').join(', '),
+    otherFlora: document.getElementById('otherFlora').value,
+    water: getCheckboxValues('water').join(', '),
+    waterDist: getRadioValue('waterDist'),
+    crops: getCheckboxValues('crops').join(', '),
+    sprayFreq: getRadioValue('sprayFreq'),
+    sprayMonths: getCheckboxValues('sprayMonths').join(', '),
+    pesticideTypes: getCheckboxValues('pesticideType').join(', '),
+    agrochem: getRadioValue('agrochem'),
+    hivesExist: getRadioValue('hivesExist'),
+    // Disaggregated hive data
+    ktbh_installed: _ktbhInst, ktbh_colonized: _ktbhColon,
+    ktbh_absconded: document.getElementById('ktbh_absconded').value,
+    ktbh_honey: document.getElementById('ktbh_honey').value,
+    lang_installed: _langInst, lang_colonized: _langColon,
+    lang_absconded: document.getElementById('lang_absconded').value,
+    lang_honey: document.getElementById('lang_honey').value,
+    log_installed: _logInst, log_colonized: _logColon,
+    log_absconded: document.getElementById('log_absconded').value,
+    log_honey: document.getElementById('log_honey').value,
+    // Aggregated totals
+    hivesTotal: _totalInst, hivesColonized: _totalColon,
+    colonRate: _totalInst > 0 ? Math.round(Math.min(_totalColon, _totalInst) / _totalInst * 100) : '',
+    installDate: document.getElementById('installDate').value,
+    hiveHousing: getRadioValue('hiveHousing'),
+    hivePlacement: getRadioValue('hivePlacement'),
+    hiveBait: getCheckboxValues('hiveBait').join(', '),
+    lastInspection: document.getElementById('lastInspection').value,
+    harvestsPerYear: getRadioValue('harvestsPerYear'),
+    colonyStrength: getRadioValue('colonyStrength'),
+    trapsDeployed: document.getElementById('trapsDeployed').value,
+    trapsColonized: document.getElementById('trapsColonized').value,
+    threats: getCheckboxValues('threats').join(', '),
+    calculatedScore: calcScore,
+    subjectiveScore: parseInt(score),
+    scoreDivergence: Math.abs(calcScore - parseInt(score)),
+    notes: document.getElementById('notes').value
+  };
+
+  const records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
+  records.push(record);
+  localStorage.setItem('beelove_records', JSON.stringify(records));
+  showToast(`✅ Stop saved! ${area} — Calc: ${calcScore}/10, Yours: ${score}/10`);
+  clearForm();
+  document.getElementById('stopNo').value = '';
+
+  if (getScriptUrl()) {
+    syncToSheets(record).then(ok => {
+      if (ok) showBanner('☁️ Synced to Google Sheets — map updating live', '#1e40af', '#dbeafe');
+      else { addToPending(record); showBanner('⚠️ No signal — queued, will sync when online', '#92400e', '#fef3c7'); }
+    });
+  } else addToPending(record);
+}
+
+// ─── Clear Form ────────────────────────────────────────────
+function clearForm() {
+  document.getElementById('fieldForm').reset();
+  document.getElementById('collDate').valueAsDate = new Date();
+  document.getElementById('gpsCoords').value = '';
+  document.getElementById('altitude').value = '';
+  document.getElementById('locationCard').style.display = 'none';
+  document.getElementById('gpsStatus').textContent = 'Tap Capture Location to record GPS, altitude and accuracy';
+  document.getElementById('locationBtn').innerHTML = '<span style="font-size:20px">📍</span> Capture Location';
+  document.getElementById('locationBtn').style.background = 'var(--green)';
+  document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('suitabilityScore').value = '';
+  document.getElementById('countySelect').value = '';
+  document.getElementById('subCounty').innerHTML = '<option value="">— Select County first —</option>';
+  document.getElementById('hiveDetails').style.display = 'none';
+  document.getElementById('pesticideDetails').style.display = 'none';
+  document.getElementById('colonRateDisplay').textContent = '';
+  document.getElementById('swarmRateDisplay').textContent = '';
+  // Reset disaggregated hive fields
+  ['ktbh','lang','log'].forEach(p => {
+    ['installed','colonized','absconded','honey'].forEach(f => {
+      const el = document.getElementById(p + '_' + f);
+      if (el) el.value = '';
+    });
+    const rateEl = document.getElementById(p + '_rate');
+    if (rateEl) rateEl.textContent = '';
+  });
+  document.getElementById('hiveSummaryBox').style.display = 'none';
+  document.getElementById('calcScore').textContent = '—';
+  document.getElementById('calcScore').style.color = '#57534e';
+  document.getElementById('subjScoreDisplay').textContent = '—';
+  document.getElementById('headerScore').textContent = '—';
+  document.getElementById('indexFlag').style.display = 'none';
+  document.getElementById('calcBox').style.borderColor = '#e7e5e4';
+}
+
+// ─── Records ───────────────────────────────────────────────
+function renderRecords() {
+  const records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
+  document.getElementById('recordsCount').textContent = `${records.length} stop${records.length !== 1 ? 's' : ''}`;
+  const list = document.getElementById('recordsList');
+  if (!records.length) { list.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--mid)"><div style="font-size:40px;margin-bottom:12px">📋</div><p>No stops yet. Go to Collect tab.</p></div>`; return; }
+  list.innerHTML = records.slice().reverse().map(r => {
+    const c = scoreColor(r.subjectiveScore || r.score || 0);
+    const cc = r.calculatedScore ? scoreColor(r.calculatedScore) : '#ccc';
+    return `<div class="record-card">
+      <div class="record-card-header">
+        <div><strong style="font-size:14px;">${r.area}</strong><br><span style="font-size:11px;color:var(--mid)">${r.date} · ${r.stopNo||'Apiary'} · ${r.collector}</span></div>
+        <div class="score-badge" style="background:${c}">${r.subjectiveScore||r.score||'?'}</div>
+      </div>
+      <div class="dual-score">
+        <span class="dual-badge" style="background:${cc}22;color:${cc}">Calc: ${r.calculatedScore||'—'}/10</span>
+        <span class="dual-badge" style="background:${c}22;color:${c}">Yours: ${r.subjectiveScore||r.score||'?'}/10</span>
+        ${r.scoreDivergence > 2 ? '<span class="dual-badge" style="background:#fee2e2;color:#b91c1c">⚠️ Divergent</span>' : ''}
+      </div>
+      <div class="record-detail" style="margin-top:6px;">
+        📍 ${r.gps||'No GPS'} ${r.county?'· '+r.county:''}${r.subCounty?' / '+r.subCounty:''}<br>
+        🌿 ${r.vegDensity||'—'} · ${[r.flora_lr,r.flora_sr].filter(Boolean).join(' | ')||'No flora'}<br>
+        🌾 Crops: ${r.crops||'None'} ${r.sprayFreq?'· Spray: '+r.sprayFreq:''}<br>
+        🏠 Hives: ${r.hivesExist||'—'}${r.colonRate?` · ${r.colonRate}% colonized`:''} ${r.honeyYield?'· '+r.honeyYield+'kg honey':''}<br>
+        ⚠️ ${r.threats||'No threats'}<br>
+        ${r.notes?'📝 '+r.notes:''}
+      </div>
+      <button onclick="deleteRecord(${r.id})" style="background:none;border:none;color:var(--red);font-size:11px;cursor:pointer;margin-top:6px;padding:4px 0;">🗑️ Delete</button>
+    </div>`;
+  }).join('');
+}
+
+function deleteRecord(id) {
+  if (!confirm('Delete this stop?')) return;
+  let records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
+  records = records.filter(r => r.id !== id);
+  localStorage.setItem('beelove_records', JSON.stringify(records));
+  renderRecords();
+}
+
+// ─── Export CSV ────────────────────────────────────────────
+function exportCSV() {
+  const records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
+  if (!records.length) { showToast('No records to export'); return; }
+  const headers = ['Date','StopNo','Collector','Area','SubCounty','GPS','Altitude','VegDensity','Flora_LongRains','Flora_ShortRains','Flora_CoolDry','Flora_HotDry','OtherFlora','Water','WaterDist','LandUse','CashCrops','SprayFreq','SprayMonths','PesticideTypes','AgrochemDist','HivesExist','HivesTotal','HivesColonized','ColonRate%','HivesAbsconded','InstallDate','HivePlacement','HiveBait','HiveType','HivesProducing','HoneyYield_kg','HarvestsPerYear','ColonyStrength','TrapsDeployed','TrapsColonized','Threats','CalculatedScore','SubjectiveScore','ScoreDivergence','Notes'];
+  const rows = records.map(r => headers.map(h => {
+    const key = h.toLowerCase().replace(/%/,'').replace(/_/g,'').replace('flora','flora_').replace('score','Score');
+    return `"${(r[Object.keys(r).find(k => k.toLowerCase() === h.toLowerCase().replace(/%/,'').replace(/_/g,''))] || '').toString().replace(/"/g,'""')}"`;
+  }).join(','));
+  const csv = [headers.join(','), ...rows].join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download = `beelove_field_data_${new Date().toISOString().slice(0,10)}.csv`; a.click();
+  showToast('✅ CSV exported!');
+}
+
+// ─── Toast ─────────────────────────────────────────────────
+function showToast(msg) {
+  const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
