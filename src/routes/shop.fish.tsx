@@ -92,7 +92,7 @@ const SECTIONS: {
         price: "KSH 6,500",
         copy: "Bulk order for medium-to-large pond operations. Includes free Makueni delivery and a pond management guide.",
         features: ["KSH 13 each", "Free Makueni delivery", "Pond management guide"],
-        image: landscapeImg,
+        image: tilapiaHarvestImg,
       },
     ],
   },
