@@ -115,7 +115,7 @@ function TrainingBeekeepingPage() {
           </div>
           <div className="md:col-span-5 min-h-[200px]">
             <img
-              src={training1}
+              src={trainingCommunity}
               alt="Beelove trainer leading a beekeeping class in Makueni"
               className="w-full h-full object-cover"
             />
