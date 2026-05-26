@@ -3,12 +3,12 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { ArrowRight } from "lucide-react";
 import honey1kg from "@/assets/prod-honey-1kg.jpg";
 import honey150g from "@/assets/prod-honey-150g.jpg";
-import langstroth from "@/assets/prod-langstroth.jpg";
+import langstroth from "@/assets/prod-hive-ktbh.jpg";
 import smoker from "@/assets/prod-smoker.jpg";
 import beeSuit from "@/assets/prod-bee-suit.jpg";
-import hiveTool from "@/assets/prod-hive-tool.jpg";
+import hiveTool from "@/assets/prod-bee-brush.jpg";
 import catfish from "@/assets/prod-catfish-fingerlings.jpg";
-import tilapia from "@/assets/fish-tilapia-harvest.jpg";
+import tilapia from "@/assets/fish-tilapia-hand.jpg";
 import azolla from "@/assets/prod-azolla.jpg";
 import pond from "@/assets/fish-pond.jpg";
 
@@ -32,7 +32,7 @@ const BEEKEEPING_PREVIEW = [
   { label: "Langstroth Hive", img: langstroth },
   { label: "Bee Suit", img: beeSuit },
   { label: "Bee Smoker", img: smoker },
-  { label: "Hive Tool", img: hiveTool },
+  { label: "Bee Brush", img: hiveTool },
 ];
 
 const FISH_PREVIEW = [
