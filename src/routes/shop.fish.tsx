@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import tilapiaImg from "@/assets/fish-tilapia-harvest.jpg";
+import tilapiaImg from "@/assets/fish-tilapia-hand.jpg";
+import tilapiaHarvestImg from "@/assets/fish-tilapia-harvest.jpg";
 import catfishImg from "@/assets/prod-catfish-fingerlings.jpg";
 import azollaImg from "@/assets/prod-azolla.jpg";
 import pondImg from "@/assets/fish-pond.jpg";
