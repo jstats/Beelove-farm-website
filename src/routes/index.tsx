@@ -3,9 +3,10 @@ import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
 import { ArrowRight, Sparkles } from "lucide-react";
-import heroImg from "@/assets/training4.jpg";
-import langstrothImg from "@/assets/prod-langstroth.jpg";
-import mapLandscapeImg from "@/assets/map-farm-landscape.jpg";
+import heroImg from "@/assets/hero1.jpg";
+import langstrothImg from "@/assets/hero2.jpg";
+import fishImg from "@/assets/fish-tilapia-harvest.jpg";
+import mapLandscapeImg from "@/assets/map-acacia-tree.jpg";
 
 
 export const Route = createFileRoute("/")({
@@ -132,7 +133,8 @@ function HomePage() {
             trainHref="/training/fish"
             shopLabel="Shop Fish Products"
             trainLabel="Fish Farming Training"
-            placeholder="Tilapia pond top view"
+            image={fishImg}
+            imageAlt="Fresh tilapia harvest from Beelove Farm ponds"
           />
 
           {/* Map preview */}
