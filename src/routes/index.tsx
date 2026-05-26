@@ -5,6 +5,8 @@ import { wa } from "@/lib/site";
 import { ArrowRight, Sparkles } from "lucide-react";
 import heroImg from "@/assets/training4.jpg";
 import langstrothImg from "@/assets/prod-langstroth.jpg";
+import mapLandscapeImg from "@/assets/map-farm-landscape.jpg";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -164,7 +166,11 @@ function HomePage() {
               </div>
             </div>
             <div className="flex-1 bg-cream rounded-xl border border-umber/10 overflow-hidden relative min-h-[200px]">
-              <Placeholder label="County suitability heatmap" tone="cream" />
+              <img
+                src={mapLandscapeImg}
+                alt="Beelove Farm landscape in Makueni County"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
 
