@@ -1,26 +1,39 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
-import { Placeholder } from "@/components/Placeholder";
 import { wa } from "@/lib/site";
-import shopInterior from "@/assets/prod-honey-range.jpg";
+import shopInterior from "@/assets/prod-shop.jpg";
 import langstrothImg from "@/assets/prod-langstroth.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
+import smoker2Img from "@/assets/prod-smoker2.jpg";
 import hiveToolImg from "@/assets/prod-hive-tool.jpg";
 import honeyRangeImg from "@/assets/prod-honey-range.jpg";
 import honey150gImg from "@/assets/prod-honey-150g.jpg";
 import honey1kgImg from "@/assets/prod-honey-1kg.jpg";
 import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import beeAttractantImg from "@/assets/prod-bee-attractant.jpg";
+import beeSuitImg from "@/assets/prod-bee-suit.jpg";
+import honeycombClose from "@/assets/honeycomb-closeup.jpg";
+import honeycombFrames from "@/assets/honeycomb-frames.jpg";
+import hiveStand from "@/assets/hive-stand.jpg";
+import honeyProducts from "@/assets/honey-products.jpg";
+import acaciaTree from "@/assets/map-acacia-tree.jpg";
 
 const PRODUCT_IMAGES: Record<string, string> = {
+  "Kenya Top Bar Hive (KTBH)": honeycombClose,
   "Langstroth Hive (10-frame)": langstrothImg,
+  "Traditional Log Hive": acaciaTree,
+  "Full Bee Suit": beeSuitImg,
+  "Bee Veil (Round)": beeVeilImg,
   "Bee Smoker": smokerImg,
   "Hive Tool (J-Type)": hiveToolImg,
-  "Bee Veil (Round)": beeVeilImg,
+  "Bee Brush": smoker2Img,
   "Bee Attractant": beeAttractantImg,
+  "Foundation Sheets": honeycombFrames,
+  "Frame Feeder": hiveStand,
+  "Manual Honey Extractor": honeyProducts,
+  "Honey Strainer (Double)": honeyRangeImg,
   "Raw Honey — 150g Jar": honey150gImg,
   "Raw Honey — 1kg Jar": honey1kgImg,
-  "Raw Honey Range": honeyRangeImg,
 };
 
 export const Route = createFileRoute("/shop/beekeeping")({
