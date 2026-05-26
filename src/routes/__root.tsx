@@ -72,19 +72,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Beelove Farm — Premium Honey & Aquaculture, Makueni County" },
+      {
+        name: "description",
+        content:
+          "Climate-smart beekeeping, catfish & tilapia fingerlings, Azolla feed, and hands-on farmer training from Makueni County, Kenya.",
+      },
+      { name: "author", content: "Beelove Farm" },
+      { property: "og:title", content: "Beelove Farm — Honey & Aquaculture, Kenya" },
+      {
+        property: "og:description",
+        content:
+          "Premium raw honey, healthy fingerlings and the training to farm well — from Makueni County.",
+      },
       { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
+      { rel: "stylesheet", href: appCss },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
       {
         rel: "stylesheet",
-        href: appCss,
+        href: "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@300;400;500;600;700&display=swap",
       },
     ],
   }),
@@ -93,6 +107,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
