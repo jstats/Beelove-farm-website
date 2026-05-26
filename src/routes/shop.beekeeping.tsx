@@ -207,16 +207,15 @@ function ProductCard({ product }: { product: Product }) {
   const message = `Hello Beelove Farm, I'd like to order: ${product.name}.`;
   return (
     <article className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col hover:-translate-y-0.5 transition-transform">
-      <div className="h-44">
-        {PRODUCT_IMAGES[product.name] ? (
-          <img
-            src={PRODUCT_IMAGES[product.name]}
-            alt={product.name}
-            className="w-full h-full object-cover"
-          />
-        ) : (
-          <Placeholder label={product.name} tone={product.tone} />
-        )}
+      <div className="h-44 bg-umber/5">
+        <img
+          src={PRODUCT_IMAGES[product.name] ?? honeyProducts}
+          alt={product.name}
+          loading="lazy"
+          width={1024}
+          height={1024}
+          className="w-full h-full object-cover"
+        />
       </div>
       <div className="p-6 flex flex-col flex-1">
         <span className="text-[10px] font-medium uppercase tracking-[0.18em] text-amber mb-2">
