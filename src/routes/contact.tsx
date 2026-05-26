@@ -107,6 +107,77 @@ function ContactPage() {
           </div>
         </div>
       </section>
+
+      {/* QUICK ORDERS */}
+      <section className="bg-honey/20 py-16">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">Quick Orders</span>
+            <h2 className="font-display text-3xl md:text-4xl mt-2 mb-3">What Would You Like to Order?</h2>
+            <p className="text-sm text-umber/70">Tap to open a pre-filled WhatsApp message — just hit send.</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { emoji: "🍯", label: "Order Raw Honey", msg: "Hello Beelove Farm, I'd like to order raw honey. Please share availability and pricing." },
+              { emoji: "🐟", label: "Order Fingerlings", msg: "Hello Beelove Farm, I'd like to order catfish fingerlings. Please share availability and current pricing." },
+              { emoji: "🪵", label: "Order Equipment", msg: "Hello Beelove Farm, I'd like to order beekeeping equipment. Please share your current stock and prices." },
+              { emoji: "🎓", label: "Book a Training", msg: "Hello Beelove Farm, I'd like to book a training program. Please share the upcoming schedule." },
+            ].map((q) => (
+              <a
+                key={q.label}
+                href={wa(q.msg)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-card ring-1 ring-umber/10 rounded-[20px] p-6 text-center hover:-translate-y-0.5 hover:ring-amber transition-all"
+              >
+                <span className="text-4xl block mb-3">{q.emoji}</span>
+                <span className="text-sm font-semibold">{q.label}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-cream py-16">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-10">
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">❓ FAQ</span>
+            <h2 className="font-display text-3xl md:text-4xl mt-2">Frequently Asked Questions</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5">
+            {[
+              { q: "Do you deliver outside Makueni County?", a: "Yes — we deliver honey and small equipment across Kenya via courier. Fingerlings are currently available for pickup in Makueni or delivery within Makueni and Nairobi with advance notice." },
+              { q: "What is the minimum order for fingerlings?", a: "Minimum order is 100 fingerlings. We recommend starting with at least 200 for a productive harvest cycle. Larger orders (500+) attract a discount — ask us for bulk pricing." },
+              { q: "How do I pay for orders?", a: "We accept M-Pesa (Till or send money), bank transfer, and cash on collection. Payment details are shared via WhatsApp when you confirm your order." },
+              { q: "Can I visit the farm before buying?", a: "Absolutely — visits are welcome by appointment. WhatsApp us to arrange a convenient time. It's also a great way to see the hives and ask questions in person." },
+              { q: "Do you offer after-sale support for beekeeping?", a: "Yes. All equipment buyers and training graduates are added to our alumni WhatsApp group where our team answers questions, shares seasonal tips, and alerts the group to pest outbreaks." },
+              { q: "Are your honey jars labelled for resale?", a: "Our standard jars carry the Beelove Farm label. If you're a reseller and want unbranded or white-label jars, WhatsApp us to discuss wholesale arrangements." },
+            ].map((f) => (
+              <div key={f.q} className="bg-card ring-1 ring-umber/10 rounded-[20px] p-6">
+                <strong className="block font-display text-lg mb-2">{f.q}</strong>
+                <p className="text-sm text-umber/75 leading-relaxed">{f.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="bg-amber text-cream py-14">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="font-display text-3xl md:text-4xl mb-3">Still Have Questions?</h2>
+          <p className="text-cream/90 mb-6">We reply fast — usually within a few hours on WhatsApp.</p>
+          <a
+            href={wa("Hello Beelove Farm, I'd like to make an enquiry.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex bg-cream text-umber text-sm font-semibold uppercase tracking-widest px-6 py-3 rounded-full hover:bg-honey transition-colors"
+          >
+            💬 Chat with Us Now
+          </a>
+        </div>
+      </section>
     </SiteLayout>
   );
 }
