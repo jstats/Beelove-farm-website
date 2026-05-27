@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import trainingCommunity from "@/assets/training-community.jpg";
-import trainingOutdoor from "@/assets/training-outdoor-2.jpg";
-import trainingCircle from "@/assets/training-circle.jpg";
-import beekeeperApiary from "@/assets/beekeeper-apiary.jpg";
+import trainingInspection from "@/assets/beelove-training-inspection.jpg";
+import trainingClassroom from "@/assets/beelove-training-classroom.jpg";
+import trainingSmokerPrep from "@/assets/beelove-training-smoker-prep.jpg";
+import trainingHiveDemo from "@/assets/beelove-training-hive-demo.jpg";
+import trainingLogHive from "@/assets/beelove-training-log-hive.jpg";
+import trainingMaasai from "@/assets/beelove-training-maasai.jpg";
 
-const COURSE_IMAGES = [beekeeperApiary, trainingCommunity, trainingOutdoor, trainingCircle];
+const COURSE_IMAGES = [trainingClassroom, trainingSmokerPrep, trainingLogHive, trainingMaasai];
 
 export const Route = createFileRoute("/training/beekeeping")({
   head: () => ({
@@ -113,10 +115,20 @@ function TrainingBeekeepingPage() {
               beekeepers — held at Beelove Farm, Makueni County.
             </p>
           </div>
-          <div className="md:col-span-5 min-h-[200px]">
+          <div className="md:col-span-5 min-h-[200px] grid grid-cols-2 gap-1">
             <img
-              src={trainingCommunity}
-              alt="Beelove trainer leading a beekeeping class in Makueni"
+              src={trainingInspection}
+              alt="Beelove trainees inspecting a honeycomb frame with smoker in hand"
+              className="w-full h-full object-cover row-span-2"
+            />
+            <img
+              src={trainingHiveDemo}
+              alt="Farmers learning to light a smoker and prepare a hive in Makueni"
+              className="w-full h-full object-cover"
+            />
+            <img
+              src={trainingMaasai}
+              alt="Beelove training session with a Maasai women's group"
               className="w-full h-full object-cover"
             />
           </div>
