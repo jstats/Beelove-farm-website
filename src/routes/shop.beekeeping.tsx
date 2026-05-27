@@ -13,13 +13,15 @@ import beeSuitImg from "@/assets/prod-bee-suit.jpg";
 import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import glovesImg from "@/assets/beelove-gloves.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
-import hiveToolImg from "@/assets/prod-hive-tool.jpg";
+import hiveToolImg from "@/assets/beelove-hive-tool.jpg";
+import frameGripImg from "@/assets/beelove-frame-grip.jpg";
 import beeBrushImg from "@/assets/beelove-bee-brush.jpg";
 import beeAttractantImg from "@/assets/beelove-bee-attractant.jpg";
 import foundationImg from "@/assets/honeycomb-frames.jpg";
 import frameFeederImg from "@/assets/shop-honey-rows.jpg";
 import uncappingForkImg from "@/assets/beelove-uncapping-fork.jpg";
-import extractorImg from "@/assets/honey-products.jpg";
+import extractorImg from "@/assets/beelove-extractor.jpg";
+import refractometerImg from "@/assets/beelove-refractometer.jpg";
 import strainerImg from "@/assets/beelove-double-sieve.jpg";
 import clothStrainerImg from "@/assets/beelove-honey-strainer.jpg";
 import honeyBucketImg from "@/assets/beelove-honey-bucket.jpg";
@@ -79,7 +81,8 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     intro: "Every tool a working beekeeper needs.",
     items: [
       { name: "Bee Smoker", tag: "Tools", price: "KSH 1,200", copy: "Stainless steel smoker with leather bellows. Durable, easy to light.", image: smokerImg },
-      { name: "Hive Tool (J-Type)", tag: "Tools", price: "KSH 350", copy: "Stainless steel J-type tool for prying frames and scraping propolis.", image: hiveToolImg },
+      { name: "Hive Tool (J-Type)", tag: "Tools", price: "KSH 350", copy: "Red-handled stainless steel J-type tool — pries frames apart, scrapes propolis and burr comb. Hangable lanyard hole.", image: hiveToolImg },
+      { name: "Frame Grip / Lifter", tag: "Tools", price: "KSH 900", copy: "Stainless steel scissor-action frame grip — lift heavy honey frames cleanly out of the brood box or super without crushing bees or comb.", image: frameGripImg },
       { name: "Bee Brush", tag: "Tools", price: "KSH 300", copy: "Soft natural bristle brush — gentle on the colony during inspections and harvest.", image: beeBrushImg },
       { name: "Bee Attractant", tag: "Tools", price: "KSH 500", copy: "Lemongrass-based attractant spray. Proven effective in Makueni.", image: beeAttractantImg },
       { name: "Queen Excluder", tag: "Accessories", price: "KSH 850", copy: "Durable plastic queen excluder — keeps the queen in the brood box so your honey supers stay brood-free and pure.", image: queenExcluderImg },
@@ -93,7 +96,8 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     title: "Honey Processing",
     intro: "Equipment for clean, hygienic extraction and bottling.",
     items: [
-      { name: "Manual Honey Extractor", tag: "Processing", price: "KSH 12,000", copy: "2-frame manual radial extractor — stainless drum, gate valve. Great for small-scale operations.", image: extractorImg },
+      { name: "Manual Honey Extractor", tag: "Processing", price: "KSH 12,000", copy: "2-frame manual radial extractor on a red-painted tripod stand — stainless drum with honey gate. Pair with the double sieve and bucket below for a complete extraction line.", image: extractorImg },
+      { name: "Honey Refractometer (ATC)", tag: "Processing", price: "KSH 3,500", copy: "Handheld ATC honey refractometer with calibration kit in a hard case — measure moisture content (12–30%) to confirm your honey is fully ripe before bottling.", image: refractometerImg },
       { name: "Double Stainless Sieve", tag: "Processing", price: "KSH 1,400", copy: "Two-tier stainless steel sieve set — coarse and fine mesh stack onto any bucket for a clean two-stage strain.", image: strainerImg },
       { name: "Cone Honey Strainer", tag: "Processing", price: "KSH 900", copy: "Fine-mesh nylon cone strainer with rigid rim — removes the last wax fragments before bottling.", image: clothStrainerImg },
       { name: "Uncapping Fork", tag: "Processing", price: "KSH 450", copy: "Stainless-tine uncapping fork with ergonomic plastic handle — clean, fast removal of wax caps before extraction.", image: uncappingForkImg },
@@ -215,14 +219,14 @@ function ProductCard({ product }: { product: Product }) {
   const message = `Hello Beelove Farm, I'd like to order: ${product.name}.`;
   return (
     <article className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col hover:-translate-y-0.5 hover:ring-amber/40 transition-all">
-      <div className="h-48 bg-umber/5 overflow-hidden">
+      <div className="h-56 bg-cream overflow-hidden flex items-center justify-center">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
           width={1024}
           height={1024}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
       <div className="p-6 flex flex-col flex-1">
