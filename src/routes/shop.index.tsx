@@ -28,11 +28,11 @@ export const Route = createFileRoute("/shop/")({
 
 const BEEKEEPING_PREVIEW = [
   { label: "Raw Honey 1kg", img: honey1kg },
+  { label: "Raw Honey 300g", img: honey300g },
   { label: "Raw Honey 150g", img: honey150g },
-  { label: "Langstroth Hive", img: langstroth },
-  { label: "Bee Suit", img: beeSuit },
-  { label: "Bee Smoker", img: smoker },
-  { label: "Bee Brush", img: hiveTool },
+  { label: "Kenya Top Bar Hive", img: ktbh },
+  { label: "Queen Excluder", img: queenExcluder },
+  { label: "Beekeeping Gloves", img: gloves },
 ];
 
 const FISH_PREVIEW = [
