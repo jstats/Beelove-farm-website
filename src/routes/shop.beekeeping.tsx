@@ -8,6 +8,7 @@ import logHiveImg from "@/assets/beelove-modern-log-hive.jpg";
 import traditionalLogImg from "@/assets/beelove-log-hive.jpg";
 import catcherBoxImg from "@/assets/beelove-catcher-box.jpg";
 import queenExcluderImg from "@/assets/beelove-queen-excluder.jpg";
+import propolisCollectorImg from "@/assets/beelove-propolis-collector.jpg";
 import beeSuitImg from "@/assets/prod-bee-suit.jpg";
 import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import glovesImg from "@/assets/beelove-gloves.jpg";
