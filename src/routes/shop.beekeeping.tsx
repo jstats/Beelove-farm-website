@@ -8,6 +8,7 @@ import logHiveImg from "@/assets/beelove-modern-log-hive.jpg";
 import traditionalLogImg from "@/assets/beelove-log-hive.jpg";
 import catcherBoxImg from "@/assets/beelove-catcher-box.jpg";
 import queenExcluderImg from "@/assets/beelove-queen-excluder.jpg";
+import propolisCollectorImg from "@/assets/beelove-propolis-collector.jpg";
 import beeSuitImg from "@/assets/prod-bee-suit.jpg";
 import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import glovesImg from "@/assets/beelove-gloves.jpg";
@@ -82,6 +83,7 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
       { name: "Bee Brush", tag: "Tools", price: "KSH 300", copy: "Soft natural bristle brush — gentle on the colony during inspections and harvest.", image: beeBrushImg },
       { name: "Bee Attractant", tag: "Tools", price: "KSH 500", copy: "Lemongrass-based attractant spray. Proven effective in Makueni.", image: beeAttractantImg },
       { name: "Queen Excluder", tag: "Accessories", price: "KSH 850", copy: "Durable plastic queen excluder — keeps the queen in the brood box so your honey supers stay brood-free and pure.", image: queenExcluderImg },
+      { name: "Propolis Collector Mat", tag: "Accessories", price: "KSH 750", copy: "Beelove-branded slotted plastic mat laid on top of the brood box. Bees seal the narrow slits with propolis — peel, freeze and harvest pure, clean propolis.", image: propolisCollectorImg },
       { name: "Foundation Sheets", tag: "Accessories", price: "KSH 150 / sheet", copy: "Beeswax-coated sheets for Langstroth frames. Template for straight, even comb.", image: foundationImg },
       { name: "Frame Feeder", tag: "Accessories", price: "KSH 400", copy: "Plastic feeder for supplemental feeding during dearth periods.", image: frameFeederImg },
     ],
