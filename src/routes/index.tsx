@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import hero1 from "@/assets/hero1.jpg";
+import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
 import hero4 from "@/assets/hero4.jpg";
@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
 });
 
 const SLIDES = [
-  { src: hero1, alt: "Beelove Farm CEO with honey" },
+  { src: hero1, alt: "Fresh Beelove honeycomb harvested in Makueni" },
   { src: fishImg, alt: "Fresh tilapia harvest" },
   { src: hero2, alt: "Beelove branded hive" },
   { src: hiveStandImg, alt: "Hive stand in apiary" },
@@ -223,7 +223,7 @@ function HomePage() {
           </div>
           <div className="relative">
             <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10">
-              <img src={hero1} alt="Beelove Farm CEO" className="w-full h-[420px] object-cover" />
+              <img src={hero1} alt="Fresh Beelove honeycomb frame" className="w-full h-[420px] object-cover" />
             </div>
             <div className="absolute -bottom-4 -left-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-sm">
               <span className="text-2xl">🐟</span>
