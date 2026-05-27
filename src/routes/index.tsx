@@ -223,7 +223,7 @@ function HomePage() {
           </div>
           <div className="relative">
             <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10">
-              <img src={hero1} alt="Beelove Farm CEO" className="w-full h-[420px] object-cover" />
+              <img src={hero1} alt="Fresh Beelove honeycomb frame" className="w-full h-[420px] object-cover" />
             </div>
             <div className="absolute -bottom-4 -left-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-sm">
               <span className="text-2xl">🐟</span>
