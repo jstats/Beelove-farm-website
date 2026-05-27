@@ -1,12 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import trainingCommunity from "@/assets/training-community.jpg";
-import trainingOutdoor from "@/assets/training-outdoor-2.jpg";
-import trainingCircle from "@/assets/training-circle.jpg";
-import beekeeperApiary from "@/assets/beekeeper-apiary.jpg";
+import trainingInspection from "@/assets/beelove-training-inspection.jpg";
+import trainingClassroom from "@/assets/beelove-training-classroom.jpg";
+import trainingSmokerPrep from "@/assets/beelove-training-smoker-prep.jpg";
+import trainingHiveDemo from "@/assets/beelove-training-hive-demo.jpg";
+import trainingLogHive from "@/assets/beelove-training-log-hive.jpg";
+import trainingMaasai from "@/assets/beelove-training-maasai.jpg";
 
-const COURSE_IMAGES = [beekeeperApiary, trainingCommunity, trainingOutdoor, trainingCircle];
+const COURSE_IMAGES = [trainingClassroom, trainingSmokerPrep, trainingLogHive, trainingMaasai];
 
 export const Route = createFileRoute("/training/beekeeping")({
   head: () => ({
