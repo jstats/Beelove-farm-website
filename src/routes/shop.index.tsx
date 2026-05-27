@@ -1,12 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { ArrowRight } from "lucide-react";
-import honey1kg from "@/assets/prod-honey-1kg.jpg";
-import honey150g from "@/assets/prod-honey-150g.jpg";
-import langstroth from "@/assets/prod-hive-ktbh.jpg";
-import smoker from "@/assets/prod-smoker.jpg";
-import beeSuit from "@/assets/prod-bee-suit.jpg";
-import hiveTool from "@/assets/prod-bee-brush.jpg";
+import honey1kg from "@/assets/beelove-honey-1kg.jpg";
+import honey150g from "@/assets/beelove-honey-150g.jpg";
+import honey300g from "@/assets/beelove-honey-300g.jpg";
+import ktbh from "@/assets/beelove-ktbh-yellow.jpg";
+import queenExcluder from "@/assets/beelove-queen-excluder.jpg";
+import gloves from "@/assets/beelove-gloves.jpg";
 import catfish from "@/assets/prod-catfish-fingerlings.jpg";
 import tilapia from "@/assets/fish-tilapia-hand.jpg";
 import azolla from "@/assets/prod-azolla.jpg";
