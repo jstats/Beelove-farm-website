@@ -38,7 +38,7 @@ export const Route = createFileRoute("/")({
 });
 
 const SLIDES = [
-  { src: hero1, alt: "Beelove Farm CEO with honey" },
+  { src: hero1, alt: "Fresh Beelove honeycomb harvested in Makueni" },
   { src: fishImg, alt: "Fresh tilapia harvest" },
   { src: hero2, alt: "Beelove branded hive" },
   { src: hiveStandImg, alt: "Hive stand in apiary" },
