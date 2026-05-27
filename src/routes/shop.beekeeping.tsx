@@ -219,14 +219,14 @@ function ProductCard({ product }: { product: Product }) {
   const message = `Hello Beelove Farm, I'd like to order: ${product.name}.`;
   return (
     <article className="bg-card ring-1 ring-umber/10 rounded-[24px] overflow-hidden flex flex-col hover:-translate-y-0.5 hover:ring-amber/40 transition-all">
-      <div className="h-48 bg-umber/5 overflow-hidden">
+      <div className="h-56 bg-cream overflow-hidden flex items-center justify-center">
         <img
           src={product.image}
           alt={product.name}
           loading="lazy"
           width={1024}
           height={1024}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-contain"
         />
       </div>
       <div className="p-6 flex flex-col flex-1">
