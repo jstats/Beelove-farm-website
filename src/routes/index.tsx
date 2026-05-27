@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import hero1 from "@/assets/hero1.jpg";
+import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
 import hero4 from "@/assets/hero4.jpg";
