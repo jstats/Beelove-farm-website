@@ -1,23 +1,27 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import apiaryHero from "@/assets/apiary-yellow-hives.jpg";
-import ktbhImg from "@/assets/prod-hive-ktbh.jpg";
+import apiaryHero from "@/assets/beelove-ktbh-yellow.jpg";
+import ktbhImg from "@/assets/beelove-ktbh-topbars.jpg";
 import langstrothImg from "@/assets/prod-langstroth.jpg";
-import logHiveImg from "@/assets/map-acacia-tree.jpg";
+import logHiveImg from "@/assets/beelove-log-hive.jpg";
+import catcherBoxImg from "@/assets/beelove-catcher-box.jpg";
+import queenExcluderImg from "@/assets/beelove-queen-excluder.jpg";
 import beeSuitImg from "@/assets/prod-bee-suit.jpg";
 import beeVeilImg from "@/assets/prod-bee-veil.jpg";
+import glovesImg from "@/assets/beelove-gloves.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
 import hiveToolImg from "@/assets/prod-hive-tool.jpg";
 import beeBrushImg from "@/assets/prod-bee-brush.jpg";
 import beeAttractantImg from "@/assets/prod-bee-attractant.jpg";
 import foundationImg from "@/assets/honeycomb-frames.jpg";
 import frameFeederImg from "@/assets/shop-honey-rows.jpg";
-import uncappingForkImg from "@/assets/prod-uncapping-fork.jpg";
+import uncappingForkImg from "@/assets/beelove-uncapping-fork.jpg";
 import extractorImg from "@/assets/honey-products.jpg";
 import strainerImg from "@/assets/prod-honey-strainer.jpg";
-import honey150gImg from "@/assets/prod-honey-bottle-kenya.jpg";
-import honey1kgImg from "@/assets/prod-honey-1kg.jpg";
+import honey150gImg from "@/assets/beelove-honey-150g.jpg";
+import honey300gImg from "@/assets/beelove-honey-300g.jpg";
+import honey1kgImg from "@/assets/beelove-honey-1kg.jpg";
 
 export const Route = createFileRoute("/shop/beekeeping")({
   head: () => ({
