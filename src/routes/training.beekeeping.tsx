@@ -115,10 +115,20 @@ function TrainingBeekeepingPage() {
               beekeepers — held at Beelove Farm, Makueni County.
             </p>
           </div>
-          <div className="md:col-span-5 min-h-[200px]">
+          <div className="md:col-span-5 min-h-[200px] grid grid-cols-2 gap-1">
             <img
-              src={trainingCommunity}
-              alt="Beelove trainer leading a beekeeping class in Makueni"
+              src={trainingInspection}
+              alt="Beelove trainees inspecting a honeycomb frame with smoker in hand"
+              className="w-full h-full object-cover row-span-2"
+            />
+            <img
+              src={trainingHiveDemo}
+              alt="Farmers learning to light a smoker and prepare a hive in Makueni"
+              className="w-full h-full object-cover"
+            />
+            <img
+              src={trainingMaasai}
+              alt="Beelove training session with a Maasai women's group"
               className="w-full h-full object-cover"
             />
           </div>
