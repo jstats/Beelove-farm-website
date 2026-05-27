@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import apiaryHero from "@/assets/beelove-ktbh-yellow.jpg";
+import apiaryHero from "@/assets/beelove-apiary-stand.jpg";
 import ktbhImg from "@/assets/beelove-ktbh-topbars.jpg";
-import langstrothImg from "@/assets/prod-langstroth.jpg";
-import logHiveImg from "@/assets/beelove-log-hive.jpg";
+import langstrothImg from "@/assets/beelove-langstroth.jpg";
+import logHiveImg from "@/assets/beelove-modern-log-hive.jpg";
+import traditionalLogImg from "@/assets/beelove-log-hive.jpg";
 import catcherBoxImg from "@/assets/beelove-catcher-box.jpg";
 import queenExcluderImg from "@/assets/beelove-queen-excluder.jpg";
 import beeSuitImg from "@/assets/prod-bee-suit.jpg";
@@ -12,15 +13,18 @@ import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import glovesImg from "@/assets/beelove-gloves.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
 import hiveToolImg from "@/assets/prod-hive-tool.jpg";
-import beeBrushImg from "@/assets/prod-bee-brush.jpg";
-import beeAttractantImg from "@/assets/prod-bee-attractant.jpg";
+import beeBrushImg from "@/assets/beelove-bee-brush.jpg";
+import beeAttractantImg from "@/assets/beelove-bee-attractant.jpg";
 import foundationImg from "@/assets/honeycomb-frames.jpg";
 import frameFeederImg from "@/assets/shop-honey-rows.jpg";
 import uncappingForkImg from "@/assets/beelove-uncapping-fork.jpg";
 import extractorImg from "@/assets/honey-products.jpg";
-import strainerImg from "@/assets/prod-honey-strainer.jpg";
+import strainerImg from "@/assets/beelove-double-sieve.jpg";
+import clothStrainerImg from "@/assets/beelove-honey-strainer.jpg";
+import honeyBucketImg from "@/assets/beelove-honey-bucket.jpg";
 import honey150gImg from "@/assets/beelove-honey-150g.jpg";
 import honey300gImg from "@/assets/beelove-honey-300g.jpg";
+import honey500gImg from "@/assets/beelove-honey-500g.jpg";
 import honey1kgImg from "@/assets/beelove-honey-1kg.jpg";
 
 export const Route = createFileRoute("/shop/beekeeping")({
@@ -54,6 +58,7 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
       { name: "Kenya Top Bar Hive (KTBH)", tag: "Hive", price: "KSH 4,500", copy: "Hardwood KTBH built in Makueni and finished in Beelove yellow. Comes complete with 28 top bars and a galvanised iron sheet roof — ideal for natural beekeeping.", image: ktbhImg },
       { name: "Langstroth Hive (10-frame)", tag: "Hive", price: "KSH 7,500", copy: "10-frame Langstroth with brood box, super, frames and fitted stand. Perfect for commercial honey production.", image: langstrothImg },
       { name: "Modern Log Hive", tag: "Hive", price: "KSH 2,500", copy: "Hand-built cylindrical log hive with galvanised iron roof — excellent for attracting wild swarms and a strong upgrade on the traditional log hive.", image: logHiveImg },
+      { name: "Traditional Log Hive", tag: "Hive", price: "KSH 1,800", copy: "Heritage-style hollow log hive — low-cost entry point for new keepers and a natural draw for wild colonies.", image: traditionalLogImg },
       { name: "Swarm Catcher Box", tag: "Hive", price: "KSH 2,200", copy: "Compact Beelove yellow catcher box for trapping wild swarms before transferring them into your main hive. Galvanised top, mountable on a hive stand.", image: catcherBoxImg },
     ],
   },
@@ -87,8 +92,10 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     intro: "Equipment for clean, hygienic extraction and bottling.",
     items: [
       { name: "Manual Honey Extractor", tag: "Processing", price: "KSH 12,000", copy: "2-frame manual radial extractor — stainless drum, gate valve. Great for small-scale operations.", image: extractorImg },
-      { name: "Honey Strainer (Double)", tag: "Processing", price: "KSH 900", copy: "Double-mesh stainless strainer — removes wax and debris, leaving crystal-clear pure honey.", image: strainerImg },
+      { name: "Double Stainless Sieve", tag: "Processing", price: "KSH 1,400", copy: "Two-tier stainless steel sieve set — coarse and fine mesh stack onto any bucket for a clean two-stage strain.", image: strainerImg },
+      { name: "Cone Honey Strainer", tag: "Processing", price: "KSH 900", copy: "Fine-mesh nylon cone strainer with rigid rim — removes the last wax fragments before bottling.", image: clothStrainerImg },
       { name: "Uncapping Fork", tag: "Processing", price: "KSH 450", copy: "Stainless-tine uncapping fork with ergonomic plastic handle — clean, fast removal of wax caps before extraction.", image: uncappingForkImg },
+      { name: "Food-Grade Honey Bucket (20L)", tag: "Processing", price: "KSH 2,500", copy: "Food-grade settling bucket with honey gate and sealed lid — store, settle and dispense bulk honey straight into jars.", image: honeyBucketImg },
     ],
   },
   {
@@ -98,6 +105,7 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     items: [
       { name: "Raw Organic Honey — 150g Jar", tag: "Honey", price: "KSH 350", copy: "Compact 150g Beelove jar. Pure, raw, unfiltered honey from Kyulu Hills — perfect for tasting and gifting.", image: honey150gImg },
       { name: "Raw Organic Honey — 300g Squeeze Bottle", tag: "Honey", price: "KSH 650", copy: "Easy-pour 300g squeeze bottle with security seal. Pure raw Beelove honey, ready for the breakfast table.", image: honey300gImg },
+      { name: "Raw Organic Honey — 500g Squeeze Bottle", tag: "Honey", price: "KSH 1,000", copy: "Family-size 500g squeeze bottle. Same pure raw Beelove honey, packaged and distributed by Telfix Technologies from Kyulu Hills, Makueni.", image: honey500gImg },
       { name: "Raw Organic Honey — 1kg Jar", tag: "Honey", price: "KSH 1,800", copy: "Flagship 1kg honeycomb-textured jar. Pure raw Beelove honey, a product of Kyulu Hills, Makueni County.", image: honey1kgImg },
     ],
   },
