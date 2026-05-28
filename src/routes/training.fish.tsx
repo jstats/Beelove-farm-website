@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
 import fishImg from "@/assets/fish-tilapia-harvest.jpg";
-import hiveStandImg from "@/assets/hive-stand.jpg";
+import fishFarmerImg from "@/assets/fish-farmer-tilapia.jpg";
 
 export const Route = createFileRoute("/training/fish")({
   head: () => ({
@@ -128,7 +128,7 @@ function TrainingFishPage() {
             </ul>
           </div>
           <div className="md:col-span-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 min-h-[260px]">
-            <img src={hiveStandImg} alt="Beelove Farm apiary site" className="w-full h-full object-cover" />
+            <img src={fishFarmerImg} alt="Beelove Farm aquaculture team with tilapia harvest" className="w-full h-full object-cover" />
           </div>
         </div>
       </section>
