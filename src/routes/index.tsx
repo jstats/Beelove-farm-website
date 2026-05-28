@@ -7,7 +7,7 @@ import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
 import hero4 from "@/assets/hero4.jpg";
-import fishImg from "@/assets/fish-tilapia-harvest.jpg";
+import fishImg from "@/assets/fish-farmer-tilapia.jpg";
 import hiveStandImg from "@/assets/hive-stand.jpg";
 import honeycombImg from "@/assets/honeycomb-closeup.jpg";
 import honeyProductsImg from "@/assets/honey-products.jpg";
@@ -388,8 +388,8 @@ function EnterpriseCard({
   const accent = tone === "amber" ? "text-amber" : "text-teal";
   return (
     <div className={`${bg} text-cream rounded-[28px] overflow-hidden ring-1 ring-black/5 flex flex-col`}>
-      <div className="h-56 overflow-hidden">
-        <img src={image} alt={imageAlt} className="w-full h-full object-cover" />
+      <div className="aspect-[4/3] overflow-hidden">
+        <img src={image} alt={imageAlt} className="w-full h-full object-cover object-center" />
       </div>
       <div className="p-8 flex flex-col flex-1">
         <span className="text-4xl mb-3">{icon}</span>
