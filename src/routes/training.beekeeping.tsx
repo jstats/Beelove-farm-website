@@ -13,7 +13,7 @@ const COURSE_IMAGES = [trainingClassroom, trainingSmokerPrep, trainingLogHive, t
 export const Route = createFileRoute("/training/beekeeping")({
   head: () => ({
     meta: [
-      { title: "Beekeeping Training — Beelove Farm, Makueni" },
+      { title: "Beekeeping Training — Beelove Farm" },
       {
         name: "description",
         content:
@@ -84,7 +84,7 @@ const COURSES = [
       "Customised programme",
       "We bring equipment & demo hives",
       "Certificates for all participants",
-      "Available across Kenya",
+      "Available globally on request",
     ],
     tone: "amber" as const,
   },
@@ -92,7 +92,7 @@ const COURSES = [
 
 const WHY = [
   ["🐝", "Live Hive Practice", "Suit up, inspect, and harvest under expert guidance."],
-  ["🧑‍🏫", "Expert Instructors", "Years in the field, 100+ hives managed across Makueni."],
+  ["🧑‍🏫", "Expert Instructors", "Years in the field, 100+ hives under management."],
   ["📋", "Certificate", "Useful for county extension and grant applications."],
   ["🤝", "Alumni Support", "WhatsApp group with pest alerts and seasonal tips."],
 ] as const;
@@ -112,7 +112,7 @@ function TrainingBeekeepingPage() {
             </h1>
             <p className="max-w-md text-cream/85">
               Practical, hands-on courses for beginners and experienced
-              beekeepers — held at Beelove Farm, Makueni County.
+              beekeepers — held at Beelove Farm or your site.
             </p>
           </div>
           <div className="md:col-span-5 min-h-[200px] grid grid-cols-2 gap-1">
@@ -123,7 +123,7 @@ function TrainingBeekeepingPage() {
             />
             <img
               src={trainingHiveDemo}
-              alt="Farmers learning to light a smoker and prepare a hive in Makueni"
+              alt="Farmers learning to light a smoker and prepare a hive"
               className="w-full h-full object-cover"
             />
             <img
@@ -191,7 +191,7 @@ function TrainingBeekeepingPage() {
                 <div className="text-[11px] text-umber/60 uppercase tracking-widest mb-5 flex flex-wrap gap-3">
                   <span>📅 {c.days}</span>
                   <span>👥 {c.max}</span>
-                  <span>📍 Makueni</span>
+                  <span>📍 On-farm + online</span>
                 </div>
                 <a
                   href={wa(
@@ -221,7 +221,7 @@ function TrainingBeekeepingPage() {
             <ul className="text-xs space-y-2 mb-6">
               <li>✔ Minimum 10 participants</li>
               <li>✔ Customised curriculum</li>
-              <li>✔ On-site delivery (Makueni & surrounding counties)</li>
+              <li>✔ On-site delivery available worldwide</li>
               <li>✔ 15% off per head for 15+ participants</li>
             </ul>
             <a

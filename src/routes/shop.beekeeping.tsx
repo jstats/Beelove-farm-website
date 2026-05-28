@@ -37,7 +37,7 @@ export const Route = createFileRoute("/shop/beekeeping")({
       {
         name: "description",
         content:
-          "KTBH and Langstroth hives, bee suits, smokers, extractors, strainers and raw Makueni honey. Order via WhatsApp.",
+          "KTBH and Langstroth hives, bee suits, smokers, extractors, strainers and raw Beelove honey. Order via WhatsApp.",
       },
     ],
   }),
@@ -58,7 +58,7 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     title: "Hives",
     intro: "Locally built for every beekeeper — from first-time keeper to commercial operator.",
     items: [
-      { name: "Kenya Top Bar Hive (KTBH)", tag: "Hive", price: "KSH 4,500", copy: "Hardwood KTBH built in Makueni and finished in Beelove yellow. Comes complete with 28 top bars and a galvanised iron sheet roof — ideal for natural beekeeping.", image: ktbhImg },
+      { name: "Kenya Top Bar Hive (KTBH)", tag: "Hive", price: "KSH 4,500", copy: "Hardwood KTBH crafted by our workshop and finished in Beelove yellow. Comes complete with 28 top bars and a galvanised iron sheet roof — ideal for natural beekeeping.", image: ktbhImg },
       { name: "Langstroth Hive (10-frame)", tag: "Hive", price: "KSH 7,500", copy: "10-frame Langstroth with brood box, super, frames and fitted stand. Perfect for commercial honey production.", image: langstrothImg },
       { name: "Modern Log Hive", tag: "Hive", price: "KSH 2,500", copy: "Hand-built cylindrical log hive with galvanised iron roof — excellent for attracting wild swarms and a strong upgrade on the traditional log hive.", image: logHiveImg },
       { name: "Traditional Log Hive", tag: "Hive", price: "KSH 1,800", copy: "Heritage-style hollow log hive — low-cost entry point for new keepers and a natural draw for wild colonies.", image: traditionalLogImg },
@@ -84,7 +84,7 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
       { name: "Hive Tool (J-Type)", tag: "Tools", price: "KSH 350", copy: "Red-handled stainless steel J-type tool — pries frames apart, scrapes propolis and burr comb. Hangable lanyard hole.", image: hiveToolImg },
       { name: "Frame Grip / Lifter", tag: "Tools", price: "KSH 900", copy: "Stainless steel scissor-action frame grip — lift heavy honey frames cleanly out of the brood box or super without crushing bees or comb.", image: frameGripImg },
       { name: "Bee Brush", tag: "Tools", price: "KSH 300", copy: "Soft natural bristle brush — gentle on the colony during inspections and harvest.", image: beeBrushImg },
-      { name: "Bee Attractant", tag: "Tools", price: "KSH 500", copy: "Lemongrass-based attractant spray. Proven effective in Makueni.", image: beeAttractantImg },
+      { name: "Bee Attractant", tag: "Tools", price: "KSH 500", copy: "Lemongrass-based attractant spray. Proven effective on our own apiaries.", image: beeAttractantImg },
       { name: "Queen Excluder", tag: "Accessories", price: "KSH 850", copy: "Durable plastic queen excluder — keeps the queen in the brood box so your honey supers stay brood-free and pure.", image: queenExcluderImg },
       { name: "Propolis Collector Mat", tag: "Accessories", price: "KSH 750", copy: "Beelove-branded slotted plastic mat laid on top of the brood box. Bees seal the narrow slits with propolis — peel, freeze and harvest pure, clean propolis.", image: propolisCollectorImg },
       { name: "Foundation Sheets", tag: "Accessories", price: "KSH 150 / sheet", copy: "Beeswax-coated sheets for Langstroth frames. Template for straight, even comb.", image: foundationImg },
@@ -107,12 +107,12 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
   {
     id: "honey",
     title: "Raw Honey",
-    intro: "Pure, unheated, unfiltered Beelove honey — a product of Kyulu Hills, Makueni County.",
+    intro: "Pure, unheated, unfiltered Beelove honey — a product of the Kyulu Hills.",
     items: [
-      { name: "Raw Organic Honey — 150g Jar", tag: "Honey", price: "KSH 350", copy: "Compact 150g Beelove jar. Pure, raw, unfiltered honey from Kyulu Hills — perfect for tasting and gifting.", image: honey150gImg },
+      { name: "Raw Organic Honey — 150g Jar", tag: "Honey", price: "KSH 350", copy: "Compact 150g Beelove jar. Pure, raw, unfiltered honey from the Kyulu Hills — perfect for tasting and gifting.", image: honey150gImg },
       { name: "Raw Organic Honey — 300g Squeeze Bottle", tag: "Honey", price: "KSH 650", copy: "Easy-pour 300g squeeze bottle with security seal. Pure raw Beelove honey, ready for the breakfast table.", image: honey300gImg },
-      { name: "Raw Organic Honey — 500g Squeeze Bottle", tag: "Honey", price: "KSH 1,000", copy: "Family-size 500g squeeze bottle. Same pure raw Beelove honey, packaged and distributed by Telfix Technologies from Kyulu Hills, Makueni.", image: honey500gImg },
-      { name: "Raw Organic Honey — 1kg Jar", tag: "Honey", price: "KSH 1,800", copy: "Flagship 1kg honeycomb-textured jar. Pure raw Beelove honey, a product of Kyulu Hills, Makueni County.", image: honey1kgImg },
+      { name: "Raw Organic Honey — 500g Squeeze Bottle", tag: "Honey", price: "KSH 1,000", copy: "Family-size 500g squeeze bottle. Same pure raw Beelove honey, packaged and distributed by Telfix Technologies from the Kyulu Hills.", image: honey500gImg },
+      { name: "Raw Organic Honey — 1kg Jar", tag: "Honey", price: "KSH 1,800", copy: "Flagship 1kg honeycomb-textured jar. Pure raw Beelove honey, a product of the Kyulu Hills.", image: honey1kgImg },
     ],
   },
 ];

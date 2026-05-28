@@ -6,16 +6,16 @@ import { MessageCircle, Mail, Instagram, MapPin } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact Beelove Farm — Makueni County, Kenya" },
+      { title: "Contact Beelove Farm" },
       {
         name: "description",
         content:
-          "Get in touch with Beelove Farm — WhatsApp, email, and farm visit details. Based in Makueni County, Kenya.",
+          "Get in touch with Beelove Farm — WhatsApp, email, and farm visit details. Serving customers worldwide.",
       },
       { property: "og:title", content: "Contact Beelove Farm" },
       {
         property: "og:description",
-        content: "Reach Beelove Farm via WhatsApp, email or visit us in Makueni.",
+        content: "Reach Beelove Farm via WhatsApp, email or visit our farm.",
       },
     ],
   }),
@@ -90,7 +90,7 @@ function ContactPage() {
             <div className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/70 mb-1">
               Visit the farm
             </div>
-            <div className="font-display text-2xl mb-1">Makueni County, Kenya</div>
+            <div className="font-display text-2xl mb-1">Kiunduani, Kenya</div>
             <div className="text-sm text-cream/85">
               Farm tours by appointment — WhatsApp us first to schedule.
             </div>
@@ -102,7 +102,7 @@ function ContactPage() {
               All Beelove orders, training bookings and fingerling deliveries are
               coordinated on WhatsApp ({WA_NUMBER}). It's how we confirm
               availability in real time, share product photos, arrange payment
-              (M-Pesa Till), and organise pickup or delivery from Makueni.
+              (M-Pesa Till), and organise pickup or worldwide delivery.
             </p>
           </div>
         </div>
@@ -147,7 +147,7 @@ function ContactPage() {
           </div>
           <div className="grid md:grid-cols-2 gap-5">
             {[
-              { q: "Do you deliver outside Makueni County?", a: "Yes — we deliver honey and small equipment across Kenya via courier. Fingerlings are currently available for pickup in Makueni or delivery within Makueni and Nairobi with advance notice." },
+              { q: "Do you ship internationally?", a: "Yes — we ship honey and small equipment worldwide via courier. Live fingerlings are available for pickup at our farm or regional delivery; please WhatsApp us to coordinate." },
               { q: "What is the minimum order for fingerlings?", a: "Minimum order is 100 fingerlings. We recommend starting with at least 200 for a productive harvest cycle. Larger orders (500+) attract a discount — ask us for bulk pricing." },
               { q: "How do I pay for orders?", a: "We accept M-Pesa (Till or send money), bank transfer, and cash on collection. Payment details are shared via WhatsApp when you confirm your order." },
               { q: "Can I visit the farm before buying?", a: "Absolutely — visits are welcome by appointment. WhatsApp us to arrange a convenient time. It's also a great way to see the hives and ask questions in person." },
