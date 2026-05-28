@@ -1,17 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import fishImg from "@/assets/fish-tilapia-harvest.jpg";
-import fishFarmerImg from "@/assets/fish-farmer-tilapia.jpg";
+import fishImg from "@/assets/fish-catfish-large-hero.jpg";
+import fishFarmerImg from "@/assets/fish-catfish-inspect.jpg";
 
 export const Route = createFileRoute("/training/fish")({
   head: () => ({
     meta: [
-      { title: "Fish Farming Training — Beelove Farm, Makueni" },
+      { title: "Fish Farming Training — Beelove Farm" },
       {
         name: "description",
         content:
-          "Practical fish farming training at Beelove Farm — catfish, tilapia, Azolla integration, pond setup and harvest. Held at our working farm in Makueni.",
+          "Practical fish farming training at Beelove Farm — catfish, tilapia, Azolla integration, pond setup and harvest. Held on our working farm and delivered globally on request.",
       },
     ],
   }),
@@ -56,7 +56,7 @@ const COURSES = [
     days: "2 Days",
     max: "Max 15",
     price: "KSH 4,500",
-    copy: "Tilapia-specific pond management, sex reversal techniques and marketing for one of Kenya's most popular farmed fish.",
+    copy: "Tilapia-specific pond management, sex reversal techniques and marketing for one of the world's most popular farmed fish.",
     points: [
       "Tilapia biology & growth cycles",
       "Pond preparation",
@@ -71,12 +71,12 @@ const COURSES = [
     days: "Flexible",
     max: "20+ pax",
     price: "Contact for quote",
-    copy: "We come to your community, cooperative or project site to deliver practical fish farming training across Kenya.",
+    copy: "We come to your community, cooperative or project site to deliver practical fish farming training — locally or internationally.",
     points: [
       "Custom programme for your context",
       "We bring demonstration materials",
       "Certificates for all participants",
-      "Available across Kenya",
+      "Available globally on request",
     ],
   },
 ];
@@ -116,7 +116,7 @@ function TrainingFishPage() {
               Learn at a working fish farm
             </h2>
             <p className="text-sm text-umber/80 mb-4">
-              Training happens at our actual fish pond in Makueni — real ponds,
+              Training happens at our actual fish pond — real ponds,
               real fish, real challenges. No theory without practice.
             </p>
             <ul className="text-sm text-umber/80 space-y-2">
@@ -169,7 +169,7 @@ function TrainingFishPage() {
                 <div className="text-[11px] text-umber/60 uppercase tracking-widest mb-5 flex flex-wrap gap-3">
                   <span>📅 {c.days}</span>
                   <span>👥 {c.max}</span>
-                  <span>📍 Makueni</span>
+                  <span>📍 On-farm + online</span>
                 </div>
                 <a
                   href={wa(
