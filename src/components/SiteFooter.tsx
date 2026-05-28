@@ -8,9 +8,9 @@ export function SiteFooter() {
         <div className="md:col-span-2 max-w-sm">
           <div className="font-display text-3xl text-cream mb-4">Beelove Farm</div>
           <p className="text-sm leading-relaxed mb-6">
-            Climate-smart beekeeping and aquaculture from Kiunduani, Makueni
-            County — premium honey, healthy fingerlings, and the training to
-            farm well.
+            Climate-smart beekeeping and aquaculture — premium honey,
+            healthy fingerlings, and the training to farm well, delivered
+            worldwide.
           </p>
           <a
             href={wa("Hello Beelove Farm, I'd like to make an enquiry.")}
@@ -41,7 +41,7 @@ export function SiteFooter() {
             Contact
           </h4>
           <ul className="space-y-2 text-sm">
-            <li>Kiunduani, Makueni County, Kenya</li>
+            <li>Kiunduani, Kenya · Shipping worldwide</li>
             <li>
               <a href={`mailto:${EMAIL}`} className="hover:text-amber break-all">
                 {EMAIL}
@@ -74,7 +74,7 @@ export function SiteFooter() {
       <div className="border-t border-cream/10">
         <div className="max-w-7xl mx-auto px-6 py-6 flex flex-col md:flex-row justify-between gap-2 text-[10px] uppercase tracking-[0.2em] text-cream/50">
           <span>© {new Date().getFullYear()} Beelove Farm</span>
-          <span>Makueni County · Kenya</span>
+          <span>Serving farmers worldwide</span>
         </div>
       </div>
     </footer>

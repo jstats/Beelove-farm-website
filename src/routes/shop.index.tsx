@@ -56,7 +56,7 @@ function ShopIndex() {
           <p className="mt-4 text-umber/75 max-w-xl">
             Premium raw honey and beekeeping equipment, plus healthy
             fingerlings and Azolla feed for fish farmers — all sourced from
-            Beelove Farm, Makueni County.
+            Beelove Farm.
           </p>
         </div>
 
@@ -66,7 +66,7 @@ function ShopIndex() {
           tone="amber"
           eyebrow="Beekeeping"
           title="Hives · Gear · Tools · Honey"
-          copy="KTBH and Langstroth hives, bee suits, smokers, extractors, strainers, and raw Makueni honey in 150g and 1kg jars."
+          copy="KTBH and Langstroth hives, bee suits, smokers, extractors, strainers, and raw Beelove honey in 150g and 1kg jars."
           items={BEEKEEPING_PREVIEW}
           cta="Browse beekeeping catalogue"
         />
@@ -91,7 +91,7 @@ function ShopIndex() {
               All orders are placed via WhatsApp. Click any{" "}
               <strong>Order via WhatsApp</strong> button on a product and we'll
               confirm availability, arrange payment (M-Pesa), and organise
-              delivery or pickup from Makueni.
+              delivery or pickup from our farm.
             </p>
           </div>
           <Link

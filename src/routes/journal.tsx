@@ -11,13 +11,13 @@ export const Route = createFileRoute("/journal")({
       {
         name: "description",
         content:
-          "Stories, field notes and research from Beelove Farm — beekeeping, climate adaptation, and sustainable agriculture in Makueni County, Kenya.",
+          "Stories, field notes and research from Beelove Farm — beekeeping, climate adaptation, and sustainable agriculture.",
       },
       { property: "og:title", content: "Field Journal — Beelove Farm" },
       {
         property: "og:description",
         content:
-          "Writing from the apiary: hive design, drought, bee migration, and lessons from farmers across Kenya.",
+          "Writing from the apiary: hive design, drought, bee migration, and lessons from farmers worldwide.",
       },
     ],
   }),

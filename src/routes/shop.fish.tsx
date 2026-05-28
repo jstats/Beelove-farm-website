@@ -2,12 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
 import { Droplets, Sprout, Coins, Sun, Fish, Leaf } from "lucide-react";
-import tilapiaImg from "@/assets/fish-tilapia-hand-new.jpg";
-import catfishTrioImg from "@/assets/fish-catfish-trio.jpg";
+import tilapiaImg from "@/assets/fish-tilapia-platter.jpg";
+import catfishTrioImg from "@/assets/fish-tilapia-harvest-green.jpg";
 import catfishBucketImg from "@/assets/fish-catfish-bucket-large.jpg";
 import catfishHeldImg from "@/assets/fish-catfish-held.jpg";
 import azollaImg from "@/assets/prod-azolla.jpg";
-import fishFarmerImg from "@/assets/fish-farmer-tilapia.jpg";
+import fishFarmerImg from "@/assets/fish-catfish-large-hero.jpg";
 
 export const Route = createFileRoute("/shop/fish")({
   head: () => ({
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/shop/fish")({
       {
         name: "description",
         content:
-          "Disease-screened catfish and tilapia fingerlings, Azolla starter kits and pond advisory from Beelove Farm in Makueni County. Order via WhatsApp.",
+          "Disease-screened catfish and tilapia fingerlings, Azolla starter kits and pond advisory from Beelove Farm. Order via WhatsApp.",
       },
     ],
   }),
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     tag: "Clarias gariepinus",
     price: "KSH 16–20 each",
     copy:
-      "Disease-screened African catfish fingerlings — hardy, fast-growing and well-suited to Makueni's climate. Quantity-based pricing; bulk orders enjoy a lower per-fingerling rate and free Makueni delivery.",
+      "Disease-screened African catfish fingerlings — hardy, fast-growing and well-suited to warm climates. Quantity-based pricing; bulk orders enjoy a lower per-fingerling rate and free local delivery.",
     features: [
       "Size 5–8cm at delivery",
       "Oxygenated transport",
@@ -86,7 +86,7 @@ const WHY_ARID = [
   {
     icon: Sun,
     title: "Climate-resilient income",
-    copy: "When drought hits crops, a stocked pond keeps producing. Fish farming buffers families against the worst dry-season shocks.",
+    copy: "When drought hits crops, a stocked pond keeps producing. Fish farming buffers families against dry-season shocks.",
   },
   {
     icon: Coins,
@@ -118,8 +118,8 @@ function ShopFishPage() {
         <div className="rounded-[28px] overflow-hidden ring-1 ring-umber/10 relative bg-teal text-cream min-h-[360px]">
           <img
             src={fishFarmerImg}
-            alt="Beelove Farm aquaculture — tilapia from our pond"
-            className="absolute inset-0 w-full h-full object-cover object-top opacity-45"
+            alt="Beelove Farm aquaculture — large catfish from our pond"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-55"
           />
           <div className="relative p-10 md:p-16 max-w-3xl">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/85">
@@ -129,7 +129,7 @@ function ShopFishPage() {
               Fingerlings, feed<br />and pond support.
             </h1>
             <p className="max-w-xl text-cream/90 text-lg">
-              From hatchery to harvest — everything a Makueni fish farmer needs
+              From hatchery to harvest — everything a fish farmer needs
               to stock, feed and run a profitable pond.
             </p>
             <div className="flex flex-wrap gap-2 mt-8">
@@ -183,7 +183,7 @@ function ShopFishPage() {
           <div className="md:col-span-5 relative min-h-[300px]">
             <img
               src={catfishTrioImg}
-              alt="Catfish harvested at Beelove Farm"
+              alt="Tilapia harvest at Beelove Farm"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
@@ -192,12 +192,12 @@ function ShopFishPage() {
               02 · Why fish farming
             </span>
             <h2 className="font-display text-4xl md:text-5xl mt-2 leading-tight">
-              Why fish farming<br />makes sense in arid Kenya
+              Why fish farming<br />makes sense in dry climates
             </h2>
             <p className="text-umber/75 mt-4 max-w-xl">
-              Makueni is dry — and that is exactly why a pond pays. A small,
-              well-managed pond turns scarce water into reliable protein and
-              year-round income, while crops remain at the mercy of the rains.
+              Where rain is unreliable, a pond pays. A small, well-managed
+              pond turns scarce water into reliable protein and year-round
+              income, while rain-fed crops remain at the mercy of the seasons.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 mt-8">
