@@ -49,6 +49,7 @@
   --color-amber: var(--amber);
   --color-honey: var(--honey);
   --color-umber: var(--umber);
+  --color-olive: var(--olive);
   --color-teal: var(--teal);
   --color-whatsapp: var(--whatsapp);
 }
@@ -56,12 +57,13 @@
 :root {
   --radius: 1.25rem;
 
-  /* Brand — Honey & Harvest */
-  --cream:    oklch(0.953 0.028 75);    /* #f7efe4 */
-  --amber:    oklch(0.683 0.146 55);    /* #d4842a */
-  --honey:    oklch(0.811 0.143 80);    /* #e8b84a */
-  --umber:    oklch(0.318 0.108 35);    /* #5c2018 */
-  --teal:     oklch(0.395 0.063 220);   /* #164e63 */
+  /* Brand — Field & Honey (palette A) */
+  --cream:    oklch(0.953 0.028 75);    /* #f7efe4  background */
+  --amber:    oklch(0.683 0.146 55);    /* #d4842a  primary, beekeeping */
+  --honey:    oklch(0.811 0.143 80);    /* #e8b84a  warm accent */
+  --olive:    oklch(0.480 0.060 120);   /* #5c6b3a  agricultural green */
+  --umber:    oklch(0.260 0.050 55);    /* #3d2817  deep earth (was burgundy) */
+  --teal:     oklch(0.395 0.063 220);   /* #164e63  fish farming */
   --whatsapp: oklch(0.732 0.176 152);   /* #25D366 */
 
   /* Semantic tokens mapped to brand */
@@ -77,8 +79,8 @@
   --secondary-foreground: var(--cream);
   --muted: oklch(0.92 0.022 75);
   --muted-foreground: oklch(0.45 0.04 40);
-  --accent: var(--honey);
-  --accent-foreground: var(--umber);
+  --accent: var(--olive);
+  --accent-foreground: var(--cream);
   --destructive: oklch(0.55 0.22 27);
   --destructive-foreground: oklch(0.985 0 0);
   --border: oklch(0.88 0.025 60);
