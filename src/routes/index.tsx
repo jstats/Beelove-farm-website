@@ -24,25 +24,25 @@ import honeyBottleKenya from "@/assets/prod-honey-bottle-kenya.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Beelove Farm — Premium Honey & Aquaculture, Makueni County" },
+      { title: "Beelove Farm — Premium Honey & Aquaculture" },
       {
         name: "description",
         content:
-          "Beelove Farm produces premium raw honey and catfish fingerlings in Makueni County, Kenya. Beekeeping equipment, training, and aquaculture products.",
+          "Beelove Farm produces premium raw honey, catfish & tilapia fingerlings, beekeeping equipment, training and aquaculture products — shipped worldwide.",
       },
       { property: "og:title", content: "Beelove Farm" },
-      { property: "og:description", content: "Climate-smart beekeeping & fish farming from Makueni County." },
+      { property: "og:description", content: "Climate-smart beekeeping & fish farming, delivered worldwide." },
     ],
   }),
   component: HomePage,
 });
 
 const SLIDES = [
-  { src: hero1, alt: "Fresh Beelove honeycomb harvested in Makueni" },
+  { src: hero1, alt: "Fresh Beelove honeycomb harvest" },
   { src: fishImg, alt: "Fresh tilapia harvest" },
   { src: hero2, alt: "Beelove branded hive" },
   { src: hiveStandImg, alt: "Hive stand in apiary" },
-  { src: hero4, alt: "Beelove apiary in Makueni" },
+  { src: hero4, alt: "Beelove apiary" },
   { src: hero3, alt: "Beelove farm landscape" },
 ];
 
@@ -54,7 +54,7 @@ const STATS = [
 ] as const;
 
 const PILLARS = [
-  { icon: "🐝", title: "Bee-Friendly Apiaries", copy: "No chemicals, no rush. Our bees forage Makueni's diverse native flora and thrive on their own terms." },
+  { icon: "🐝", title: "Bee-Friendly Apiaries", copy: "No chemicals, no rush. Our bees forage diverse native flora and thrive on their own terms." },
   { icon: "🐟", title: "Clean-Water Aquaculture", copy: "Fish raised in clean, oxygenated ponds with Azolla as natural feed — healthy fish, lower costs, zero pollution." },
   { icon: "🌿", title: "Azolla Integration", copy: "We grow Azolla — a floating fern that doubles as high-protein fish feed, cutting feed costs by up to 40%." },
   { icon: "🎓", title: "Farmer Empowerment", copy: "We don't just sell products. We train farmers to be self-sufficient — from first hive to first harvest." },
@@ -95,7 +95,7 @@ function HomePage() {
         <div className="absolute inset-0 bg-gradient-to-b from-umber/60 via-umber/40 to-umber/80" />
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 text-cream">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber/25 border border-amber/40 text-honey text-xs font-medium uppercase tracking-[0.18em] mb-6">
-            🌿 Makueni County, Kenya
+            🌿 Climate-smart farming · Worldwide
           </span>
           <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
             Welcome to<br />
@@ -103,7 +103,7 @@ function HomePage() {
           </h1>
           <p className="max-w-2xl text-base md:text-lg text-cream/90 text-pretty mb-8">
             Where honey meets the harvest. We practice sustainable beekeeping and fish farming —
-            working with nature to nourish families, train farmers, and build a better future for Kenya.
+            working with nature to nourish families, train farmers, and build a better future for agriculture.
           </p>
           <div className="flex flex-wrap gap-3 justify-center">
             <a href="#welcome" className="bg-amber text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3 rounded-full hover:bg-honey hover:text-umber transition-colors">
@@ -153,7 +153,7 @@ function HomePage() {
             <div className="space-y-4 text-umber/80 text-pretty">
               <p>At Beelove Farm, sustainability is not a slogan — it is how we work every day. Our bees pollinate the land, our fish enrich the ecosystem, and our farmers learn to produce more while taking less from the earth.</p>
               <p>We believe the healthiest food comes from the healthiest land. That is why every hive is placed where bees can forage freely, and every pond is fed with Azolla — a natural, protein-rich plant that replaces expensive commercial feeds and keeps our water clean.</p>
-              <p>From Makueni County to farms across Kenya, Beelove Farm is proving that sustainable agriculture is not just better for the planet — it is better for business too.</p>
+              <p>From our home farm to growers around the world, Beelove Farm is proving that sustainable agriculture is not just better for the planet — it is better for business too.</p>
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
@@ -214,7 +214,7 @@ function HomePage() {
               Rooted in the Land,<br />Guided by the Bee
             </h2>
             <div className="space-y-4 text-umber/80 text-pretty">
-              <p>Beelove Farm was born from a deep respect for nature and a passion for sustainable farming. Nestled in Makueni County, we work with the land — not against it — to produce raw honey of exceptional quality and raise healthy catfish fingerlings for Kenya's growing aquaculture sector.</p>
+              <p>Beelove Farm was born from a deep respect for nature and a passion for sustainable farming. We work with the land — not against it — to produce raw honey of exceptional quality and raise healthy catfish fingerlings for a growing global aquaculture sector.</p>
               <p>Every jar of honey tells a story of diverse flora, clean water, and bees allowed to thrive on their own terms. Every fingerling is raised in clean water, ready to grow strong on your farm.</p>
             </div>
             <Link to="/contact" className="inline-flex items-center gap-2 mt-6 bg-teal text-cream text-sm font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-amber transition-colors">
@@ -261,7 +261,7 @@ function HomePage() {
             <h2 className="font-display text-4xl md:text-5xl mt-3 mb-6 leading-tight">
               Hive Suitability<br />Mapping
             </h2>
-            <p className="text-umber/80 mb-4">Beelove Farm developed a data-driven suitability map for Makueni County — visualising vegetation density, flora, water sources, and existing hive locations to help identify the best sites for new apiaries.</p>
+            <p className="text-umber/80 mb-4">Beelove Farm developed a data-driven suitability map — visualising vegetation density, flora, water sources, and existing hive locations to help identify the best sites for new apiaries.</p>
             <p className="text-umber/80 mb-6">Field data is collected by our team using GPS-enabled forms and synced live to the map. Open to farmers, NGOs, and county extension officers.</p>
             <Link to="/map" className="inline-flex items-center gap-2 bg-teal text-cream text-sm font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-amber transition-colors">
               Open the Map <ArrowRight className="size-4" />
@@ -300,7 +300,7 @@ function HomePage() {
           <div className="text-center mb-12">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">Our Farm in Pictures</span>
             <h2 className="font-display text-4xl md:text-5xl mt-3 mb-3">See Beelove in Action</h2>
-            <p className="text-umber/75 max-w-2xl mx-auto">Real moments from our apiaries, training sessions, and honey harvests across Kenya.</p>
+            <p className="text-umber/75 max-w-2xl mx-auto">Real moments from our apiaries, training sessions, and honey harvests.</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[180px]">
             <div className="row-span-2 rounded-[20px] overflow-hidden ring-1 ring-umber/10"><img src={beekeeperApiary} alt="Beelove beekeeper inspecting hive" className="w-full h-full object-cover" /></div>
