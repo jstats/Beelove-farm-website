@@ -2,12 +2,12 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
 import { Droplets, Sprout, Coins, Sun, Fish, Leaf } from "lucide-react";
-import tilapiaImg from "@/assets/fish-tilapia-hand-new.jpg";
-import catfishTrioImg from "@/assets/fish-catfish-trio.jpg";
+import tilapiaImg from "@/assets/fish-tilapia-platter.jpg";
+import catfishTrioImg from "@/assets/fish-tilapia-harvest-green.jpg";
 import catfishBucketImg from "@/assets/fish-catfish-bucket-large.jpg";
 import catfishHeldImg from "@/assets/fish-catfish-held.jpg";
 import azollaImg from "@/assets/prod-azolla.jpg";
-import fishFarmerImg from "@/assets/fish-farmer-tilapia.jpg";
+import fishFarmerImg from "@/assets/fish-catfish-large-hero.jpg";
 
 export const Route = createFileRoute("/shop/fish")({
   head: () => ({
@@ -38,7 +38,7 @@ const PRODUCTS: Product[] = [
     tag: "Clarias gariepinus",
     price: "KSH 16–20 each",
     copy:
-      "Disease-screened African catfish fingerlings — hardy, fast-growing and well-suited to Makueni's climate. Quantity-based pricing; bulk orders enjoy a lower per-fingerling rate and free Makueni delivery.",
+      "Disease-screened African catfish fingerlings — hardy, fast-growing and well-suited to warm climates. Quantity-based pricing; bulk orders enjoy a lower per-fingerling rate and free local delivery.",
     features: [
       "Size 5–8cm at delivery",
       "Oxygenated transport",
@@ -86,7 +86,7 @@ const WHY_ARID = [
   {
     icon: Sun,
     title: "Climate-resilient income",
-    copy: "When drought hits crops, a stocked pond keeps producing. Fish farming buffers families against the worst dry-season shocks.",
+    copy: "When drought hits crops, a stocked pond keeps producing. Fish farming buffers families against dry-season shocks.",
   },
   {
     icon: Coins,
@@ -118,8 +118,8 @@ function ShopFishPage() {
         <div className="rounded-[28px] overflow-hidden ring-1 ring-umber/10 relative bg-teal text-cream min-h-[360px]">
           <img
             src={fishFarmerImg}
-            alt="Beelove Farm aquaculture — tilapia from our pond"
-            className="absolute inset-0 w-full h-full object-cover object-top opacity-45"
+            alt="Beelove Farm aquaculture — large catfish from our pond"
+            className="absolute inset-0 w-full h-full object-cover object-center opacity-55"
           />
           <div className="relative p-10 md:p-16 max-w-3xl">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-cream/85">
