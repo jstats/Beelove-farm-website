@@ -72,18 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Beelove Farm — Premium Honey & Aquaculture, Makueni County" },
+      { title: "Beelove Farm — Premium Honey & Aquaculture" },
       {
         name: "description",
         content:
-          "Climate-smart beekeeping, catfish & tilapia fingerlings, Azolla feed, and hands-on farmer training from Makueni County, Kenya.",
+          "Climate-smart beekeeping, catfish & tilapia fingerlings, Azolla feed, and hands-on farmer training — shipping and training worldwide.",
       },
       { name: "author", content: "Beelove Farm" },
-      { property: "og:title", content: "Beelove Farm — Honey & Aquaculture, Kenya" },
+      { property: "og:title", content: "Beelove Farm — Honey & Aquaculture" },
       {
         property: "og:description",
         content:
-          "Premium raw honey, healthy fingerlings and the training to farm well — from Makueni County.",
+          "Premium raw honey, healthy fingerlings and the training to farm well.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
