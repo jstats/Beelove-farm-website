@@ -16,7 +16,7 @@ export const Route = createFileRoute("/shop/fish")({
       {
         name: "description",
         content:
-          "Disease-screened catfish and tilapia fingerlings, Azolla starter kits and pond advisory from Beelove Farm in Makueni County. Order via WhatsApp.",
+          "Disease-screened catfish and tilapia fingerlings, Azolla starter kits and pond advisory from Beelove Farm. Order via WhatsApp.",
       },
     ],
   }),
@@ -129,7 +129,7 @@ function ShopFishPage() {
               Fingerlings, feed<br />and pond support.
             </h1>
             <p className="max-w-xl text-cream/90 text-lg">
-              From hatchery to harvest — everything a Makueni fish farmer needs
+              From hatchery to harvest — everything a fish farmer needs
               to stock, feed and run a profitable pond.
             </p>
             <div className="flex flex-wrap gap-2 mt-8">
