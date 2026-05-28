@@ -32,6 +32,7 @@ export function SiteFooter() {
             <li><Link to="/shop/fish" className="hover:text-amber">Shop Fish Products</Link></li>
             <li><Link to="/training/beekeeping" className="hover:text-amber">Beekeeping Training</Link></li>
             <li><Link to="/training/fish" className="hover:text-amber">Fish Farming Training</Link></li>
+            <li><Link to="/journal" className="hover:text-amber">Field Journal</Link></li>
           </ul>
         </div>
 
