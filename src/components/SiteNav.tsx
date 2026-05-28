@@ -1,15 +1,37 @@
 import { Link } from "@tanstack/react-router";
-import { useState } from "react";
-import { Menu, X } from "lucide-react";
-import { NAV_LINKS, wa } from "@/lib/site";
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 export function SiteNav() {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click / Escape
+  useEffect(() => {
+    function onDown(e: MouseEvent) {
+      if (!navRef.current?.contains(e.target as Node)) setOpenGroup(null);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setOpenGroup(null);
+    }
+    document.addEventListener("mousedown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
 
   return (
-    <nav className="sticky top-0 z-40 bg-cream/85 backdrop-blur-md border-b border-umber/10">
-      <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <nav className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-umber/10">
+      <div
+        ref={navRef}
+        className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
+      >
         <Link
           to="/"
           className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors"
@@ -17,18 +39,31 @@ export function SiteNav() {
           Beelove Farm
         </Link>
 
-        <div className="hidden lg:flex items-center gap-7 text-sm font-medium uppercase tracking-wider">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className="text-umber/80 hover:text-amber transition-colors"
-              activeProps={{ className: "text-amber" }}
-              activeOptions={{ exact: l.to === "/" }}
-            >
-              {l.label}
-            </Link>
-          ))}
+        {/* Desktop nav */}
+        <div className="hidden lg:flex items-center gap-1 text-sm font-medium">
+          {NAV_LINKS.map((item) =>
+            item.children ? (
+              <DesktopDropdown
+                key={item.label}
+                item={item}
+                isOpen={openGroup === item.label}
+                onToggle={() =>
+                  setOpenGroup((g) => (g === item.label ? null : item.label))
+                }
+                onClose={() => setOpenGroup(null)}
+              />
+            ) : (
+              <Link
+                key={item.to}
+                to={item.to}
+                className="px-3 py-2 text-umber/80 hover:text-amber transition-colors"
+                activeProps={{ className: "text-amber" }}
+                activeOptions={{ exact: item.to === "/" }}
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
 
         <a
@@ -42,33 +77,139 @@ export function SiteNav() {
         </a>
 
         <button
-          aria-label={open ? "Close menu" : "Open menu"}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
           className="lg:hidden p-2 text-umber"
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setMobileOpen((v) => !v)}
         >
-          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+          {mobileOpen ? <X className="size-5" /> : <Menu className="size-5" />}
         </button>
       </div>
 
+      {/* Mobile nav */}
       <div
         className={cn(
-          "lg:hidden border-t border-umber/10 overflow-hidden transition-[max-height]",
-          open ? "max-h-96" : "max-h-0"
+          "lg:hidden border-t border-umber/10 overflow-hidden transition-[max-height] duration-300",
+          mobileOpen ? "max-h-[600px]" : "max-h-0"
         )}
       >
-        <div className="px-6 py-4 flex flex-col gap-3 text-sm font-medium uppercase tracking-wider">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setOpen(false)}
-              className="text-umber/80 hover:text-amber"
-            >
-              {l.label}
-            </Link>
-          ))}
+        <div className="px-6 py-4 flex flex-col gap-1 text-sm font-medium">
+          {NAV_LINKS.map((item) =>
+            item.children ? (
+              <div key={item.label} className="border-b border-umber/5 last:border-0 py-1">
+                <button
+                  onClick={() =>
+                    setMobileExpanded((g) => (g === item.label ? null : item.label))
+                  }
+                  className="w-full flex items-center justify-between py-2 text-umber/85 hover:text-amber"
+                >
+                  <span>{item.label}</span>
+                  <ChevronDown
+                    className={cn(
+                      "size-4 transition-transform",
+                      mobileExpanded === item.label && "rotate-180"
+                    )}
+                  />
+                </button>
+                {mobileExpanded === item.label && (
+                  <div className="pl-3 pb-2 flex flex-col gap-1">
+                    {item.children.map((c) => (
+                      <Link
+                        key={c.to}
+                        to={c.to}
+                        onClick={() => {
+                          setMobileOpen(false);
+                          setMobileExpanded(null);
+                        }}
+                        className="py-1.5 text-[13px] text-umber/70 hover:text-amber"
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={item.to}
+                to={item.to}
+                onClick={() => setMobileOpen(false)}
+                className="py-2 text-umber/85 hover:text-amber border-b border-umber/5 last:border-0"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </div>
       </div>
     </nav>
+  );
+}
+
+function DesktopDropdown({
+  item,
+  isOpen,
+  onToggle,
+  onClose,
+}: {
+  item: NavItem;
+  isOpen: boolean;
+  onToggle: () => void;
+  onClose: () => void;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  // Open on hover (desktop pattern), close on mouse leave
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={() => !isOpen && onToggle()}
+      onMouseLeave={() => isOpen && onClose()}
+    >
+      <button
+        type="button"
+        onClick={onToggle}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
+        className={cn(
+          "inline-flex items-center gap-1 px-3 py-2 text-umber/80 hover:text-amber transition-colors",
+          isOpen && "text-amber"
+        )}
+      >
+        {item.label}
+        <ChevronDown
+          className={cn(
+            "size-3.5 transition-transform",
+            isOpen && "rotate-180"
+          )}
+        />
+      </button>
+
+      {isOpen && item.children && (
+        <div
+          className="absolute left-1/2 -translate-x-1/2 top-full pt-2 w-[320px]"
+          role="menu"
+        >
+          <div className="bg-cream rounded-2xl ring-1 ring-umber/10 shadow-[0_12px_40px_-12px_rgba(61,40,23,0.25)] p-2 overflow-hidden">
+            {item.children.map((c) => (
+              <Link
+                key={c.to}
+                to={c.to}
+                onClick={onClose}
+                role="menuitem"
+                className="block px-4 py-3 rounded-xl hover:bg-olive/10 transition-colors group/item"
+                activeProps={{ className: "bg-olive/10" }}
+              >
+                <div className="text-sm font-semibold text-umber group-hover/item:text-olive transition-colors">
+                  {c.label}
+                </div>
+                <div className="text-xs text-umber/65 mt-0.5 leading-snug">
+                  {c.desc}
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
