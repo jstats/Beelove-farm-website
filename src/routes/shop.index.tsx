@@ -7,10 +7,10 @@ import honey300g from "@/assets/beelove-honey-300g.jpg";
 import ktbh from "@/assets/beelove-ktbh-yellow.jpg";
 import queenExcluder from "@/assets/beelove-queen-excluder.jpg";
 import gloves from "@/assets/beelove-gloves.jpg";
-import catfish from "@/assets/prod-catfish-fingerlings.jpg";
-import tilapia from "@/assets/fish-tilapia-hand.jpg";
+import catfish from "@/assets/fish-catfish-bucket-large.jpg";
+import tilapia from "@/assets/fish-tilapia-hand-new.jpg";
 import azolla from "@/assets/prod-azolla.jpg";
-import pond from "@/assets/fish-pond.jpg";
+import pond from "@/assets/fish-farmer-tilapia.jpg";
 
 export const Route = createFileRoute("/shop/")({
   head: () => ({
