@@ -183,7 +183,7 @@ function ShopFishPage() {
           <div className="md:col-span-5 relative min-h-[300px]">
             <img
               src={catfishTrioImg}
-              alt="Catfish harvested at Beelove Farm"
+              alt="Tilapia harvest at Beelove Farm"
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
@@ -192,12 +192,12 @@ function ShopFishPage() {
               02 · Why fish farming
             </span>
             <h2 className="font-display text-4xl md:text-5xl mt-2 leading-tight">
-              Why fish farming<br />makes sense in arid Kenya
+              Why fish farming<br />makes sense in dry climates
             </h2>
             <p className="text-umber/75 mt-4 max-w-xl">
-              Makueni is dry — and that is exactly why a pond pays. A small,
-              well-managed pond turns scarce water into reliable protein and
-              year-round income, while crops remain at the mercy of the rains.
+              Where rain is unreliable, a pond pays. A small, well-managed
+              pond turns scarce water into reliable protein and year-round
+              income, while rain-fed crops remain at the mercy of the seasons.
             </p>
 
             <div className="grid sm:grid-cols-2 gap-4 mt-8">
