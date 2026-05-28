@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MapRouteImport } from './routes/map'
+import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
@@ -23,6 +24,11 @@ import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HiveSensorsRoute = HiveSensorsRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
+  '/journal': typeof JournalRoute
   '/map': typeof MapRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
+  '/journal': typeof JournalRoute
   '/map': typeof MapRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/hive-sensors': typeof HiveSensorsRoute
+  '/journal': typeof JournalRoute
   '/map': typeof MapRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/hive-sensors'
+    | '/journal'
     | '/map'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/hive-sensors'
+    | '/journal'
     | '/map'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/hive-sensors'
+    | '/journal'
     | '/map'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   HiveSensorsRoute: typeof HiveSensorsRoute
+  JournalRoute: typeof JournalRoute
   MapRoute: typeof MapRoute
   ShopBeekeepingRoute: typeof ShopBeekeepingRoute
   ShopFishRoute: typeof ShopFishRoute
@@ -167,6 +180,13 @@ declare module '@tanstack/react-router' {
       path: '/map'
       fullPath: '/map'
       preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hive-sensors': {
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   HiveSensorsRoute: HiveSensorsRoute,
+  JournalRoute: JournalRoute,
   MapRoute: MapRoute,
   ShopBeekeepingRoute: ShopBeekeepingRoute,
   ShopFishRoute: ShopFishRoute,
