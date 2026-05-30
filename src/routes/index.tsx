@@ -42,7 +42,9 @@ export const Route = createFileRoute("/")({
 const SLIDES = [
   { src: hero1, alt: "Fresh Beelove honeycomb harvest" },
   { src: fishImg, alt: "Fresh tilapia harvest" },
+  { src: catfishHeroImg, alt: "Farmer holding a large African catfish" },
   { src: hero2, alt: "Beelove branded hive" },
+  { src: tilapiaPlatterImg, alt: "Fresh tilapia served on a platter" },
   { src: hiveStandImg, alt: "Hive stand in apiary" },
   { src: hero4, alt: "Beelove apiary" },
   { src: hero3, alt: "Beelove farm landscape" },
