@@ -7,7 +7,7 @@ import catfishTrioImg from "@/assets/fish-tilapia-harvest-green.jpg";
 import catfishBucketImg from "@/assets/fish-catfish-bucket-large.jpg";
 import catfishHeldImg from "@/assets/fish-catfish-held.jpg";
 import azollaImg from "@/assets/prod-azolla.jpg";
-import fishFarmerImg from "@/assets/fish-catfish-large-hero.jpg";
+import fishFarmerImg from "@/assets/fish-catfish-large-hero-sharp.jpg";
 
 export const Route = createFileRoute("/shop/fish")({
   head: () => ({
