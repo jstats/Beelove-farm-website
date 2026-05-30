@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/SiteLayout";
 import { Placeholder } from "@/components/Placeholder";
+import firstLogHiveImg from "@/assets/about-first-log-hive.jpg";
 import { wa } from "@/lib/site";
 
 export const Route = createFileRoute("/about")({
