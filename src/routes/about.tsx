@@ -112,7 +112,11 @@ function AboutPage() {
       <section className="max-w-7xl mx-auto px-6 mt-20 md:mt-28">
         <div className="grid md:grid-cols-12 gap-4 items-stretch">
           <div className="md:col-span-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 min-h-[420px]">
-            <Placeholder label="First log hive, Kiunduani, 2021" tone="honey" />
+            <img
+              src={firstLogHiveImg}
+              alt="Founder inspecting the first log hive at Beelove Farm in 2021"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div className="md:col-span-7 bg-card ring-1 ring-umber/10 rounded-[24px] p-10 md:p-14">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-olive">
