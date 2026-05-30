@@ -8,6 +8,8 @@ import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
 import hero4 from "@/assets/hero4.jpg";
 import fishImg from "@/assets/fish-farmer-tilapia.jpg";
+import catfishHeroImg from "@/assets/fish-catfish-large-hero-sharp.jpg";
+import tilapiaPlatterImg from "@/assets/fish-tilapia-platter.jpg";
 import hiveStandImg from "@/assets/hive-stand.jpg";
 import honeycombImg from "@/assets/honeycomb-closeup.jpg";
 import honeyProductsImg from "@/assets/honey-products.jpg";
