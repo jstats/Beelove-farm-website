@@ -10,7 +10,6 @@ import catcherBoxImg from "@/assets/beelove-catcher-box.jpg";
 import queenExcluderImg from "@/assets/beelove-queen-excluder.jpg";
 import propolisCollectorImg from "@/assets/beelove-propolis-collector.jpg";
 import beeSuitImg from "@/assets/prod-bee-suit.jpg";
-import beeVeilImg from "@/assets/prod-bee-veil.jpg";
 import glovesImg from "@/assets/beelove-gloves.jpg";
 import smokerImg from "@/assets/prod-smoker.jpg";
 import hiveToolImg from "@/assets/beelove-hive-tool.jpg";
@@ -71,7 +70,6 @@ const SECTIONS: { id: string; title: string; intro: string; items: Product[] }[]
     intro: "Stay safe and comfortable during inspections and harvests.",
     items: [
       { name: "Full Bee Suit", tag: "Protection", price: "KSH 4,000", copy: "Full-body ventilated suit with integrated veil. Light, breathable cotton-polyester blend. Sizes S–XXL.", image: beeSuitImg },
-      { name: "Bee Veil (Round)", tag: "Protection", price: "KSH 1,200", copy: "Round wire-mesh bee veil with adjustable straps. Lightweight for quick inspections.", image: beeVeilImg },
       { name: "Beekeeping Gloves (Long Cuff)", tag: "Protection", price: "KSH 950", copy: "Long-cuff rubber gloves with elasticated cotton sleeve — sting-resistant protection up to the elbow during inspections and harvests.", image: glovesImg },
     ],
   },
