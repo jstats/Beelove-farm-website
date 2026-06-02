@@ -64,7 +64,7 @@ const PRODUCTS: Product[] = [
   {
     name: "Azolla Starter Kit",
     tag: "Natural feed",
-    price: "From KSH 500",
+    price: "From KSH 1,000/kg",
     copy:
       "Live Azolla culture with a setup guide. Grows rapidly in a basin or shallow pond — producing free, protein-rich feed within two weeks and cutting feed costs by up to 40%.",
     features: [
