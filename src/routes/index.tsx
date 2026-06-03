@@ -6,7 +6,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
-import hero4 from "@/assets/hero4.jpg";
+
 import fishImg from "@/assets/fish-farmer-tilapia.jpg";
 import catfishHeroImg from "@/assets/fish-catfish-large-hero-sharp.jpg";
 import tilapiaPlatterImg from "@/assets/fish-tilapia-platter.jpg";
@@ -46,8 +46,7 @@ const SLIDES = [
   { src: hero2, alt: "Beelove branded hive" },
   { src: tilapiaPlatterImg, alt: "Fresh tilapia served on a platter" },
   { src: hiveStandImg, alt: "Hive stand in apiary" },
-  { src: hero4, alt: "Beelove apiary" },
-  { src: hero3, alt: "Beelove farm landscape" },
+   { src: hero3, alt: "Beelove farm landscape" },
 ];
 
 const STATS = [
