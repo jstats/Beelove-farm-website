@@ -1,0 +1,8 @@
+# Serve PWA files directly
+/app.html               /app.html               200
+/field-collector.html   /field-collector.html   200
+/manifest.json          /manifest.json          200
+/sw.js                  /sw.js                  200
+
+# React app handles everything else
+/*                      /index.html             200
