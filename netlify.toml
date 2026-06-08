@@ -1,0 +1,30 @@
+[build]
+  command = "bun run build"
+  publish = "dist"
+
+[[headers]]
+  for = "/app.html"
+  [headers.values]
+    Content-Type = "text/html"
+
+[[headers]]
+  for = "/field-collector.html"
+  [headers.values]
+    Content-Type = "text/html"
+
+[[redirects]]
+  from = "/app.html"
+  to = "/app.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/field-collector.html"
+  to = "/field-collector.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
