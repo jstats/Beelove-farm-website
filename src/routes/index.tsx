@@ -87,12 +87,17 @@ function HomePage() {
   return (
     <SiteLayout>
       {/* HERO SLIDESHOW */}
-      <section className="relative h-[88vh] min-h-[560px] overflow-hidden">
+      <section
+        className="relative h-[88vh] min-h-[560px] overflow-hidden bg-honey"
+        style={{ backgroundColor: "#e8b84a" }}
+      >
         {SLIDES.map((s, i) => (
           <img
             key={s.src}
             src={s.src}
             alt={s.alt}
+            loading={i === 0 ? "eager" : "lazy"}
+            fetchPriority={i === 0 ? "high" : "auto"}
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ${i === slide ? "opacity-100" : "opacity-0"}`}
           />
         ))}
