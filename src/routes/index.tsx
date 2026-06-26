@@ -35,6 +35,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Beelove Farm" },
       { property: "og:description", content: "Climate-smart beekeeping & fish farming, delivered worldwide." },
     ],
+    links: [{ rel: "preload", as: "image", href: hero1 }],
   }),
   component: HomePage,
 });
