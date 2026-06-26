@@ -36,7 +36,16 @@ export function SiteNav() {
           to="/"
           className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors inline-flex items-center gap-2"
         >
-          <span aria-hidden="true">🐝</span>
+          <img
+            src="/images/beelove-logo.png"
+            alt="BeeLove Farm logo"
+            width={40}
+            height={40}
+            className="size-10 object-contain"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).style.display = "none";
+            }}
+          />
           <span>BeeLove Farm</span>
         </Link>
 
