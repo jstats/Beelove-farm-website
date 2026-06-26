@@ -34,9 +34,10 @@ export function SiteNav() {
       >
         <Link
           to="/"
-          className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors"
+          className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors inline-flex items-center gap-2"
         >
-          Beelove Farm
+          <span aria-hidden="true">🐝</span>
+          <span>BeeLove Farm</span>
         </Link>
 
         {/* Desktop nav */}
