@@ -18,6 +18,36 @@ export const Route = createFileRoute("/shop/fish")({
         content:
           "Disease-screened catfish and tilapia fingerlings, Azolla starter kits and pond advisory from Beelove Farm. Order via WhatsApp.",
       },
+      { property: "og:title", content: "Shop Fish Farming — Fingerlings & Azolla | Beelove Farm" },
+      { property: "og:url", content: "https://beelovefarm.lovable.app/shop/fish" },
+    ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/shop/fish" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Fish Farming Supplies",
+          itemListElement: PRODUCTS.map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: {
+              "@type": "Product",
+              name: p.name,
+              description: p.copy,
+              category: p.tag,
+              brand: { "@type": "Brand", name: "Beelove Farm" },
+              offers: {
+                "@type": "Offer",
+                priceCurrency: "KES",
+                price: (p.price.match(/[\d,]+/)?.[0] || "0").replace(/,/g, ""),
+                availability: "https://schema.org/InStock",
+              },
+            },
+          })),
+        }),
+      },
     ],
   }),
   component: ShopFishPage,
