@@ -26,16 +26,20 @@ import honeyBottleKenya from "@/assets/prod-honey-bottle-kenya.jpg";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Beelove Farm — Premium Honey & Aquaculture" },
+      { title: "Beelove Farm — Raw Honey, Hives & Fish Farming Supplies" },
       {
         name: "description",
         content:
           "Beelove Farm produces premium raw honey, catfish & tilapia fingerlings, beekeeping equipment, training and aquaculture products — shipped worldwide.",
       },
-      { property: "og:title", content: "Beelove Farm" },
+      { property: "og:title", content: "Beelove Farm — Raw Honey, Hives & Fish Farming Supplies" },
       { property: "og:description", content: "Climate-smart beekeeping & fish farming, delivered worldwide." },
+      { property: "og:url", content: "https://beelovefarm.lovable.app/" },
     ],
-    links: [{ rel: "preload", as: "image", href: hero1 }],
+    links: [
+      { rel: "preload", as: "image", href: hero1 },
+      { rel: "canonical", href: "https://beelovefarm.lovable.app/" },
+    ],
   }),
   component: HomePage,
 });
@@ -107,8 +111,8 @@ function HomePage() {
             🌿 Climate-smart farming · Worldwide
           </span>
           <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
-            Welcome to<br />
-            <em className="text-honey">Beelove Farm</em>
+            Beelove Farm —<br />
+            <em className="text-honey">Honey, Hives & Fish Farming</em>
           </h1>
           <p className="max-w-2xl text-base md:text-lg text-cream/90 text-pretty mb-8">
             Where honey meets the harvest. We practice sustainable beekeeping and fish farming —
