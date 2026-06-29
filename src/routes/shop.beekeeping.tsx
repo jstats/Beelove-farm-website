@@ -38,6 +38,36 @@ export const Route = createFileRoute("/shop/beekeeping")({
         content:
           "KTBH and Langstroth hives, bee suits, smokers, extractors, strainers and raw Beelove honey. Order via WhatsApp.",
       },
+      { property: "og:title", content: "Beekeeping Shop — Hives, Gear & Raw Honey | Beelove Farm" },
+      { property: "og:url", content: "https://beelovefarm.lovable.app/shop/beekeeping" },
+    ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/shop/beekeeping" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          name: "Beekeeping Equipment & Raw Honey",
+          itemListElement: SECTIONS.flatMap((s) => s.items).map((p, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            item: {
+              "@type": "Product",
+              name: p.name,
+              description: p.copy,
+              category: p.tag,
+              brand: { "@type": "Brand", name: "Beelove Farm" },
+              offers: {
+                "@type": "Offer",
+                priceCurrency: "KES",
+                price: (p.price.match(/[\d,]+/)?.[0] || "0").replace(/,/g, ""),
+                availability: "https://schema.org/InStock",
+              },
+            },
+          })),
+        }),
+      },
     ],
   }),
   component: ShopBeekeepingPage,
