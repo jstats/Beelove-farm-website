@@ -17,6 +17,42 @@ export const Route = createFileRoute("/contact")({
         property: "og:description",
         content: "Reach Beelove Farm via WhatsApp, email or visit our farm.",
       },
+      { property: "og:url", content: "https://beelovefarm.lovable.app/contact" },
+    ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/contact" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "LocalBusiness",
+          name: "Beelove Farm",
+          description:
+            "Climate-smart beekeeping and aquaculture — raw honey, hives, beekeeping equipment, fingerlings, Azolla feed and farmer training.",
+          url: "https://beelovefarm.lovable.app/contact",
+          telephone: "+254729396897",
+          address: { "@type": "PostalAddress", addressLocality: "Kiunduani", addressCountry: "KE" },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: [
+            { q: "Do you ship internationally?", a: "Yes — we ship honey and small equipment worldwide via courier. Live fingerlings are available for pickup at our farm or regional delivery; please WhatsApp us to coordinate." },
+            { q: "What is the minimum order for fingerlings?", a: "Minimum order is 100 fingerlings. We recommend starting with at least 200 for a productive harvest cycle. Larger orders (500+) attract a discount — ask us for bulk pricing." },
+            { q: "How do I pay for orders?", a: "We accept M-Pesa (Till or send money), bank transfer, and cash on collection. Payment details are shared via WhatsApp when you confirm your order." },
+            { q: "Can I visit the farm before buying?", a: "Absolutely — visits are welcome by appointment. WhatsApp us to arrange a convenient time. It's also a great way to see the hives and ask questions in person." },
+            { q: "Do you offer after-sale support for beekeeping?", a: "Yes. All equipment buyers and training graduates are added to our alumni WhatsApp group where our team answers questions, shares seasonal tips, and alerts the group to pest outbreaks." },
+            { q: "Are your honey jars labelled for resale?", a: "Our standard jars carry the Beelove Farm label. If you're a reseller and want unbranded or white-label jars, WhatsApp us to discuss wholesale arrangements." },
+          ].map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
     ],
   }),
   component: ContactPage,
