@@ -87,6 +87,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Beelove Farm — Honey & Aquaculture" },
+      {
+        name: "twitter:description",
+        content:
+          "Premium raw honey, healthy fingerlings and the training to farm well.",
+      },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
