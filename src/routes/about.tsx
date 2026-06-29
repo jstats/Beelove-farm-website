@@ -19,6 +19,7 @@ export const Route = createFileRoute("/about")({
           "From a single gifted hive in 2016 to sensors, hatcheries, and farm intelligence — this is the Beelove story.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/about" }],
   }),
   component: AboutPage,
 });
