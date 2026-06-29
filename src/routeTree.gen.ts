@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
@@ -21,6 +22,11 @@ import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekee
 import { Route as ShopFishRouteImport } from './routes/shop.fish'
 import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MapRoute = MapRouteImport.update({
   id: '/map',
   path: '/map',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
@@ -97,6 +104,7 @@ export interface FileRoutesByTo {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
@@ -111,6 +119,7 @@ export interface FileRoutesById {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
   '/training/beekeeping': typeof TrainingBeekeepingRoute
@@ -126,6 +135,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
     | '/training/beekeeping'
@@ -166,6 +178,7 @@ export interface RootRouteChildren {
   HiveSensorsRoute: typeof HiveSensorsRoute
   JournalRoute: typeof JournalRoute
   MapRoute: typeof MapRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ShopBeekeepingRoute: typeof ShopBeekeepingRoute
   ShopFishRoute: typeof ShopFishRoute
   TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
@@ -175,6 +188,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/map': {
       id: '/map'
       path: '/map'
@@ -262,6 +282,7 @@ const rootRouteChildren: RootRouteChildren = {
   HiveSensorsRoute: HiveSensorsRoute,
   JournalRoute: JournalRoute,
   MapRoute: MapRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ShopBeekeepingRoute: ShopBeekeepingRoute,
   ShopFishRoute: ShopFishRoute,
   TrainingBeekeepingRoute: TrainingBeekeepingRoute,
@@ -271,13 +292,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
