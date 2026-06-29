@@ -1,0 +1,17 @@
+# Beelove Farm
+
+> Climate-smart beekeeping and aquaculture. We produce raw honey, build hives and beekeeping equipment, supply catfish & tilapia fingerlings and Azolla feed, and train farmers worldwide. Orders are placed via WhatsApp.
+
+## Pages
+
+- [Home](/): Overview of Beelove Farm's beekeeping and fish farming enterprises.
+- [About](/about): Our founding story, principles and circular-farming model.
+- [Shop](/shop): Browse beekeeping and fish farming supplies.
+- [Beekeeping Shop](/shop/beekeeping): Hives, bee suits, smokers, extractors and raw honey.
+- [Fish Farming Shop](/shop/fish): Catfish & tilapia fingerlings, Azolla starter kits and pond advisory.
+- [Beekeeping Training](/training/beekeeping): Hands-on beekeeping courses.
+- [Fish Farming Training](/training/fish): Practical aquaculture training.
+- [Suitability Map](/map): Tool to assess site suitability for farming.
+- [Hive Sensors](/hive-sensors): IoT hive monitoring tools.
+- [Field Journal](/journal): Notes and stories from the farm.
+- [Contact](/contact): WhatsApp, email and farm visit details.

@@ -14,6 +14,7 @@ export const Route = createFileRoute("/hive-sensors")({
       { property: "og:title", content: "Hive Sensors — Beelove Farm" },
       { property: "og:description", content: "Smart hive monitoring — coming soon. Join the waitlist." },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/hive-sensors" }],
   }),
   component: SensorsPage,
 });

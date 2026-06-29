@@ -15,13 +15,16 @@ import pond from "@/assets/fish-farmer-tilapia.jpg";
 export const Route = createFileRoute("/shop/")({
   head: () => ({
     meta: [
-      { title: "Shop — Beelove Farm" },
+      { title: "Shop Beekeeping & Fish Farming Supplies | Beelove Farm" },
       {
         name: "description",
         content:
-          "Browse Beelove Farm's beekeeping equipment, raw honey, fingerlings and Azolla. All orders are placed via WhatsApp.",
+          "Browse Beelove Farm's beekeeping equipment, raw honey, catfish & tilapia fingerlings and Azolla. All orders are placed via WhatsApp.",
       },
+      { property: "og:title", content: "Shop Beekeeping & Fish Farming Supplies | Beelove Farm" },
+      { property: "og:url", content: "https://beelovefarm.lovable.app/shop" },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/shop" }],
   }),
   component: ShopIndex,
 });
@@ -51,7 +54,7 @@ function ShopIndex() {
             The Shop
           </span>
           <h1 className="font-display text-5xl md:text-6xl mt-3 leading-tight">
-            Two enterprises,<br />one farm.
+            Shop Beekeeping &<br />Fish Farming Supplies
           </h1>
           <p className="mt-4 text-umber/75 max-w-xl">
             Premium raw honey and beekeeping equipment, plus healthy

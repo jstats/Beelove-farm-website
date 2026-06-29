@@ -72,7 +72,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Beelove Farm — Premium Honey & Aquaculture" },
+      { title: "Beelove Farm — Honey, Hives & Fish Farming Supplies" },
       {
         name: "description",
         content:
@@ -105,6 +105,33 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Fira+Sans:wght@300;400;500;600;700&display=swap",
+      },
+    ],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Beelove Farm",
+          url: "https://beelovefarm.lovable.app",
+          logo: "https://beelovefarm.lovable.app/images/beelove-logo.png",
+          description:
+            "Climate-smart beekeeping and aquaculture — raw honey, hives, beekeeping equipment, catfish & tilapia fingerlings, Azolla feed and farmer training.",
+          sameAs: [
+            "https://beeloveapiaries.wordpress.com/",
+            "https://wa.me/254729396897",
+          ],
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "Beelove Farm",
+          url: "https://beelovefarm.lovable.app",
+        }),
       },
     ],
   }),

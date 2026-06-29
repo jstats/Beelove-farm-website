@@ -20,6 +20,7 @@ export const Route = createFileRoute("/training/beekeeping")({
           "Practical, hands-on beekeeping courses at Beelove Farm: Introduction, Hive Making, Advanced Colony Management, and group bookings.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/training/beekeeping" }],
   }),
   component: TrainingBeekeepingPage,
 });

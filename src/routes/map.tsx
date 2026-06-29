@@ -17,6 +17,7 @@ export const Route = createFileRoute("/map")({
           "Data-driven county scores for beekeeping suitability across Kenya — explore the interactive map.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/map" }],
   }),
   component: MapPage,
 });

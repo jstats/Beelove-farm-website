@@ -20,6 +20,7 @@ export const Route = createFileRoute("/journal")({
           "Writing from the apiary: hive design, drought, bee migration, and lessons from farmers worldwide.",
       },
     ],
+    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/journal" }],
   }),
   component: JournalPage,
 });
