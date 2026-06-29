@@ -1171,6 +1171,16 @@ function clearForm() {
 }
 
 // ─── Records ───────────────────────────────────────────────
+function escapeHtml(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 function renderRecords() {
   const records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
   document.getElementById('recordsCount').textContent = `${records.length} stop${records.length !== 1 ? 's' : ''}`;
@@ -1179,36 +1189,41 @@ function renderRecords() {
   list.innerHTML = records.slice().reverse().map(r => {
     const c = scoreColor(r.subjectiveScore || r.score || 0);
     const cc = r.calculatedScore ? scoreColor(r.calculatedScore) : '#ccc';
+    const e = escapeHtml;
     return `<div class="record-card">
       <div class="record-card-header">
-        <div><strong style="font-size:14px;">${r.area}</strong><br><span style="font-size:11px;color:var(--mid)">${r.date} · ${r.stopNo||'Apiary'} · ${r.collector}</span></div>
-        <div class="score-badge" style="background:${c}">${r.subjectiveScore||r.score||'?'}</div>
+        <div><strong style="font-size:14px;">${e(r.area)}</strong><br><span style="font-size:11px;color:var(--mid)">${e(r.date)} · ${e(r.stopNo||'Apiary')} · ${e(r.collector)}</span></div>
+        <div class="score-badge" style="background:${c}">${e(r.subjectiveScore||r.score||'?')}</div>
       </div>
       <div class="dual-score">
-        <span class="dual-badge" style="background:${cc}22;color:${cc}">Calc: ${r.calculatedScore||'—'}/10</span>
-        <span class="dual-badge" style="background:${c}22;color:${c}">Yours: ${r.subjectiveScore||r.score||'?'}/10</span>
+        <span class="dual-badge" style="background:${cc}22;color:${cc}">Calc: ${e(r.calculatedScore||'—')}/10</span>
+        <span class="dual-badge" style="background:${c}22;color:${c}">Yours: ${e(r.subjectiveScore||r.score||'?')}/10</span>
         ${r.scoreDivergence > 2 ? '<span class="dual-badge" style="background:#fee2e2;color:#b91c1c">⚠️ Divergent</span>' : ''}
       </div>
       <div class="record-detail" style="margin-top:6px;">
-        📍 ${r.gps||'No GPS'} ${r.county?'· '+r.county:''}${r.subCounty?' / '+r.subCounty:''}<br>
-        🌿 ${r.vegDensity||'—'} · ${[r.flora_lr,r.flora_sr].filter(Boolean).join(' | ')||'No flora'}<br>
-        🌾 Crops: ${r.crops||'None'} ${r.sprayFreq?'· Spray: '+r.sprayFreq:''}<br>
-        🏠 Hives: ${r.hivesExist||'—'}${r.colonRate?` · ${r.colonRate}% colonized`:''} ${r.honeyYield?'· '+r.honeyYield+'kg honey':''}<br>
-        ⚠️ ${r.threats||'No threats'}<br>
-        ${r.notes?'📝 '+r.notes:''}
+        📍 ${e(r.gps||'No GPS')} ${r.county?'· '+e(r.county):''}${r.subCounty?' / '+e(r.subCounty):''}<br>
+        🌿 ${e(r.vegDensity||'—')} · ${[r.flora_lr,r.flora_sr].filter(Boolean).map(e).join(' | ')||'No flora'}<br>
+        🌾 Crops: ${e(r.crops||'None')} ${r.sprayFreq?'· Spray: '+e(r.sprayFreq):''}<br>
+        🏠 Hives: ${e(r.hivesExist||'—')}${r.colonRate?` · ${e(r.colonRate)}% colonized`:''} ${r.honeyYield?'· '+e(r.honeyYield)+'kg honey':''}<br>
+        ⚠️ ${e(r.threats||'No threats')}<br>
+        ${r.notes?'📝 '+e(r.notes):''}
       </div>
-      <button onclick="deleteRecord(${r.id})" style="background:none;border:none;color:var(--red);font-size:11px;cursor:pointer;margin-top:6px;padding:4px 0;">🗑️ Delete</button>
+      <button data-id="${e(r.id)}" class="delete-record-btn" style="background:none;border:none;color:var(--red);font-size:11px;cursor:pointer;margin-top:6px;padding:4px 0;">🗑️ Delete</button>
     </div>`;
   }).join('');
+  list.querySelectorAll('.delete-record-btn').forEach(btn => {
+    btn.addEventListener('click', () => deleteRecord(btn.getAttribute('data-id')));
+  });
 }
 
 function deleteRecord(id) {
   if (!confirm('Delete this stop?')) return;
   let records = JSON.parse(localStorage.getItem('beelove_records') || '[]');
-  records = records.filter(r => r.id !== id);
+  records = records.filter(r => String(r.id) !== String(id));
   localStorage.setItem('beelove_records', JSON.stringify(records));
   renderRecords();
 }
+
 
 // ─── Export CSV ────────────────────────────────────────────
 function exportCSV() {
