@@ -13,6 +13,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
+import { Route as ForageMapsRouteImport } from './routes/forage-maps'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
@@ -40,6 +41,11 @@ const JournalRoute = JournalRouteImport.update({
 const HiveSensorsRoute = HiveSensorsRouteImport.update({
   id: '/hive-sensors',
   path: '/hive-sensors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForageMapsRoute = ForageMapsRouteImport.update({
+  id: '/forage-maps',
+  path: '/forage-maps',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -87,6 +93,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
@@ -116,6 +124,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
@@ -132,6 +141,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
@@ -160,6 +171,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
@@ -175,6 +187,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  ForageMapsRoute: typeof ForageMapsRoute
   HiveSensorsRoute: typeof HiveSensorsRoute
   JournalRoute: typeof JournalRoute
   MapRoute: typeof MapRoute
@@ -214,6 +227,13 @@ declare module '@tanstack/react-router' {
       path: '/hive-sensors'
       fullPath: '/hive-sensors'
       preLoaderRoute: typeof HiveSensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forage-maps': {
+      id: '/forage-maps'
+      path: '/forage-maps'
+      fullPath: '/forage-maps'
+      preLoaderRoute: typeof ForageMapsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -279,6 +299,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  ForageMapsRoute: ForageMapsRoute,
   HiveSensorsRoute: HiveSensorsRoute,
   JournalRoute: JournalRoute,
   MapRoute: MapRoute,
