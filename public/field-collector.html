@@ -143,6 +143,8 @@
     <div class="section-title">👤 Collector Info</div>
     <label>Collector Name <span class="required">*</span></label>
     <input type="text" id="collectorName" placeholder="Your name" />
+    <label>Phone Number <span class="required">*</span></label>
+    <input type="tel" id="collectorPhone" placeholder="e.g. 07XX XXX XXX" />
     <label>Date <span class="required">*</span></label>
     <input type="date" id="collDate" />
     <label>Apiary Name</label>
@@ -1065,6 +1067,7 @@ function saveRecord() {
   const landUse = getRadioValue('landUse');
   const county = document.getElementById('countySelect').value;
   if (!name) { showToast('⚠️ Enter collector name'); return; }
+  if (!document.getElementById('collectorPhone').value.trim()) { showToast('⚠️ Enter your phone number'); return; }
   if (!county) { showToast('⚠️ Select a county'); return; }
   if (!area) { showToast('⚠️ Enter area/village name'); return; }
   if (!score) { showToast('⚠️ Select a suitability score'); return; }
@@ -1086,7 +1089,7 @@ function saveRecord() {
     id: Date.now(), timestamp: new Date().toISOString(),
     date: document.getElementById('collDate').value,
     stopNo: document.getElementById('stopNo').value,
-    collector: name, area,
+    collector: name, phone: document.getElementById('collectorPhone').value.trim(), area,
     county: document.getElementById('countySelect').value,
     subCounty: document.getElementById('subCounty').value,
     gps: document.getElementById('gpsCoords').value,

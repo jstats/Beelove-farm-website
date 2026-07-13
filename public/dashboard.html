@@ -81,6 +81,37 @@
   .bar-row .fill { height: 100%; background: var(--amber); border-radius: 6px; min-width: 2px; }
   .bar-row .num { width: 28px; text-align: right; color: var(--muted); }
 
+  /* ── Status tabs ── */
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .tabs button {
+    padding: 9px 16px; border-radius: 999px; border: 1px solid var(--border);
+    background: white; color: var(--ink); font-size: .85rem; font-weight: 600; cursor: pointer;
+  }
+  .tabs button.active { background: var(--amber); border-color: var(--amber); color: white; }
+  .tabs .badge {
+    display: inline-block; min-width: 20px; padding: 1px 6px; margin-left: 6px;
+    border-radius: 999px; background: var(--red); color: white; font-size: .72rem;
+  }
+  .tabs button.active .badge { background: rgba(255,255,255,.3); }
+
+  /* ── Geo check + status pills ── */
+  .geo-ok { color: var(--green); font-weight: 700; }
+  .geo-partial { color: var(--amber-dark); font-weight: 700; }
+  .geo-bad { color: var(--red); font-weight: 700; }
+  .st-pill { display: inline-block; padding: 2px 9px; border-radius: 999px; font-size: .74rem; font-weight: 700; }
+  .st-Pending { background: var(--amber-light); color: var(--amber-dark); }
+  .st-Verified { background: #dcfce7; color: var(--green); }
+  .st-Rejected { background: #fee2e2; color: var(--red); }
+
+  /* ── Review buttons ── */
+  .act-btn {
+    border: none; border-radius: 8px; padding: 6px 10px; font-size: .76rem;
+    font-weight: 700; color: white; cursor: pointer; margin-right: 4px;
+  }
+  .act-verify { background: var(--green); }
+  .act-reject { background: var(--red); }
+  td a.tel { color: var(--amber-dark); font-weight: 600; text-decoration: none; }
+
   /* ── Filters ── */
   .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .filters select, .filters input {
@@ -141,6 +172,8 @@
 <main>
   <div id="status" class="loading">Loading field data…</div>
 
+  <div class="tabs" id="tabBar"></div>
+
   <div class="stats" id="statCards"></div>
   <div class="panels" id="panels"></div>
 
@@ -187,6 +220,9 @@ if (sessionStorage.getItem("bl_dash_ok") === "1") {
 /* ════════════ DATA ════════════ */
 var allRecords = [];
 var sortKey = "timestamp", sortDir = -1;
+var viewStatus = "Verified";   // Verified | Pending | Rejected | All
+
+function statusOf(r) { return r.Status || "Pending"; }
 
 function loadData() {
   var st = document.getElementById("status");
@@ -270,6 +306,7 @@ function filtered() {
   var to = document.getElementById("fTo").value;
   var q = document.getElementById("fSearch").value.toLowerCase();
   return allRecords.filter(function (r) {
+    if (viewStatus !== "All" && statusOf(r) !== viewStatus) return false;
     if (a && String(r.area || "").trim() !== a) return false;
     if (c && String(r.collector || "").trim() !== c) return false;
     if (v && String(r.vegDensity || "").trim() !== v) return false;
@@ -286,18 +323,77 @@ function filtered() {
 }
 
 /* ════════════ RENDER ════════════ */
-var COLS = [
-  ["date", "Date"], ["collector", "Collector"], ["area", "Area"],
-  ["gps", "GPS"], ["vegDensity", "Vegetation"], ["water", "Water"],
-  ["hivesTotal", "Hives"], ["hivesColonized", "Colonized"],
-  ["score", "Score"], ["threats", "Threats"]
-];
+function cols() {
+  var c = [
+    ["date", "Date"], ["collector", "Collector"], ["phone", "Phone"], ["area", "Area"],
+    ["gps", "GPS"], ["GeoCheck", "GPS ✓"], ["vegDensity", "Vegetation"],
+    ["hivesTotal", "Hives"], ["hivesColonized", "Colonized"],
+    ["score", "Score"], ["Status", "Status"]
+  ];
+  if (viewStatus === "Pending") c.push(["_actions", "Review"]);
+  return c;
+}
 
 function render() {
   var list = filtered();
+  renderTabs();
   renderStats(list);
   renderPanels(list);
   renderTable(list);
+}
+
+function renderTabs() {
+  var counts = { Verified: 0, Pending: 0, Rejected: 0, All: allRecords.length };
+  allRecords.forEach(function (r) { counts[statusOf(r)] = (counts[statusOf(r)] || 0) + 1; });
+  var tabs = [["Verified", "✅ Verified"], ["Pending", "🕐 Pending review"], ["Rejected", "🚫 Rejected"], ["All", "All"]];
+  document.getElementById("tabBar").innerHTML = tabs.map(function (t) {
+    var badge = t[0] === "Pending" && counts.Pending ? '<span class="badge">' + counts.Pending + "</span>" : "";
+    return '<button class="' + (viewStatus === t[0] ? "active" : "") + '" onclick="setView(\'' + t[0] + '\')">' +
+      t[1] + " (" + (counts[t[0]] || 0) + ")" + badge + "</button>";
+  }).join("");
+}
+
+function setView(v) { viewStatus = v; render(); }
+
+/* ════════════ VERIFY / REJECT ════════════ */
+function getAdminCreds() {
+  var code = sessionStorage.getItem("bl_admin_code");
+  if (!code) {
+    code = prompt("Admin code (ask Beelove Farm):");
+    if (!code) return null;
+    sessionStorage.setItem("bl_admin_code", code);
+  }
+  var name = sessionStorage.getItem("bl_admin_name");
+  if (!name) {
+    name = prompt("Your name (recorded as verifier):") || "";
+    sessionStorage.setItem("bl_admin_name", name);
+  }
+  return { code: code, name: name };
+}
+
+function reviewRecord(id, newStatus) {
+  var creds = getAdminCreds();
+  if (!creds) return;
+  var notes = newStatus === "Rejected" ? (prompt("Reason for rejecting (optional):") || "") : "";
+  var st = document.getElementById("status");
+  st.className = "loading"; st.style.display = "block";
+  st.textContent = (newStatus === "Verified" ? "Verifying…" : "Rejecting…");
+  fetch(BACKEND_URL, {
+    method: "POST",
+    body: JSON.stringify({ action: "verify", adminCode: creds.code, id: id, status: newStatus, verifiedBy: creds.name, notes: notes })
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (json) {
+      if (!json.success) {
+        if (/admin code/i.test(json.error || "")) sessionStorage.removeItem("bl_admin_code");
+        throw new Error(json.error || "Update failed");
+      }
+      loadData();
+    })
+    .catch(function (err) {
+      st.className = "error";
+      st.textContent = "Could not update: " + err.message;
+    });
 }
 
 function renderStats(list) {
@@ -358,9 +454,18 @@ function barPanel(title, map, keepOrder) {
   return '<div class="panel"><h3>' + esc(title) + "</h3>" + (rows || '<div style="color:var(--muted);font-size:.8rem;">No data yet</div>') + "</div>";
 }
 
+function geoClass(v) {
+  if (v === "OK") return "geo-ok";
+  if (v === "PARTIAL") return "geo-partial";
+  if (v === "MISMATCH") return "geo-bad";
+  return "";
+}
+
 function renderTable(list) {
+  var COLS = cols();
   // header
   document.getElementById("theadRow").innerHTML = COLS.map(function (c) {
+    if (c[0] === "_actions") return "<th>" + c[1] + "</th>";
     var arrow = sortKey === c[0] ? (sortDir === 1 ? " ▲" : " ▼") : "";
     return '<th onclick="setSort(\'' + c[0] + '\')">' + c[1] + '<span class="arrow">' + arrow + "</span></th>";
   }).join("");
@@ -373,8 +478,11 @@ function renderTable(list) {
   });
 
   if (!sorted.length) {
+    var msg = viewStatus === "Pending" ? "Nothing waiting for review. 🎉" :
+              viewStatus === "Verified" ? "No verified stops yet — check the Pending review tab. 🕐" :
+              "No field stops match — clear the filters or collect some data! 🐝";
     document.getElementById("tbody").innerHTML =
-      '<tr><td class="empty" colspan="' + COLS.length + '">No field stops match — clear the filters or collect some data! 🐝</td></tr>';
+      '<tr><td class="empty" colspan="' + COLS.length + '">' + msg + "</td></tr>";
     return;
   }
 
@@ -384,6 +492,24 @@ function renderTable(list) {
       if (c[0] === "score")
         return '<td><span class="score-pill" style="background:' + scoreColor(s) + '">' + (s || "—") + "</span></td>";
       if (c[0] === "date") return "<td>" + fmtDate(r) + "</td>";
+      if (c[0] === "phone") {
+        var p = String(r.phone || "").trim();
+        return p ? '<td><a class="tel" href="tel:' + esc(p) + '" onclick="event.stopPropagation()">📞 ' + esc(p) + "</a></td>" : "<td>—</td>";
+      }
+      if (c[0] === "GeoCheck") {
+        var g = String(r.GeoCheck || "—");
+        return '<td class="' + geoClass(g) + '" title="' + esc(r.GeoDetail || "") + '">' +
+          (g === "OK" ? "✔ OK" : g === "PARTIAL" ? "◐ Partial" : g === "MISMATCH" ? "✖ Mismatch" : esc(g)) + "</td>";
+      }
+      if (c[0] === "Status") {
+        var stv = statusOf(r);
+        return '<td><span class="st-pill st-' + stv + '">' + stv + "</span></td>";
+      }
+      if (c[0] === "_actions") {
+        return '<td onclick="event.stopPropagation()">' +
+          '<button class="act-btn act-verify" onclick="reviewRecord(\'' + esc(String(r.id)) + '\',\'Verified\')">✓ Verify</button>' +
+          '<button class="act-btn act-reject" onclick="reviewRecord(\'' + esc(String(r.id)) + '\',\'Rejected\')">✗ Reject</button></td>';
+      }
       var v = String(r[c[0]] == null ? "" : r[c[0]]);
       if (v.length > 40) v = v.slice(0, 40) + "…";
       return "<td>" + esc(v) + "</td>";
