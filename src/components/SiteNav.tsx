@@ -122,19 +122,33 @@ export function SiteNav() {
                 </button>
                 {mobileExpanded === item.label && (
                   <div className="pl-3 pb-2 flex flex-col gap-1">
-                    {item.children.map((c) => (
-                      <Link
-                        key={c.to}
-                        to={c.to}
-                        onClick={() => {
-                          setMobileOpen(false);
-                          setMobileExpanded(null);
-                        }}
-                        className="py-1.5 text-[13px] text-umber/70 hover:text-amber"
-                      >
-                        {c.label}
-                      </Link>
-                    ))}
+                    {item.children.map((c) =>
+                      isAnchorLink(c.to) ? (
+                        <a
+                          key={c.to}
+                          href={c.to}
+                          onClick={() => {
+                            setMobileOpen(false);
+                            setMobileExpanded(null);
+                          }}
+                          className="py-1.5 text-[13px] text-umber/70 hover:text-amber"
+                        >
+                          {c.label}
+                        </a>
+                      ) : (
+                        <Link
+                          key={c.to}
+                          to={c.to}
+                          onClick={() => {
+                            setMobileOpen(false);
+                            setMobileExpanded(null);
+                          }}
+                          className="py-1.5 text-[13px] text-umber/70 hover:text-amber"
+                        >
+                          {c.label}
+                        </Link>
+                      )
+                    )}
                   </div>
                 )}
               </div>
@@ -200,23 +214,40 @@ function DesktopDropdown({
           role="menu"
         >
           <div className="bg-cream rounded-2xl ring-1 ring-umber/10 shadow-[0_12px_40px_-12px_rgba(61,40,23,0.25)] p-2 overflow-hidden">
-            {item.children.map((c) => (
-              <Link
-                key={c.to}
-                to={c.to}
-                onClick={onClose}
-                role="menuitem"
-                className="block px-4 py-3 rounded-xl hover:bg-olive/10 transition-colors group/item"
-                activeProps={{ className: "bg-olive/10" }}
-              >
-                <div className="text-sm font-semibold text-umber group-hover/item:text-olive transition-colors">
-                  {c.label}
-                </div>
-                <div className="text-xs text-umber/65 mt-0.5 leading-snug">
-                  {c.desc}
-                </div>
-              </Link>
-            ))}
+            {item.children.map((c) =>
+              isAnchorLink(c.to) ? (
+                <a
+                  key={c.to}
+                  href={c.to}
+                  onClick={onClose}
+                  role="menuitem"
+                  className="block px-4 py-3 rounded-xl hover:bg-olive/10 transition-colors group/item"
+                >
+                  <div className="text-sm font-semibold text-umber group-hover/item:text-olive transition-colors">
+                    {c.label}
+                  </div>
+                  <div className="text-xs text-umber/65 mt-0.5 leading-snug">
+                    {c.desc}
+                  </div>
+                </a>
+              ) : (
+                <Link
+                  key={c.to}
+                  to={c.to}
+                  onClick={onClose}
+                  role="menuitem"
+                  className="block px-4 py-3 rounded-xl hover:bg-olive/10 transition-colors group/item"
+                  activeProps={{ className: "bg-olive/10" }}
+                >
+                  <div className="text-sm font-semibold text-umber group-hover/item:text-olive transition-colors">
+                    {c.label}
+                  </div>
+                  <div className="text-xs text-umber/65 mt-0.5 leading-snug">
+                    {c.desc}
+                  </div>
+                </Link>
+              )
+            )}
           </div>
         </div>
       )}
