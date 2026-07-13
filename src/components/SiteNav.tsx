@@ -4,6 +4,11 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
+function isAnchorLink(to: string): boolean {
+  return to.startsWith("http") || to.endsWith(".html");
+}
+
+
 export function SiteNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
