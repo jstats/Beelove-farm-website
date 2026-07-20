@@ -351,7 +351,7 @@
       <div class="fc-msg" id="fcMsg">Connecting to forecast data...</div>
       <div class="fc-footer">
         <span id="fcUpdated">Beelove Farm · Kenya</span>
-        <a class="fc-detail-btn" href="/suitability-map.html">View Map →</a>
+        <a class="fc-detail-btn" href="/forage-maps">View Map →</a>
       </div>
     </div>
 
@@ -366,7 +366,7 @@
         <span class="card-badge">Field Collector</span>
       </a>
 
-      <a class="action-card" href="/suitability-map.html">
+      <a class="action-card" href="/forage-maps">
         <div class="card-icon">🗺</div>
         <div class="card-title">Suitability Map</div>
         <div class="card-sub">Is my land good for bees?</div>
@@ -379,14 +379,14 @@
     <div class="section-label">Forecast & Planning</div>
     <div class="cards-grid">
 
-      <div class="action-card" onclick="showForecastDetail()">
+      <a class="action-card" href="/forage-maps">
         <div class="card-icon">🔮</div>
         <div class="card-title">My Forecast</div>
         <div class="card-sub">1–3 month flowering outlook</div>
         <span class="card-badge">3-month</span>
-      </div>
+      </a>
 
-      <a class="action-card" href="/gee-overview.html">
+      <a class="action-card" href="/forage-maps">
         <div class="card-icon">🛤</div>
         <div class="card-title">Migratory Route</div>
         <div class="card-sub">Best zones this month</div>
@@ -398,7 +398,7 @@
     <!-- Support -->
     <div class="section-label">Support & Learning</div>
 
-    <a class="card-wide" href="training.html">
+    <a class="card-wide" href="/training/beekeeping">
       <div class="cw-icon">📖</div>
       <div class="cw-text">
         <div class="cw-title">Training & Courses</div>
@@ -407,7 +407,7 @@
       <div class="cw-arrow">›</div>
     </a>
 
-    <a class="card-wide" href="shop.html">
+    <a class="card-wide" href="/shop">
       <div class="cw-icon">🛒</div>
       <div class="cw-text">
         <div class="cw-title">Beelove Shop</div>
@@ -416,7 +416,7 @@
       <div class="cw-arrow">›</div>
     </a>
 
-    <a class="card-wide" href="contact.html">
+    <a class="card-wide" href="/contact">
       <div class="cw-icon">💬</div>
       <div class="cw-text">
         <div class="cw-title">Talk to Beelove</div>
@@ -446,20 +446,9 @@
       </div>
 
       <div class="profile-section">
-        <h3>Connect Forecast Data</h3>
-        <p style="font-size:12px;color:var(--mid);margin-bottom:10px;line-height:1.5;">
-          Paste the URL of your Google Sheet containing monthly GEE forecast data.
-          This powers the forecast card on your home screen.
-        </p>
-        <input class="connect-input" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/..." />
-        <button class="connect-btn" onclick="saveSheetsUrl()">🔗 Connect Google Sheet</button>
-        <div id="connectStatus" style="font-size:12px;margin-top:8px;font-weight:600;min-height:16px;"></div>
-      </div>
-
-      <div class="profile-section">
         <h3>App Info</h3>
         <div class="profile-row"><span class="pr-label">Version</span><span class="pr-value">1.0</span></div>
-        <div class="profile-row"><span class="pr-label">Data</span><span class="pr-value">GEE · CHIRPS · MODIS</span></div>
+        <div class="profile-row"><span class="pr-label">Powered by</span><span class="pr-value">Beelove Intelligence</span></div>
         <div class="profile-row"><span class="pr-label">By</span><span class="pr-value">Beelove Farm Kenya</span></div>
       </div>
 
@@ -499,6 +488,11 @@
 const PROFILE_KEY  = 'beelove_profile';
 const SHEETS_KEY   = 'beelove_sheets_url';
 const INSTALL_KEY  = 'beelove_install_dismissed';
+
+// ── Master forecast source (set by Beelove, shared by all users) ──
+// Paste the published Google Sheet URL here to light up the forecast card
+// for everyone. Leave empty to show the neutral "updates monthly" state.
+const MASTER_SHEET_URL = '';
 
 // ── Onboarding ──
 function completeOnboarding() {
@@ -543,10 +537,6 @@ window.addEventListener('load', function() {
   }
   // else show onboarding (default)
 
-  // Restore sheets URL
-  const url = localStorage.getItem(SHEETS_KEY);
-  if (url) document.getElementById('sheetsUrl').value = url;
-
   // Offline detection
   window.addEventListener('online',  () => document.getElementById('offlineBanner').style.display = 'none');
   window.addEventListener('offline', () => document.getElementById('offlineBanner').style.display = 'block');
@@ -567,7 +557,7 @@ function goToCollector() {
   window.location.href = '/field-collector.html';
 }
 function goToMap() {
-  window.location.href = '/suitability-map.html';
+  window.location.href = '/forage-maps';
 }
 
 // ── Forecast ──
@@ -575,16 +565,16 @@ const MONTH_NAMES = ['January','February','March','April','May','June',
                      'July','August','September','October','November','December'];
 
 function loadForecast() {
-  const url = localStorage.getItem(SHEETS_KEY);
+  const url = MASTER_SHEET_URL || localStorage.getItem(SHEETS_KEY);
   const now  = new Date();
   const monthName = MONTH_NAMES[now.getMonth()];
   const year = now.getFullYear();
 
   if (!url) {
-    // Show placeholder until Google Sheet is connected
-    setForecastCard('amber', monthName + ' ' + year, 'Connect Forecast Data',
-      'Go to Profile → Connect Google Sheet to see your monthly flowering forecast here.',
-      '—', 'Not connected');
+    // Neutral state until Beelove publishes the monthly forecast
+    setForecastCard('amber', monthName + ' ' + year, 'Forage Outlook',
+      'Your monthly flowering forecast will appear here. Updated by Beelove each month.',
+      '—', 'Beelove Farm · Kenya');
     return;
   }
 
@@ -620,9 +610,9 @@ function loadForecast() {
     })
     .catch(() => {
       // Show offline/cached forecast
-      setForecastCard('amber', monthName + ' ' + year, 'Forecast Unavailable',
-        'Check your internet connection or reconnect your Google Sheet in Profile.',
-        '—', 'Could not load data');
+      setForecastCard('amber', monthName + ' ' + year, 'Forage Outlook',
+        'Could not load this month’s forecast. Check your internet and try again.',
+        '—', 'Beelove Farm · Kenya');
     });
 }
 

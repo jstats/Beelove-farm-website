@@ -28,14 +28,14 @@
       "name": "Assess a Site",
       "short_name": "Assess",
       "description": "Open the field data collector",
-      "url": "../02_GEE_Remote_Sensing/beelove_field_collector.html",
+      "url": "/field-collector.html",
       "icons": [{ "src": "images/beelove-logo.png", "sizes": "96x96" }]
     },
     {
       "name": "Suitability Map",
       "short_name": "Map",
       "description": "Check beekeeping suitability for any location",
-      "url": "../02_GEE_Remote_Sensing/beelove_suitability_map.html",
+      "url": "/forage-maps",
       "icons": [{ "src": "images/beelove-logo.png", "sizes": "96x96" }]
     }
   ]
