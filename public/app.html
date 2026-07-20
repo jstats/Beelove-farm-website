@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#f59e0b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Beelove">
+  <meta name="description" content="Kenya Beekeeping Intelligence — suitability maps, forecasts, field tools">
+  <link rel="manifest" href="manifest.json">
+  <title>Beelove Farm</title>
+
+  <style>
+    :root {
+      --amber: #f59e0b;
+      --amber-dark: #b45309;
+      --amber-light: #fef3c7;
+      --green: #15803d;
+      --green-dark: #1a3c2a;
+      --green-light: #dcfce7;
+      --red: #dc2626;
+      --mid: #57534e;
+      --border: #e7e5e4;
+      --light: #fafaf9;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f4f0eb;
+      color: #1c1917;
+      min-height: 100vh;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ── Onboarding ── */
+    #onboarding {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--green-dark) 0%, #2e7d52 60%, #4caf50 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    #onboarding .bee-logo { font-size: 64px; margin-bottom: 12px; }
+    #onboarding h1 { color: white; font-size: 1.8rem; font-weight: 800; margin-bottom: 6px; }
+    #onboarding .tagline { color: rgba(255,255,255,0.8); font-size: 0.95rem; margin-bottom: 32px; }
+    .onboard-card {
+      background: white;
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+    }
+    .onboard-card h2 { font-size: 1.1rem; color: var(--green-dark); margin-bottom: 20px; font-weight: 700; }
+    .ob-label { display: block; font-size: 13px; font-weight: 600; color: var(--mid); margin-bottom: 5px; margin-top: 14px; text-align: left; }
+    .ob-label:first-of-type { margin-top: 0; }
+    .ob-input {
+      width: 100%; padding: 12px 14px; border: 1.5px solid var(--border);
+      border-radius: 10px; font-size: 15px; color: #1c1917;
+      background: var(--light); -webkit-appearance: none;
+    }
+    .ob-input:focus { outline: none; border-color: var(--amber); }
+    .ob-btn {
+      width: 100%; margin-top: 22px;
+      background: linear-gradient(135deg, var(--amber-dark), var(--amber));
+      color: white; border: none; border-radius: 12px;
+      padding: 15px; font-size: 16px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 4px 14px rgba(180,83,9,0.3);
+    }
+
+    /* ── Main App ── */
+    #mainApp { display: none; padding-bottom: 72px; }
+
+    /* Header */
+    .app-header {
+      background: linear-gradient(135deg, var(--green-dark), #2e7d52);
+      color: white;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
+    .app-header .brand { display: flex; align-items: center; gap: 10px; }
+    .app-header .brand-icon { font-size: 26px; }
+    .app-header .brand-name { font-size: 17px; font-weight: 800; }
+    .app-header .brand-sub { font-size: 11px; opacity: 0.75; }
+    .profile-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      color: white;
+      padding: 6px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Content padding */
+    .content { padding: 16px; }
+
+    /* ── Forecast Card ── */
+    .forecast-card {
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .forecast-card.green  { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .forecast-card.amber  { background: linear-gradient(135deg, #b45309, #f59e0b); }
+    .forecast-card.red    { background: linear-gradient(135deg, #991b1b, #ef4444); }
+    .forecast-card .fc-month { font-size: 12px; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .forecast-card .fc-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 6px; }
+    .forecast-card .fc-msg { font-size: 13px; opacity: 0.9; line-height: 1.5; }
+    .forecast-card .fc-prob {
+      position: absolute; top: 16px; right: 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 12px; padding: 8px 14px; text-align: center;
+    }
+    .forecast-card .fc-prob .prob-num { font-size: 22px; font-weight: 900; }
+    .forecast-card .fc-prob .prob-lbl { font-size: 10px; opacity: 0.85; text-transform: uppercase; }
+    .forecast-card .fc-footer {
+      margin-top: 12px; padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.25);
+      font-size: 11px; opacity: 0.75;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .fc-detail-btn {
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 8px; color: white; padding: 4px 10px;
+      font-size: 11px; font-weight: 600; cursor: pointer; text-decoration: none;
+    }
+
+    /* ── Section Label ── */
+    .section-label {
+      font-size: 11px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: #a8a29e; margin-bottom: 10px; margin-top: 4px;
+    }
+
+    /* ── Action Cards Grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .action-card {
+      background: white;
+      border-radius: 14px;
+      padding: 16px 14px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.15s, box-shadow 0.15s;
+      -webkit-user-select: none;
+    }
+    .action-card:active { transform: scale(0.97); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .action-card .card-icon { font-size: 28px; line-height: 1; }
+    .action-card .card-title { font-size: 13px; font-weight: 700; color: #1c1917; line-height: 1.2; }
+    .action-card .card-sub { font-size: 11px; color: #a8a29e; line-height: 1.3; }
+    .action-card.highlight { background: linear-gradient(135deg, var(--amber-light), #fff8e8); border-color: #fcd34d; }
+    .action-card .card-badge {
+      display: inline-block; font-size: 10px; font-weight: 700;
+      background: var(--green-light); color: var(--green);
+      border-radius: 8px; padding: 2px 7px; margin-top: 2px; align-self: flex-start;
+    }
+    .action-card.highlight .card-badge { background: var(--amber-light); color: var(--amber-dark); }
+
+    /* Wide card (full width) */
+    .card-wide {
+      background: white;
+      border-radius: 14px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 12px;
+      transition: transform 0.15s;
+    }
+    .card-wide:active { transform: scale(0.98); }
+    .card-wide .cw-icon { font-size: 32px; flex-shrink: 0; }
+    .card-wide .cw-text .cw-title { font-size: 14px; font-weight: 700; color: #1c1917; }
+    .card-wide .cw-text .cw-sub { font-size: 12px; color: #a8a29e; margin-top: 2px; }
+    .card-wide .cw-arrow { margin-left: auto; font-size: 18px; color: #d4cdc8; flex-shrink: 0; }
+
+    /* ── Bottom Nav ── */
+    .bottom-nav {
+      position: fixed; bottom: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 480px;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      z-index: 100;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.08);
+    }
+    .nav-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      padding: 10px 6px 8px;
+      cursor: pointer; border: none; background: none;
+      font-size: 10px; font-weight: 600; color: #a8a29e; gap: 3px;
+    }
+    .nav-item .nav-icon { font-size: 22px; line-height: 1; }
+    .nav-item.active { color: var(--amber-dark); }
+    .nav-item.active .nav-icon { filter: drop-shadow(0 0 4px rgba(180,83,9,0.3)); }
+
+    /* ── Profile Screen ── */
+    #profileScreen {
+      display: none;
+      padding: 16px;
+    }
+    .profile-header {
+      background: linear-gradient(135deg, var(--green-dark), #2e7d52);
+      border-radius: 16px; padding: 24px 20px; color: white; text-align: center;
+      margin-bottom: 16px;
+    }
+    .profile-header .p-avatar { font-size: 48px; margin-bottom: 8px; }
+    .profile-header .p-name { font-size: 1.2rem; font-weight: 800; }
+    .profile-header .p-county { font-size: 13px; opacity: 0.8; margin-top: 3px; }
+    .profile-section { background: white; border-radius: 14px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); }
+    .profile-section h3 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--mid); margin-bottom: 12px; }
+    .profile-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #f5f5f4; font-size: 14px; }
+    .profile-row:last-child { border-bottom: none; }
+    .profile-row .pr-label { color: var(--mid); }
+    .profile-row .pr-value { font-weight: 600; color: #1c1917; }
+    .edit-btn { width: 100%; background: var(--green-dark); color: white; border: none; border-radius: 10px; padding: 13px; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 4px; }
+    .connect-input { width: 100%; padding: 10px 12px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 12px; margin-bottom: 8px; }
+    .connect-btn { width: 100%; background: var(--amber); color: white; border: none; border-radius: 8px; padding: 11px; font-size: 13px; font-weight: 700; cursor: pointer; }
+
+    /* ── Install Banner ── */
+    #installBanner {
+      display: none;
+      position: fixed; bottom: 72px; left: 50%; transform: translateX(-50%);
+      width: calc(100% - 32px); max-width: 448px;
+      background: var(--green-dark); color: white;
+      border-radius: 14px; padding: 14px 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      z-index: 99;
+      display: none;
+      align-items: center; gap: 12px;
+    }
+    #installBanner .ib-text { flex: 1; font-size: 13px; }
+    #installBanner .ib-text strong { display: block; font-size: 14px; margin-bottom: 2px; }
+    #installBanner .ib-btn { background: var(--amber); border: none; border-radius: 8px; color: white; padding: 9px 14px; font-size: 13px; font-weight: 700; cursor: pointer; flex-shrink: 0; }
+    #installBanner .ib-close { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 20px; cursor: pointer; flex-shrink: 0; padding: 0 4px; }
+
+    /* ── Offline banner ── */
+    #offlineBanner {
+      display: none; background: #dc2626; color: white;
+      text-align: center; padding: 8px; font-size: 12px; font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ ONBOARDING ═══════════════ -->
+<div id="onboarding">
+  <div class="bee-logo">🐝</div>
+  <h1>Beelove Farm</h1>
+  <p class="tagline">Kenya's Beekeeping Intelligence Platform</p>
+
+  <div class="onboard-card">
+    <h2>Welcome! Let's set up your profile</h2>
+
+    <label class="ob-label">Your name</label>
+    <input class="ob-input" id="ob-name" type="text" placeholder="e.g. James Mutua" />
+
+    <label class="ob-label">County</label>
+    <select class="ob-input" id="ob-county">
+      <option value="">— Select your county —</option>
+      <option>Baringo</option><option>Bomet</option><option>Bungoma</option>
+      <option>Busia</option><option>Elgeyo Marakwet</option><option>Embu</option>
+      <option>Garissa</option><option>Homa Bay</option><option>Isiolo</option>
+      <option>Kajiado</option><option>Kakamega</option><option>Kericho</option>
+      <option>Kiambu</option><option>Kilifi</option><option>Kirinyaga</option>
+      <option>Kisii</option><option>Kisumu</option><option>Kitui</option>
+      <option>Kwale</option><option>Laikipia</option><option>Lamu</option>
+      <option>Machakos</option><option>Makueni</option><option>Mandera</option>
+      <option>Marsabit</option><option>Meru</option><option>Migori</option>
+      <option>Mombasa</option><option>Murang'a</option><option>Nairobi</option>
+      <option>Nakuru</option><option>Nandi</option><option>Narok</option>
+      <option>Nyamira</option><option>Nyandarua</option><option>Nyeri</option>
+      <option>Samburu</option><option>Siaya</option><option>Taita Taveta</option>
+      <option>Tana River</option><option>Tharaka Nithi</option><option>Trans Nzoia</option>
+      <option>Turkana</option><option>Uasin Gishu</option><option>Vihiga</option>
+      <option>Wajir</option><option>West Pokot</option>
+    </select>
+
+    <label class="ob-label">Area / Village</label>
+    <input class="ob-input" id="ob-area" type="text" placeholder="e.g. Mbooni Hills, Wote Town..." />
+
+    <label class="ob-label">Number of hives (0 if just starting)</label>
+    <input class="ob-input" id="ob-hives" type="number" min="0" placeholder="0" />
+
+    <button class="ob-btn" onclick="completeOnboarding()">Get Started →</button>
+  </div>
+</div>
+
+<!-- ═══════════════ MAIN APP ═══════════════ -->
+<div id="mainApp">
+
+  <div id="offlineBanner">📡 You are offline — showing last saved data</div>
+
+  <!-- Header -->
+  <div class="app-header">
+    <div class="brand">
+      <div class="brand-icon">🐝</div>
+      <div>
+        <div class="brand-name">Beelove Farm</div>
+        <div class="brand-sub">Beekeeping Intelligence</div>
+      </div>
+    </div>
+    <button class="profile-btn" onclick="showScreen('profile')">
+      👤 <span id="headerName">My Profile</span>
+    </button>
+  </div>
+
+  <!-- HOME SCREEN -->
+  <div id="homeScreen" class="content">
+
+    <!-- Forecast Card -->
+    <div class="forecast-card amber" id="forecastCard">
+      <div class="fc-prob">
+        <div class="prob-num" id="fcProb">—</div>
+        <div class="prob-lbl">Probability</div>
+      </div>
+      <div class="fc-month" id="fcMonth">Loading forecast...</div>
+      <div class="fc-title" id="fcTitle">Flowering Outlook</div>
+      <div class="fc-msg" id="fcMsg">Connecting to forecast data...</div>
+      <div class="fc-footer">
+        <span id="fcUpdated">Beelove Farm · Kenya</span>
+        <a class="fc-detail-btn" href="/suitability-map.html">View Map →</a>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="section-label">Field Tools</div>
+    <div class="cards-grid">
+
+      <a class="action-card highlight" href="/field-collector.html">
+        <div class="card-icon">📋</div>
+        <div class="card-title">Assess a Site</div>
+        <div class="card-sub">Record field observations</div>
+        <span class="card-badge">Field Collector</span>
+      </a>
+
+      <a class="action-card" href="/suitability-map.html">
+        <div class="card-icon">🗺</div>
+        <div class="card-title">Suitability Map</div>
+        <div class="card-sub">Is my land good for bees?</div>
+        <span class="card-badge">Satellite</span>
+      </a>
+
+    </div>
+
+    <!-- Forecasts -->
+    <div class="section-label">Forecast & Planning</div>
+    <div class="cards-grid">
+
+      <div class="action-card" onclick="showForecastDetail()">
+        <div class="card-icon">🔮</div>
+        <div class="card-title">My Forecast</div>
+        <div class="card-sub">1–3 month flowering outlook</div>
+        <span class="card-badge">3-month</span>
+      </div>
+
+      <a class="action-card" href="/gee-overview.html">
+        <div class="card-icon">🛤</div>
+        <div class="card-title">Migratory Route</div>
+        <div class="card-sub">Best zones this month</div>
+        <span class="card-badge">Kenya-wide</span>
+      </a>
+
+    </div>
+
+    <!-- Support -->
+    <div class="section-label">Support & Learning</div>
+
+    <a class="card-wide" href="training.html">
+      <div class="cw-icon">📖</div>
+      <div class="cw-text">
+        <div class="cw-title">Training & Courses</div>
+        <div class="cw-sub">Catfish, tilapia and beekeeping courses</div>
+      </div>
+      <div class="cw-arrow">›</div>
+    </a>
+
+    <a class="card-wide" href="shop.html">
+      <div class="cw-icon">🛒</div>
+      <div class="cw-text">
+        <div class="cw-title">Beelove Shop</div>
+        <div class="cw-sub">Hives, honey, equipment</div>
+      </div>
+      <div class="cw-arrow">›</div>
+    </a>
+
+    <a class="card-wide" href="contact.html">
+      <div class="cw-icon">💬</div>
+      <div class="cw-text">
+        <div class="cw-title">Talk to Beelove</div>
+        <div class="cw-sub">Ask us anything</div>
+      </div>
+      <div class="cw-arrow">›</div>
+    </a>
+
+  </div><!-- /homeScreen -->
+
+  <!-- PROFILE SCREEN -->
+  <div id="profileScreen">
+    <div class="content">
+      <div class="profile-header">
+        <div class="p-avatar">👤</div>
+        <div class="p-name" id="profileName">—</div>
+        <div class="p-county" id="profileCounty">—</div>
+      </div>
+
+      <div class="profile-section">
+        <h3>My Details</h3>
+        <div class="profile-row"><span class="pr-label">Name</span><span class="pr-value" id="prName">—</span></div>
+        <div class="profile-row"><span class="pr-label">County</span><span class="pr-value" id="prCounty">—</span></div>
+        <div class="profile-row"><span class="pr-label">Area</span><span class="pr-value" id="prArea">—</span></div>
+        <div class="profile-row"><span class="pr-label">Hives</span><span class="pr-value" id="prHives">—</span></div>
+        <button class="edit-btn" onclick="editProfile()">✏️ Edit Profile</button>
+      </div>
+
+      <div class="profile-section">
+        <h3>Connect Forecast Data</h3>
+        <p style="font-size:12px;color:var(--mid);margin-bottom:10px;line-height:1.5;">
+          Paste the URL of your Google Sheet containing monthly GEE forecast data.
+          This powers the forecast card on your home screen.
+        </p>
+        <input class="connect-input" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/..." />
+        <button class="connect-btn" onclick="saveSheetsUrl()">🔗 Connect Google Sheet</button>
+        <div id="connectStatus" style="font-size:12px;margin-top:8px;font-weight:600;min-height:16px;"></div>
+      </div>
+
+      <div class="profile-section">
+        <h3>App Info</h3>
+        <div class="profile-row"><span class="pr-label">Version</span><span class="pr-value">1.0</span></div>
+        <div class="profile-row"><span class="pr-label">Data</span><span class="pr-value">GEE · CHIRPS · MODIS</span></div>
+        <div class="profile-row"><span class="pr-label">By</span><span class="pr-value">Beelove Farm Kenya</span></div>
+      </div>
+
+    </div>
+  </div><!-- /profileScreen -->
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <button class="nav-item active" id="nav-home" onclick="showScreen('home')">
+      <span class="nav-icon">🏠</span>Home
+    </button>
+    <button class="nav-item" id="nav-collect" onclick="goToCollector()">
+      <span class="nav-icon">📋</span>Assess
+    </button>
+    <button class="nav-item" id="nav-map" onclick="goToMap()">
+      <span class="nav-icon">🗺</span>Map
+    </button>
+    <button class="nav-item" id="nav-profile" onclick="showScreen('profile')">
+      <span class="nav-icon">👤</span>Profile
+    </button>
+  </div>
+
+</div><!-- /mainApp -->
+
+<!-- Install Banner -->
+<div id="installBanner">
+  <div class="ib-text">
+    <strong>📱 Add to Home Screen</strong>
+    Open Beelove like an app — no link needed
+  </div>
+  <button class="ib-btn" id="installBtn">Install</button>
+  <button class="ib-close" onclick="dismissInstall()">✕</button>
+</div>
+
+<script>
+// ── Storage keys ──
+const PROFILE_KEY  = 'beelove_profile';
+const SHEETS_KEY   = 'beelove_sheets_url';
+const INSTALL_KEY  = 'beelove_install_dismissed';
+
+// ── Onboarding ──
+function completeOnboarding() {
+  const name  = document.getElementById('ob-name').value.trim();
+  const county = document.getElementById('ob-county').value;
+  const area  = document.getElementById('ob-area').value.trim();
+  const hives = document.getElementById('ob-hives').value || '0';
+
+  if (!name) { alert('Please enter your name'); return; }
+  if (!county) { alert('Please select your county'); return; }
+
+  const profile = { name, county, area, hives, joined: new Date().toLocaleDateString() };
+  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+  launchApp(profile);
+}
+
+// ── Launch app ──
+function launchApp(profile) {
+  document.getElementById('onboarding').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  applyProfile(profile);
+  loadForecast();
+  registerServiceWorker();
+  setupInstallPrompt();
+}
+
+function applyProfile(p) {
+  document.getElementById('headerName').textContent = p.name.split(' ')[0];
+  document.getElementById('profileName').textContent = p.name;
+  document.getElementById('profileCounty').textContent = p.county + (p.area ? ' · ' + p.area : '');
+  document.getElementById('prName').textContent    = p.name;
+  document.getElementById('prCounty').textContent  = p.county;
+  document.getElementById('prArea').textContent    = p.area || '—';
+  document.getElementById('prHives').textContent   = p.hives + ' hive' + (p.hives == 1 ? '' : 's');
+}
+
+// ── Init on load ──
+window.addEventListener('load', function() {
+  const saved = localStorage.getItem(PROFILE_KEY);
+  if (saved) {
+    launchApp(JSON.parse(saved));
+  }
+  // else show onboarding (default)
+
+  // Restore sheets URL
+  const url = localStorage.getItem(SHEETS_KEY);
+  if (url) document.getElementById('sheetsUrl').value = url;
+
+  // Offline detection
+  window.addEventListener('online',  () => document.getElementById('offlineBanner').style.display = 'none');
+  window.addEventListener('offline', () => document.getElementById('offlineBanner').style.display = 'block');
+  if (!navigator.onLine) document.getElementById('offlineBanner').style.display = 'block';
+});
+
+// ── Screen navigation ──
+function showScreen(name) {
+  document.getElementById('homeScreen').style.display    = name === 'home'    ? 'block' : 'none';
+  document.getElementById('profileScreen').style.display = name === 'profile' ? 'block' : 'none';
+
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + (name === 'home' ? 'home' : 'profile'));
+  if (navEl) navEl.classList.add('active');
+}
+
+function goToCollector() {
+  window.location.href = '/field-collector.html';
+}
+function goToMap() {
+  window.location.href = '/suitability-map.html';
+}
+
+// ── Forecast ──
+const MONTH_NAMES = ['January','February','March','April','May','June',
+                     'July','August','September','October','November','December'];
+
+function loadForecast() {
+  const url = localStorage.getItem(SHEETS_KEY);
+  const now  = new Date();
+  const monthName = MONTH_NAMES[now.getMonth()];
+  const year = now.getFullYear();
+
+  if (!url) {
+    // Show placeholder until Google Sheet is connected
+    setForecastCard('amber', monthName + ' ' + year, 'Connect Forecast Data',
+      'Go to Profile → Connect Google Sheet to see your monthly flowering forecast here.',
+      '—', 'Not connected');
+    return;
+  }
+
+  // Try to load from Google Sheets JSON
+  // Sheet must be published with columns: month, prob_1month, action, color (green/amber/red)
+  const jsonUrl = url.replace('/edit', '/gviz/tq?tqx=out:json');
+  fetch(jsonUrl)
+    .then(r => r.text())
+    .then(text => {
+      const json = JSON.parse(text.substring(47).slice(0,-2));
+      const rows = json.table.rows;
+      const cols = json.table.cols.map(c => c.label.toLowerCase());
+      const mIdx = cols.findIndex(c => c.includes('month'));
+      const pIdx = cols.findIndex(c => c.includes('prob'));
+      const aIdx = cols.findIndex(c => c.includes('action'));
+      const cIdx = cols.findIndex(c => c.includes('color'));
+
+      // Find this month's row
+      const row = rows.find(r => {
+        const val = r.c[mIdx] && r.c[mIdx].v ? r.c[mIdx].v.toString().toLowerCase() : '';
+        return val.includes(monthName.toLowerCase()) || val.includes((now.getMonth()+1).toString());
+      }) || rows[rows.length - 1];
+
+      if (row) {
+        const prob   = row.c[pIdx] ? Math.round(row.c[pIdx].v) : 50;
+        const action = row.c[aIdx] ? row.c[aIdx].v : 'Monitor hive activity';
+        const color  = row.c[cIdx] ? row.c[cIdx].v : getColorFromProb(prob);
+        const title  = prob >= 65 ? '🟢 Good Flowering Expected'
+                     : prob >= 45 ? '🟡 Moderate Forage Season'
+                     :              '🔴 Low Forage — Take Action';
+        setForecastCard(color, monthName + ' ' + year, title, action, prob + '%', 'Updated this month');
+      }
+    })
+    .catch(() => {
+      // Show offline/cached forecast
+      setForecastCard('amber', monthName + ' ' + year, 'Forecast Unavailable',
+        'Check your internet connection or reconnect your Google Sheet in Profile.',
+        '—', 'Could not load data');
+    });
+}
+
+function getColorFromProb(p) { return p >= 65 ? 'green' : p >= 45 ? 'amber' : 'red'; }
+
+function setForecastCard(color, month, title, msg, prob, updated) {
+  const card = document.getElementById('forecastCard');
+  card.className = 'forecast-card ' + color;
+  document.getElementById('fcMonth').textContent   = month;
+  document.getElementById('fcTitle').textContent   = title;
+  document.getElementById('fcMsg').textContent     = msg;
+  document.getElementById('fcProb').textContent    = prob;
+  document.getElementById('fcUpdated').textContent = updated;
+}
+
+function showForecastDetail() {
+  alert('Connect your GEE forecast Google Sheet in Profile to see full 1–3 month detail for your apiary.');
+}
+
+// ── Profile ──
+function editProfile() {
+  const p = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+  document.getElementById('ob-name').value  = p.name  || '';
+  document.getElementById('ob-county').value = p.county || '';
+  document.getElementById('ob-area').value  = p.area  || '';
+  document.getElementById('ob-hives').value = p.hives || '0';
+  document.getElementById('onboarding').style.display = 'flex';
+  document.getElementById('mainApp').style.display = 'none';
+}
+
+function saveSheetsUrl() {
+  const url = document.getElementById('sheetsUrl').value.trim();
+  if (!url) { showConnectStatus('⚠️ Please paste your Google Sheet URL', '#b45309'); return; }
+  if (!url.includes('docs.google.com/spreadsheets')) {
+    showConnectStatus('❌ That does not look like a Google Sheets URL', '#dc2626'); return;
+  }
+  localStorage.setItem(SHEETS_KEY, url);
+  showConnectStatus('✅ Connected! Forecast will update on next load.', '#15803d');
+  loadForecast();
+}
+
+function showConnectStatus(msg, color) {
+  const el = document.getElementById('connectStatus');
+  el.textContent = msg; el.style.color = color;
+}
+
+// ── Service Worker ──
+// Intentionally disabled on the live site: the root-scoped caching worker
+// interfered with the main React website. Offline support can be re-added
+// later via a properly scoped worker. See notes in repo.
+function registerServiceWorker() {
+  /* no-op */
+}
+
+// ── PWA Install Prompt ──
+let deferredPrompt = null;
+
+function setupInstallPrompt() {
+  if (localStorage.getItem(INSTALL_KEY)) return;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    const banner = document.getElementById('installBanner');
+    banner.style.display = 'flex';
+  });
+
+  document.getElementById('installBtn').addEventListener('click', async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === 'accepted') {
+      document.getElementById('installBanner').style.display = 'none';
+      localStorage.setItem(INSTALL_KEY, '1');
+    }
+    deferredPrompt = null;
+  });
+}
+
+function dismissInstall() {
+  document.getElementById('installBanner').style.display = 'none';
+  localStorage.setItem(INSTALL_KEY, '1');
+}
+</script>
+
+</body>
+</html>
