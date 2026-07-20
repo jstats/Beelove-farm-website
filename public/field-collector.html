@@ -820,6 +820,7 @@ setInterval(() => { if (navigator.onLine && getScriptUrl()) { const q = JSON.par
 
 // ─── Init ──────────────────────────────────────────────────
 initLocationDropdowns();
+let pickerMap = null, pickerMarker = null;
 initMap();
 document.getElementById('collDate').valueAsDate = new Date();
 const savedUrl = getScriptUrl();
@@ -895,8 +896,6 @@ function captureGPS() {
 }
 
 // ─── Map location picker (Leaflet + OpenStreetMap, free / no API key) ───
-let pickerMap = null, pickerMarker = null;
-
 function initMap() {
   if (typeof L === 'undefined' || !document.getElementById('pickerMap')) return;
   // Default view: Makueni County area
