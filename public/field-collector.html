@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Beelove Farm — Field Data Collector</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
   <style>
     :root {
       --amber: #f59e0b; --amber-dark: #b45309; --amber-light: #fef3c7;
@@ -164,9 +166,15 @@
     </select>
     <label>Area / Village Name <span class="required">*</span></label>
     <input type="text" id="areaName" placeholder="e.g. Mbooni Hills, Wote Town..." />
-    <label>Location</label>
+    <label>Pin the exact spot <span class="required">*</span></label>
+    <p class="hint" style="margin-bottom:6px;">Search a place, then <strong>tap the map</strong> or <strong>drag the pin</strong> to fine-tune the exact location. Or tap “Use my GPS” if you're standing at the site.</p>
+    <div style="display:flex;gap:6px;margin-bottom:6px;">
+      <input type="text" id="placeSearch" placeholder="Search e.g. Makindu, Mbooni Hills..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();searchPlace();}" />
+      <button type="button" class="gps-btn" onclick="searchPlace()" style="background:var(--blue);">🔍 Search</button>
+    </div>
+    <div id="pickerMap" style="height:260px;border-radius:10px;border:1.5px solid var(--border);margin-bottom:8px;z-index:0;"></div>
     <button type="button" id="locationBtn" onclick="captureGPS()" style="width:100%;background:var(--green);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-      <span style="font-size:20px">📍</span> Capture Location
+      <span style="font-size:20px">📍</span> Use my GPS location
     </button>
     <div id="locationCard" style="display:none;margin-top:8px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -177,7 +185,7 @@
       </div>
       <button type="button" onclick="captureGPS()" style="margin-top:8px;width:100%;background:none;border:1px solid #86efac;border-radius:8px;padding:6px;font-size:12px;font-weight:600;color:var(--green);cursor:pointer;">🔄 Recapture</button>
     </div>
-    <div id="gpsStatus" style="font-size:11px;color:var(--mid);margin-top:4px;min-height:15px;">Tap Capture Location to record GPS, altitude and accuracy</div>
+    <div id="gpsStatus" style="font-size:11px;color:var(--mid);margin-top:4px;min-height:15px;">Search a place, tap the map, or use GPS to set the exact location</div>
     <!-- Hidden fields for form data -->
     <input type="hidden" id="gpsCoords" />
     <input type="hidden" id="altitude" />
@@ -812,6 +820,7 @@ setInterval(() => { if (navigator.onLine && getScriptUrl()) { const q = JSON.par
 
 // ─── Init ──────────────────────────────────────────────────
 initLocationDropdowns();
+initMap();
 document.getElementById('collDate').valueAsDate = new Date();
 const savedUrl = getScriptUrl();
 if (savedUrl) { const el = document.getElementById('scriptUrl'); if (el) el.value = savedUrl; }
@@ -870,29 +879,93 @@ function captureGPS() {
       const alt  = pos.coords.altitude != null ? Math.round(pos.coords.altitude) + ' m' : 'N/A';
       const acc  = '± ' + Math.round(pos.coords.accuracy) + ' m';
 
-      // Fill hidden fields (used in save/export)
-      document.getElementById('gpsCoords').value = `${lat}, ${lng}`;
-      document.getElementById('altitude').value = alt;
-
-      // Show location card
-      document.getElementById('dispLat').textContent = lat;
-      document.getElementById('dispLng').textContent = lng;
-      document.getElementById('dispAlt').textContent = alt;
-      document.getElementById('dispAcc').textContent = acc;
-      document.getElementById('locationCard').style.display = 'block';
-
-      status.textContent = '✅ Location captured successfully';
-      btn.innerHTML = '<span style="font-size:20px">✅</span> Location Captured';
+      setPickedLocation(parseFloat(lat), parseFloat(lng), { alt, acc, recenter: true });
+      status.textContent = '✅ GPS location captured — drag the pin if you need to fine-tune';
+      btn.innerHTML = '<span style="font-size:20px">✅</span> GPS Captured';
       btn.style.background = 'var(--green)';
     },
     err => {
       const msgs = { 1:'Permission denied — allow location access in browser settings', 2:'GPS signal unavailable — move to open area and retry', 3:'Timed out — retry in open area' };
-      status.textContent = '❌ ' + (msgs[err.code] || 'GPS failed');
-      btn.innerHTML = '<span style="font-size:20px">📍</span> Retry Location';
+      status.textContent = '❌ ' + (msgs[err.code] || 'GPS failed') + ' — you can still search or tap the map instead';
+      btn.innerHTML = '<span style="font-size:20px">📍</span> Retry GPS';
       btn.style.background = 'var(--green)';
     },
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
   );
+}
+
+// ─── Map location picker (Leaflet + OpenStreetMap, free / no API key) ───
+let pickerMap = null, pickerMarker = null;
+
+function initMap() {
+  if (typeof L === 'undefined' || !document.getElementById('pickerMap')) return;
+  // Default view: Makueni County area
+  pickerMap = L.map('pickerMap').setView([-2.2, 37.6], 8);
+
+  const street = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, attribution: '© OpenStreetMap contributors'
+  });
+  const satellite = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 19, attribution: 'Imagery © Esri'
+  });
+  street.addTo(pickerMap);
+  L.control.layers({ 'Street': street, 'Satellite': satellite }, null, { position: 'topright' }).addTo(pickerMap);
+
+  // Tap the map to drop / move the pin
+  pickerMap.on('click', e => setPickedLocation(e.latlng.lat, e.latlng.lng, { source: 'map' }));
+
+  // Fix rendering inside a scrolling form
+  setTimeout(() => pickerMap.invalidateSize(), 300);
+}
+
+// Single source of truth for the chosen point — used by GPS, map tap, drag and search
+function setPickedLocation(lat, lng, opts = {}) {
+  const latF = (+lat).toFixed(6), lngF = (+lng).toFixed(6);
+
+  // Hidden fields consumed on submit (unchanged format)
+  document.getElementById('gpsCoords').value = `${latF}, ${lngF}`;
+  document.getElementById('altitude').value = opts.alt || 'N/A';
+
+  // Location card
+  document.getElementById('dispLat').textContent = latF;
+  document.getElementById('dispLng').textContent = lngF;
+  document.getElementById('dispAlt').textContent = opts.alt || 'N/A';
+  document.getElementById('dispAcc').textContent = opts.acc || (opts.source === 'gps' ? '' : 'Set on map');
+  document.getElementById('locationCard').style.display = 'block';
+
+  // Marker
+  if (pickerMap) {
+    if (!pickerMarker) {
+      pickerMarker = L.marker([lat, lng], { draggable: true }).addTo(pickerMap);
+      pickerMarker.on('dragend', ev => {
+        const p = ev.target.getLatLng();
+        setPickedLocation(p.lat, p.lng, { source: 'drag' });
+        document.getElementById('gpsStatus').textContent = '📍 Pin moved — location updated';
+      });
+    } else {
+      pickerMarker.setLatLng([lat, lng]);
+    }
+    if (opts.recenter || opts.source === 'search') pickerMap.setView([lat, lng], 15);
+  }
+}
+
+// Search a place name → move map + pin (free OpenStreetMap geocoder, biased to Kenya)
+async function searchPlace() {
+  const q = document.getElementById('placeSearch').value.trim();
+  const status = document.getElementById('gpsStatus');
+  if (!q) { status.textContent = '⚠️ Type a place name to search'; return; }
+  status.textContent = '🔍 Searching...';
+  try {
+    const url = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ke&q=' + encodeURIComponent(q);
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+    const data = await res.json();
+    if (!data.length) { status.textContent = '❌ No place found — try tapping the map instead'; return; }
+    const { lat, lon } = data[0];
+    setPickedLocation(parseFloat(lat), parseFloat(lon), { source: 'search' });
+    status.textContent = '✅ Found — now tap or drag the pin to the exact spot';
+  } catch (e) {
+    status.textContent = '❌ Search failed — check your internet or tap the map';
+  }
 }
 
 // ─── Toggle sections ───────────────────────────────────────
@@ -1159,8 +1232,10 @@ function clearForm() {
   document.getElementById('gpsCoords').value = '';
   document.getElementById('altitude').value = '';
   document.getElementById('locationCard').style.display = 'none';
-  document.getElementById('gpsStatus').textContent = 'Tap Capture Location to record GPS, altitude and accuracy';
-  document.getElementById('locationBtn').innerHTML = '<span style="font-size:20px">📍</span> Capture Location';
+  document.getElementById('gpsStatus').textContent = 'Search a place, tap the map, or use GPS to set the exact location';
+  if (pickerMarker && pickerMap) { pickerMap.removeLayer(pickerMarker); pickerMarker = null; }
+  const ps = document.getElementById('placeSearch'); if (ps) ps.value = '';
+  document.getElementById('locationBtn').innerHTML = '<span style="font-size:20px">📍</span> Use my GPS location';
   document.getElementById('locationBtn').style.background = 'var(--green)';
   document.querySelectorAll('.score-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('suitabilityScore').value = '';
@@ -1251,4 +1326,3 @@ function showToast(msg) {
 </script>
 </body>
 </html>
-<!-- v2 2026-07-13 -->
