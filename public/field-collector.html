@@ -166,16 +166,29 @@
     </select>
     <label>Area / Village Name <span class="required">*</span></label>
     <input type="text" id="areaName" placeholder="e.g. Mbooni Hills, Wote Town..." />
-    <label>Pin the exact spot <span class="required">*</span></label>
-    <p class="hint" style="margin-bottom:6px;">Search a place, then <strong>tap the map</strong> or <strong>drag the pin</strong> to fine-tune the exact location. Or tap “Use my GPS” if you're standing at the site.</p>
-    <div style="display:flex;gap:6px;margin-bottom:6px;">
-      <input type="text" id="placeSearch" placeholder="Search e.g. Makindu, Mbooni Hills..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();searchPlace();}" />
-      <button type="button" class="gps-btn" onclick="searchPlace()" style="background:var(--blue);">🔍 Search</button>
+    <label>Apiary location <span class="required">*</span></label>
+    <p class="hint" style="margin-bottom:6px;">Choose <strong>one</strong> way to set the location:</p>
+    <div style="display:flex;gap:8px;margin-bottom:8px;">
+      <button type="button" id="modeGpsBtn" onclick="setLocMode('gps')" style="flex:1;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 8px;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;line-height:1.3;">📍 I'm at the apiary<br><span style="font-weight:500;font-size:11px;color:var(--mid);">Use GPS</span></button>
+      <button type="button" id="modeRemoteBtn" onclick="setLocMode('remote')" style="flex:1;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:12px 8px;font-size:13px;font-weight:700;color:var(--dark);cursor:pointer;line-height:1.3;">🔍 I'm elsewhere<br><span style="font-weight:500;font-size:11px;color:var(--mid);">Search a landmark</span></button>
     </div>
-    <div id="pickerMap" style="height:260px;border-radius:10px;border:1.5px solid var(--border);margin-bottom:8px;z-index:0;"></div>
-    <button type="button" id="locationBtn" onclick="captureGPS()" style="width:100%;background:var(--green);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;">
-      <span style="font-size:20px">📍</span> Use my GPS location
-    </button>
+
+    <!-- Remote search (only shown in remote mode) -->
+    <div id="remotePanel" style="display:none;margin-bottom:6px;">
+      <p class="hint" style="margin-bottom:6px;">Search a landmark near the apiary (town, market, school...), then <strong>tap the map</strong> or <strong>drag the pin</strong> to the apiary's general area.</p>
+      <div style="display:flex;gap:6px;">
+        <input type="text" id="placeSearch" placeholder="e.g. Makindu town, Mbooni market..." style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();searchPlace();}" />
+        <button type="button" class="gps-btn" onclick="searchPlace()" style="background:var(--blue);">🔍 Search</button>
+      </div>
+    </div>
+
+    <!-- Map + GPS button appear once a mode is chosen -->
+    <div id="locWrap" style="display:none;">
+      <div id="pickerMap" style="height:260px;border-radius:10px;border:1.5px solid var(--border);margin-bottom:8px;z-index:0;"></div>
+      <button type="button" id="locationBtn" onclick="captureGPS()" style="display:none;width:100%;background:var(--green);color:white;border:none;border-radius:10px;padding:14px;font-size:15px;font-weight:700;cursor:pointer;align-items:center;justify-content:center;gap:8px;">
+        <span style="font-size:20px">📍</span> Use my GPS location
+      </button>
+    </div>
     <div id="locationCard" style="display:none;margin-top:8px;background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:12px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <div><div style="font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;">Latitude</div><div id="dispLat" style="font-size:14px;font-weight:600;color:var(--dark);">—</div></div>
@@ -189,6 +202,7 @@
     <!-- Hidden fields for form data -->
     <input type="hidden" id="gpsCoords" />
     <input type="hidden" id="altitude" />
+    <input type="hidden" id="locationSource" />
   </div>
 
   <!-- 3. Vegetation & Seasonal Forage -->
@@ -820,7 +834,7 @@ setInterval(() => { if (navigator.onLine && getScriptUrl()) { const q = JSON.par
 
 // ─── Init ──────────────────────────────────────────────────
 initLocationDropdowns();
-let pickerMap = null, pickerMarker = null;
+let pickerMap = null, pickerMarker = null, locMode = null;
 initMap();
 document.getElementById('collDate').valueAsDate = new Date();
 const savedUrl = getScriptUrl();
@@ -880,7 +894,7 @@ function captureGPS() {
       const alt  = pos.coords.altitude != null ? Math.round(pos.coords.altitude) + ' m' : 'N/A';
       const acc  = '± ' + Math.round(pos.coords.accuracy) + ' m';
 
-      setPickedLocation(parseFloat(lat), parseFloat(lng), { alt, acc, recenter: true });
+      setPickedLocation(parseFloat(lat), parseFloat(lng), { alt, acc, recenter: true, source: 'gps' });
       status.textContent = '✅ GPS location captured — drag the pin if you need to fine-tune';
       btn.innerHTML = '<span style="font-size:20px">✅</span> GPS Captured';
       btn.style.background = 'var(--green)';
@@ -893,6 +907,53 @@ function captureGPS() {
     },
     { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }
   );
+}
+
+// ─── One enforced location option ─────────────────────────
+// The respondent must pick ONE method. Switching methods clears any
+// previous point so the submitted location can never be a mix of both.
+function setLocMode(mode) {
+  locMode = mode;
+  const gpsBtn = document.getElementById('modeGpsBtn');
+  const remoteBtn = document.getElementById('modeRemoteBtn');
+  const sel = '2px solid var(--green)', unsel = '1.5px solid var(--border)';
+  const selBg = '#f0fdf4', unselBg = '#fff';
+  gpsBtn.style.border = mode === 'gps' ? sel : unsel;
+  gpsBtn.style.background = mode === 'gps' ? selBg : unselBg;
+  remoteBtn.style.border = mode === 'remote' ? sel : unsel;
+  remoteBtn.style.background = mode === 'remote' ? selBg : unselBg;
+
+  // Clear any location already set under the other method
+  clearPickedLocation();
+
+  document.getElementById('locWrap').style.display = 'block';
+  document.getElementById('remotePanel').style.display = mode === 'remote' ? 'block' : 'none';
+  const locBtn = document.getElementById('locationBtn');
+  locBtn.style.display = mode === 'gps' ? 'flex' : 'none';
+  locBtn.innerHTML = '<span style="font-size:20px">📍</span> Use my GPS location';
+  locBtn.style.background = 'var(--green)';
+
+  document.getElementById('gpsStatus').textContent = mode === 'gps'
+    ? 'Tap the green button to capture your GPS location'
+    : 'Search a landmark near the apiary, then tap or drag the pin';
+
+  // Map was hidden until now → force Leaflet to recompute its size
+  if (pickerMap) setTimeout(() => pickerMap.invalidateSize(), 150);
+}
+
+function clearPickedLocation() {
+  document.getElementById('gpsCoords').value = '';
+  document.getElementById('altitude').value = '';
+  document.getElementById('locationSource').value = '';
+  document.getElementById('locationCard').style.display = 'none';
+  if (pickerMarker && pickerMap) { pickerMap.removeLayer(pickerMarker); pickerMarker = null; }
+}
+
+// Human-readable label of HOW this point was set (stored with the submission)
+function sourceLabel(action) {
+  if (locMode === 'gps')    return action === 'gps' ? 'On-site GPS' : 'On-site GPS (pin adjusted)';
+  if (locMode === 'remote') return action === 'search' ? 'Remote — landmark search' : 'Remote — map pin';
+  return action || '';
 }
 
 // ─── Map location picker (Leaflet + OpenStreetMap, free / no API key) ───
@@ -924,6 +985,7 @@ function setPickedLocation(lat, lng, opts = {}) {
   // Hidden fields consumed on submit (unchanged format)
   document.getElementById('gpsCoords').value = `${latF}, ${lngF}`;
   document.getElementById('altitude').value = opts.alt || 'N/A';
+  document.getElementById('locationSource').value = sourceLabel(opts.source);
 
   // Location card
   document.getElementById('dispLat').textContent = latF;
@@ -1142,6 +1204,7 @@ function saveRecord() {
   if (!document.getElementById('collectorPhone').value.trim()) { showToast('⚠️ Enter your phone number'); return; }
   if (!county) { showToast('⚠️ Select a county'); return; }
   if (!area) { showToast('⚠️ Enter area/village name'); return; }
+  if (!document.getElementById('gpsCoords').value) { showToast('⚠️ Set the apiary location — choose "I\'m at the apiary" or "I\'m elsewhere"'); return; }
   if (!score) { showToast('⚠️ Select a suitability score'); return; }
   if (!vegDensity) { showToast('⚠️ Select vegetation density'); return; }
 
@@ -1166,6 +1229,7 @@ function saveRecord() {
     subCounty: document.getElementById('subCounty').value,
     gps: document.getElementById('gpsCoords').value,
     altitude: document.getElementById('altitude').value,
+    locationSource: document.getElementById('locationSource').value,
     vegDensity, landUse,
     flora_lr: getCheckboxValues('flora_lr').join(', '),
     flora_sr: getCheckboxValues('flora_sr').join(', '),
@@ -1228,11 +1292,16 @@ function saveRecord() {
 function clearForm() {
   document.getElementById('fieldForm').reset();
   document.getElementById('collDate').valueAsDate = new Date();
-  document.getElementById('gpsCoords').value = '';
-  document.getElementById('altitude').value = '';
-  document.getElementById('locationCard').style.display = 'none';
-  document.getElementById('gpsStatus').textContent = 'Search a place, tap the map, or use GPS to set the exact location';
-  if (pickerMarker && pickerMap) { pickerMap.removeLayer(pickerMarker); pickerMarker = null; }
+  clearPickedLocation();
+  // Reset the enforced-choice UI back to "pick one"
+  locMode = null;
+  document.getElementById('locWrap').style.display = 'none';
+  document.getElementById('remotePanel').style.display = 'none';
+  ['modeGpsBtn','modeRemoteBtn'].forEach(id => {
+    const b = document.getElementById(id);
+    b.style.border = '1.5px solid var(--border)'; b.style.background = '#fff';
+  });
+  document.getElementById('gpsStatus').textContent = 'Choose one way to set the apiary location';
   const ps = document.getElementById('placeSearch'); if (ps) ps.value = '';
   document.getElementById('locationBtn').innerHTML = '<span style="font-size:20px">📍</span> Use my GPS location';
   document.getElementById('locationBtn').style.background = 'var(--green)';
