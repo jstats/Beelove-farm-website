@@ -86,6 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Premium raw honey, healthy fingerlings and the training to farm well.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:image", content: "https://beelovefarm.org/images/og-cover.jpg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { property: "og:image:alt", content: "Beelove Farm raw honey" },
+      { name: "twitter:image", content: "https://beelovefarm.org/images/og-cover.jpg" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: "Beelove Farm — Honey & Aquaculture" },
       {
