@@ -34,11 +34,11 @@ export const Route = createFileRoute("/")({
       },
       { property: "og:title", content: "Beelove Farm — Raw Honey, Hives & Fish Farming Supplies" },
       { property: "og:description", content: "Climate-smart beekeeping & fish farming, delivered worldwide." },
-      { property: "og:url", content: "https://beelovefarm.lovable.app/" },
+      { property: "og:url", content: "https://beelovefarm.org/" },
     ],
     links: [
       { rel: "preload", as: "image", href: hero1 },
-      { rel: "canonical", href: "https://beelovefarm.lovable.app/" },
+      { rel: "canonical", href: "https://beelovefarm.org/" },
     ],
   }),
   component: HomePage,

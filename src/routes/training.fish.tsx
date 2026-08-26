@@ -14,7 +14,7 @@ export const Route = createFileRoute("/training/fish")({
           "Practical fish farming training at Beelove Farm — catfish, tilapia, Azolla integration, pond setup and harvest. Held on our working farm and delivered globally on request.",
       },
     ],
-    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/training/fish" }],
+    links: [{ rel: "canonical", href: "https://beelovefarm.org/training/fish" }],
   }),
   component: TrainingFishPage,
 });

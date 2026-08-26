@@ -114,8 +114,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "Organization",
           name: "Beelove Farm",
-          url: "https://beelovefarm.lovable.app",
-          logo: "https://beelovefarm.lovable.app/images/beelove-logo.png",
+          url: "https://beelovefarm.org",
+          logo: "https://beelovefarm.org/images/beelove-logo.png",
           description:
             "Climate-smart beekeeping and aquaculture — raw honey, hives, beekeeping equipment, catfish & tilapia fingerlings, Azolla feed and farmer training.",
           sameAs: [
@@ -130,7 +130,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "@context": "https://schema.org",
           "@type": "WebSite",
           name: "Beelove Farm",
-          url: "https://beelovefarm.lovable.app",
+          url: "https://beelovefarm.org",
         }),
       },
     ],

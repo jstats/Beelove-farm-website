@@ -20,7 +20,7 @@ export const Route = createFileRoute("/forage-maps")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [
-      { rel: "canonical", href: "https://beelovefarm.lovable.app/forage-maps" },
+      { rel: "canonical", href: "https://beelovefarm.org/forage-maps" },
     ],
   }),
   component: ForageMapsPage,

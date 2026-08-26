@@ -17,9 +17,9 @@ export const Route = createFileRoute("/contact")({
         property: "og:description",
         content: "Reach Beelove Farm via WhatsApp, email or visit our farm.",
       },
-      { property: "og:url", content: "https://beelovefarm.lovable.app/contact" },
+      { property: "og:url", content: "https://beelovefarm.org/contact" },
     ],
-    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/contact" }],
+    links: [{ rel: "canonical", href: "https://beelovefarm.org/contact" }],
     scripts: [
       {
         type: "application/ld+json",
@@ -29,7 +29,7 @@ export const Route = createFileRoute("/contact")({
           name: "Beelove Farm",
           description:
             "Climate-smart beekeeping and aquaculture — raw honey, hives, beekeeping equipment, fingerlings, Azolla feed and farmer training.",
-          url: "https://beelovefarm.lovable.app/contact",
+          url: "https://beelovefarm.org/contact",
           telephone: "+254729396897",
           address: { "@type": "PostalAddress", addressLocality: "Kiunduani", addressCountry: "KE" },
         }),

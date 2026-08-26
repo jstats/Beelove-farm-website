@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://beelovefarm.lovable.app/sitemap.xml
+Sitemap: https://beelovefarm.org/sitemap.xml

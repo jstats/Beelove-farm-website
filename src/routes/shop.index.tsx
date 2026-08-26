@@ -22,9 +22,9 @@ export const Route = createFileRoute("/shop/")({
           "Browse Beelove Farm's beekeeping equipment, raw honey, catfish & tilapia fingerlings and Azolla. All orders are placed via WhatsApp.",
       },
       { property: "og:title", content: "Shop Beekeeping & Fish Farming Supplies | Beelove Farm" },
-      { property: "og:url", content: "https://beelovefarm.lovable.app/shop" },
+      { property: "og:url", content: "https://beelovefarm.org/shop" },
     ],
-    links: [{ rel: "canonical", href: "https://beelovefarm.lovable.app/shop" }],
+    links: [{ rel: "canonical", href: "https://beelovefarm.org/shop" }],
   }),
   component: ShopIndex,
 });
