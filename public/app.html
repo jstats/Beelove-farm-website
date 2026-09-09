@@ -700,3 +700,74 @@ function dismissInstall() {
 
 </body>
 </html>
+
+<!-- =====================================================================
+     FORECAST DATA SOURCE  ·  added 9 September 2026
+
+     The original loadForecast() waited on MASTER_SHEET_URL, which was
+     never filled in, so the headline card read "Connecting to forecast
+     data..." forever. This overrides it to read a static, same-origin
+     file instead: no Google Sheet, no CORS, no sharing settings to get
+     wrong, and it can be cached so the card still works on a weak signal.
+
+     forecast.json is generated from beelove_forecast_sheet.csv and will
+     later be emitted directly by the fitted seasonal model, gaining a
+     "cells" block for per-apiary lookup. The shape does not change.
+     ===================================================================== -->
+<script>
+  (function () {
+    function renderForecast(doc, key, label, fromCache) {
+      var m = (doc && doc.months) ? doc.months[key] : null;
+
+      // An out-of-date file must SAY it is out of date. Showing last
+      // year's number for this month is worse than showing nothing.
+      if (!m) {
+        setForecastCard("amber", label, "Forage Outlook",
+          "This month is not in the published forecast yet. Beelove updates it each season.",
+          "--", "Awaiting update");
+        return;
+      }
+
+      var prob  = m.prob;
+      var title = prob >= 65 ? "\uD83D\uDFE2 Good Flowering Expected"
+                : prob >= 45 ? "\uD83D\uDFE1 Mixed Flowering Expected"
+                             : "\uD83D\uDD34 Poor Flowering Expected";
+
+      // Say what the number rests on. A seasonal outlook and a long-term
+      // average are different claims and should not look identical.
+      var foot = (m.basis === "climatology")
+        ? "Typical for this month - no seasonal signal"
+        : (doc.headline_source || "Seasonal outlook");
+      if (fromCache) { foot = "Saved copy - " + foot; }
+
+      setForecastCard(m.color || "amber", label, title, m.action, prob + "%", foot);
+    }
+
+    window.loadForecast = function () {
+      var now   = new Date();
+      var key   = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2);
+      var label = now.toLocaleString("en", { month: "long" }) + " " + now.getFullYear();
+
+      fetch("forecast.json", { cache: "no-cache" })
+        .then(function (r) { if (!r.ok) { throw new Error("missing"); } return r.json(); })
+        .then(function (d) {
+          try { localStorage.setItem("beelove_forecast", JSON.stringify(d)); } catch (e) {}
+          renderForecast(d, key, label, false);
+        })
+        .catch(function () {
+          var c = null;
+          try { c = JSON.parse(localStorage.getItem("beelove_forecast")); } catch (e) {}
+          if (c) { renderForecast(c, key, label, true); return; }
+          setForecastCard("amber", label, "Forage Outlook",
+            "No connection, and no saved forecast on this phone yet. Open this page once with a signal and it will work offline afterwards.",
+            "--", "Not loaded");
+        });
+    };
+
+    // This tile used to tell farmers to connect a Google Sheet - admin
+    // plumbing that should never have been farmer-facing.
+    window.showForecastDetail = function () { window.location.href = "/forage-maps"; };
+
+    window.loadForecast();
+  })();
+</script>
