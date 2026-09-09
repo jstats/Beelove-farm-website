@@ -702,72 +702,148 @@ function dismissInstall() {
 </html>
 
 <!-- =====================================================================
-     FORECAST DATA SOURCE  ·  added 9 September 2026
+     FORECAST DATA SOURCE  -  per-location  -  9 September 2026
 
-     The original loadForecast() waited on MASTER_SHEET_URL, which was
-     never filled in, so the headline card read "Connecting to forecast
-     data..." forever. This overrides it to read a static, same-origin
-     file instead: no Google Sheet, no CORS, no sharing settings to get
-     wrong, and it can be cached so the card still works on a weak signal.
+     Reads /forecast.json and shows the outlook for WHERE THE FARMER IS,
+     not a single national number. Resolution ladder, best first:
 
-     forecast.json is generated from beelove_forecast_sheet.csv and will
-     later be emitted directly by the fitted seasonal model, gaining a
-     "cells" block for per-apiary lookup. The shape does not change.
+       1. doc.cells    fitted model, per grid cell   (not present yet)
+       2. doc.zones    via saved GPS -> nearest county -> zone
+       3. doc.zones    via the county in the profile
+       4. doc.national the old single number         (fallback)
+
+     The zone numbers are agro-climatic climatology adjusted for the
+     current ICPAC outlook - NOT model output. The card says which basis
+     it is using so the two are never confused. When the fitted model
+     lands it adds a "cells" block and step 1 takes over; no app change.
+
+     Coordinates are stored in localStorage ONLY. This app is a static
+     file with no profile backend, so an apiary location cannot leave the
+     phone. That is deliberate: hive theft is the top cause of colony
+     loss in Kenya and a shared apiary map would be a theft register.
      ===================================================================== -->
 <script>
-  (function () {
-    function renderForecast(doc, key, label, fromCache) {
-      var m = (doc && doc.months) ? doc.months[key] : null;
+(function () {
+  var PROFILE = "beelove_profile", CACHE = "beelove_forecast";
 
-      // An out-of-date file must SAY it is out of date. Showing last
-      // year's number for this month is worse than showing nothing.
-      if (!m) {
-        setForecastCard("amber", label, "Forage Outlook",
-          "This month is not in the published forecast yet. Beelove updates it each season.",
-          "--", "Awaiting update");
-        return;
-      }
-
-      var prob  = m.prob;
-      var title = prob >= 65 ? "\uD83D\uDFE2 Good Flowering Expected"
-                : prob >= 45 ? "\uD83D\uDFE1 Mixed Flowering Expected"
-                             : "\uD83D\uDD34 Poor Flowering Expected";
-
-      // Say what the number rests on. A seasonal outlook and a long-term
-      // average are different claims and should not look identical.
-      var foot = (m.basis === "climatology")
-        ? "Typical for this month - no seasonal signal"
-        : (doc.headline_source || "Seasonal outlook");
-      if (fromCache) { foot = "Saved copy - " + foot; }
-
-      setForecastCard(m.color || "amber", label, title, m.action, prob + "%", foot);
+  function readProfile() {
+    try { return JSON.parse(localStorage.getItem(PROFILE)) || {}; } catch (e) { return {}; }
+  }
+  function saveProfile(p) {
+    try { localStorage.setItem(PROFILE, JSON.stringify(p)); } catch (e) {}
+  }
+  function monthKey(d) {
+    return d.getFullYear() + "-" + ("0" + (d.getMonth() + 1)).slice(-2);
+  }
+  // Rough planar distance is fine at Kenya latitudes for picking a nearest point.
+  function near(list, lon, lat) {
+    var best = null, bd = Infinity;
+    for (var k in list) {
+      var p = list[k];
+      var dx = (p[0] - lon) * Math.cos(lat * Math.PI / 180), dy = p[1] - lat;
+      var d = dx * dx + dy * dy;
+      if (d < bd) { bd = d; best = k; }
     }
+    return best;
+  }
 
-    window.loadForecast = function () {
-      var now   = new Date();
-      var key   = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2);
-      var label = now.toLocaleString("en", { month: "long" }) + " " + now.getFullYear();
+  function resolve(doc, key) {
+    var p = readProfile(), hasGps = (p.lat != null && p.lon != null);
 
-      fetch("forecast.json", { cache: "no-cache" })
-        .then(function (r) { if (!r.ok) { throw new Error("missing"); } return r.json(); })
-        .then(function (d) {
-          try { localStorage.setItem("beelove_forecast", JSON.stringify(d)); } catch (e) {}
-          renderForecast(d, key, label, false);
-        })
-        .catch(function () {
-          var c = null;
-          try { c = JSON.parse(localStorage.getItem("beelove_forecast")); } catch (e) {}
-          if (c) { renderForecast(c, key, label, true); return; }
-          setForecastCard("amber", label, "Forage Outlook",
-            "No connection, and no saved forecast on this phone yet. Open this page once with a signal and it will work offline afterwards.",
-            "--", "Not loaded");
-        });
-    };
+    if (doc.cells && hasGps) {
+      var cid = near(doc.cellPoints || {}, p.lon, p.lat);
+      if (cid && doc.cells[cid] && doc.cells[cid][key]) {
+        return { m: doc.cells[cid][key], place: "Your apiary", detail: "Modelled for your location", res: "cell" };
+      }
+    }
+    if (doc.zones) {
+      var county = hasGps ? near(doc.county_points || {}, p.lon, p.lat) : p.county;
+      var zid = county && doc.counties ? doc.counties[county] : null;
+      if (zid && doc.zones[zid] && doc.zones[zid].months[key]) {
+        return { m: doc.zones[zid].months[key],
+                 place: hasGps ? ("Your apiary, near " + county) : county,
+                 detail: doc.zones[zid].name, res: "zone" };
+      }
+    }
+    if (doc.national && doc.national.months[key]) {
+      return { m: doc.national.months[key], place: "Kenya", detail: "National outlook - set your county for a closer figure", res: "national" };
+    }
+    if (doc.months && doc.months[key]) {
+      return { m: doc.months[key], place: "Kenya", detail: "National outlook", res: "national" };
+    }
+    return null;
+  }
 
-    // This tile used to tell farmers to connect a Google Sheet - admin
-    // plumbing that should never have been farmer-facing.
-    window.showForecastDetail = function () { window.location.href = "/forage-maps"; };
+  function placeLine(text, sub) {
+    var card = document.getElementById("forecastCard");
+    if (!card) { return; }
+    var el = document.getElementById("fcPlace");
+    if (!el) {
+      el = document.createElement("div");
+      el.id = "fcPlace";
+      el.style.cssText = "font-size:12px;color:#6b7280;margin:-6px 4px 14px;line-height:1.5;";
+      card.parentNode.insertBefore(el, card.nextSibling);
+    }
+    el.innerHTML = "<strong>" + text + "</strong>" + (sub ? " &middot; " + sub : "");
+  }
 
-    window.loadForecast();
-  })();
+  function render(doc, key, label, cached) {
+    var r = resolve(doc, key);
+    if (!r) {
+      setForecastCard("amber", label, "Forage Outlook",
+        "This month is not in the published forecast yet. Beelove updates it each season.",
+        "--", "Awaiting update");
+      placeLine("Awaiting update", "");
+      return;
+    }
+    var m = r.m, prob = m.prob;
+    var title = prob >= 65 ? "\uD83D\uDFE2 Good Flowering Expected"
+              : prob >= 45 ? "\uD83D\uDFE1 Mixed Flowering Expected"
+                           : "\uD83D\uDD34 Poor Flowering Expected";
+    // Never let climatology look like a seasonal forecast.
+    var basis = (m.basis === "climatology") ? "typical for this month"
+              : (r.res === "cell" ? "modelled" : "seasonal outlook");
+    var foot = r.place + " - " + basis + (cached ? " (saved copy)" : "");
+    setForecastCard(m.color || "amber", label, title, m.action, prob + "%", foot);
+    placeLine(r.place, r.detail);
+  }
+
+  window.loadForecast = function () {
+    var now = new Date(), key = monthKey(now);
+    var label = now.toLocaleString("en", { month: "long" }) + " " + now.getFullYear();
+    fetch("forecast.json", { cache: "no-cache" })
+      .then(function (r) { if (!r.ok) { throw new Error("missing"); } return r.json(); })
+      .then(function (d) {
+        try { localStorage.setItem(CACHE, JSON.stringify(d)); } catch (e) {}
+        render(d, key, label, false);
+      })
+      .catch(function () {
+        var c = null;
+        try { c = JSON.parse(localStorage.getItem(CACHE)); } catch (e) {}
+        if (c) { render(c, key, label, true); return; }
+        setForecastCard("amber", label, "Forage Outlook",
+          "No connection, and no saved forecast on this phone yet. Open this page once with a signal and it will work offline afterwards.",
+          "--", "Not loaded");
+      });
+  };
+
+  window.setApiaryLocation = function () {
+    if (!navigator.geolocation) { alert("This phone cannot report its location."); return; }
+    navigator.geolocation.getCurrentPosition(function (pos) {
+      var p = readProfile();
+      // Stored to 2 decimal places (about 1 km) - enough to pick the right
+      // area, not precise enough to lead anyone to the hives.
+      p.lat = Math.round(pos.coords.latitude * 100) / 100;
+      p.lon = Math.round(pos.coords.longitude * 100) / 100;
+      saveProfile(p);
+      window.loadForecast();
+    }, function () { alert("Could not read your location. Check location permission for this site."); },
+    { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 });
+  };
+
+  // Was: alert telling farmers to connect a Google Sheet. Admin plumbing.
+  window.showForecastDetail = function () { window.location.href = "/forage-maps"; };
+
+  window.loadForecast();
+})();
 </script>
