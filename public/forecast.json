@@ -1,109 +1,1020 @@
 {
-  "version": 1,
+  "version": 2,
   "generated": "2026-09-09",
   "valid_through": "2027-08",
-  "scope": {
-    "type": "national",
-    "region": "Kenya"
-  },
-  "headline_source": "ICPAC OND 2026 outlook + Beelove climate model",
-  "disclaimer": "National outlook. Read it alongside the official Kenya Meteorological Department forecast and what you can see in your own field.",
-  "months": {
-    "2026-09": {
-      "label": "September 2026",
-      "prob": 55,
-      "color": "amber",
-      "action": "SHORT RAINS APPROACHING - stronger than normal expected. Move hives OFF flood-prone ground now. Check stands are above the flood line and roofs and ventilation are sound.",
-      "basis": "outlook",
-      "source": "ICPAC OND 2026 outlook 18 Aug 2026"
-    },
-    "2026-10": {
-      "label": "October 2026",
-      "prob": 80,
-      "color": "green",
-      "action": "HEAVY SHORT RAINS. Inspect apiaries after every storm for flooding and hive damage. Bees fly little in continuous rain - leave their stores alone.",
-      "basis": "outlook",
-      "source": "ICPAC OND 2026: 90% chance enhanced rainfall NE Kenya; >400mm central Kenya"
-    },
-    "2026-11": {
-      "label": "November 2026",
-      "prob": 85,
-      "color": "green",
-      "action": "PEAK WET SEASON. A strong bloom follows this rain. Clean and bait spare hives NOW - heavy flowering brings swarming and free colonies to anyone who is ready.",
-      "basis": "outlook",
-      "source": "ICPAC OND 2026 outlook; El Nino + positive IOD"
-    },
-    "2026-12": {
-      "label": "December 2026",
-      "prob": 75,
-      "color": "green",
-      "action": "Bloom building. Keep bait hives out. Do NOT harvest wet - test moisture before extracting anything.",
-      "basis": "outlook",
-      "source": "ICPAC OND 2026 outlook"
-    },
-    "2027-01": {
-      "label": "January 2027",
-      "prob": 60,
-      "color": "amber",
-      "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
-      "basis": "climatology",
-      "source": "Seasonal normal; post-El Nino bloom"
-    },
-    "2027-02": {
-      "label": "February 2027",
-      "prob": 45,
-      "color": "amber",
-      "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
-      "basis": "climatology",
-      "source": "Seasonal normal"
-    },
-    "2027-03": {
-      "label": "March 2027",
-      "prob": 55,
-      "color": "amber",
-      "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
-      "basis": "climatology",
-      "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
-    },
-    "2027-04": {
-      "label": "April 2027",
-      "prob": 70,
-      "color": "green",
-      "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
-      "basis": "climatology",
-      "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
-    },
-    "2027-05": {
-      "label": "May 2027",
-      "prob": 65,
-      "color": "green",
-      "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
-      "basis": "climatology",
-      "source": "Seasonal normal"
-    },
-    "2027-06": {
-      "label": "June 2027",
-      "prob": 45,
-      "color": "amber",
-      "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
-      "basis": "climatology",
-      "source": "Seasonal normal"
-    },
-    "2027-07": {
-      "label": "July 2027",
-      "prob": 35,
-      "color": "red",
-      "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
-      "basis": "climatology",
-      "source": "Seasonal normal"
-    },
-    "2027-08": {
-      "label": "August 2027",
-      "prob": 30,
-      "color": "red",
-      "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
-      "basis": "climatology",
-      "source": "Seasonal normal"
+  "method": "Agro-climatic zone climatology adjusted for the current ICPAC seasonal outlook. NOT output of the fitted seasonal model; when that model runs it will add a 'cells' block at grid resolution which takes precedence.",
+  "headline_source": "ICPAC OND 2026 outlook + Beelove zone climatology",
+  "disclaimer": "Read alongside the official Kenya Meteorological Department forecast and what you can see in your own field.",
+  "national": {
+    "months": {
+      "2026-09": {
+        "label": "September 2026",
+        "prob": 55,
+        "color": "amber",
+        "action": "SHORT RAINS APPROACHING - stronger than normal expected. Move hives OFF flood-prone ground now. Check stands are above the flood line and roofs and ventilation are sound.",
+        "basis": "outlook",
+        "source": "ICPAC OND 2026 outlook 18 Aug 2026"
+      },
+      "2026-10": {
+        "label": "October 2026",
+        "prob": 80,
+        "color": "green",
+        "action": "HEAVY SHORT RAINS. Inspect apiaries after every storm for flooding and hive damage. Bees fly little in continuous rain - leave their stores alone.",
+        "basis": "outlook",
+        "source": "ICPAC OND 2026: 90% chance enhanced rainfall NE Kenya; >400mm central Kenya"
+      },
+      "2026-11": {
+        "label": "November 2026",
+        "prob": 85,
+        "color": "green",
+        "action": "PEAK WET SEASON. A strong bloom follows this rain. Clean and bait spare hives NOW - heavy flowering brings swarming and free colonies to anyone who is ready.",
+        "basis": "outlook",
+        "source": "ICPAC OND 2026 outlook; El Nino + positive IOD"
+      },
+      "2026-12": {
+        "label": "December 2026",
+        "prob": 75,
+        "color": "green",
+        "action": "Bloom building. Keep bait hives out. Do NOT harvest wet - test moisture before extracting anything.",
+        "basis": "outlook",
+        "source": "ICPAC OND 2026 outlook"
+      },
+      "2027-01": {
+        "label": "January 2027",
+        "prob": 60,
+        "color": "amber",
+        "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+        "basis": "climatology",
+        "source": "Seasonal normal; post-El Nino bloom"
+      },
+      "2027-02": {
+        "label": "February 2027",
+        "prob": 45,
+        "color": "amber",
+        "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+        "basis": "climatology",
+        "source": "Seasonal normal"
+      },
+      "2027-03": {
+        "label": "March 2027",
+        "prob": 55,
+        "color": "amber",
+        "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+        "basis": "climatology",
+        "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
+      },
+      "2027-04": {
+        "label": "April 2027",
+        "prob": 70,
+        "color": "green",
+        "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+        "basis": "climatology",
+        "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
+      },
+      "2027-05": {
+        "label": "May 2027",
+        "prob": 65,
+        "color": "green",
+        "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+        "basis": "climatology",
+        "source": "Seasonal normal"
+      },
+      "2027-06": {
+        "label": "June 2027",
+        "prob": 45,
+        "color": "amber",
+        "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+        "basis": "climatology",
+        "source": "Seasonal normal"
+      },
+      "2027-07": {
+        "label": "July 2027",
+        "prob": 35,
+        "color": "red",
+        "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+        "basis": "climatology",
+        "source": "Seasonal normal"
+      },
+      "2027-08": {
+        "label": "August 2027",
+        "prob": 30,
+        "color": "red",
+        "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+        "basis": "climatology",
+        "source": "Seasonal normal"
+      }
     }
+  },
+  "zones": {
+    "western_highlands": {
+      "name": "Western highlands and lake basin",
+      "regime": "Rain through most of the year, peaking with the long rains. The short rains matter less here than anywhere else in Kenya.",
+      "counties": [
+        "Bomet",
+        "Bungoma",
+        "Busia",
+        "Elgeyo Marakwet",
+        "Homa Bay",
+        "Kakamega",
+        "Kericho",
+        "Kisii",
+        "Kisumu",
+        "Migori",
+        "Nandi",
+        "Nyamira",
+        "Siaya",
+        "Trans Nzoia",
+        "Uasin Gishu",
+        "Vihiga"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 71,
+          "color": "green",
+          "action": "Short rains building on ground that is already wet. Your risk this season is waterlogging, not drought - check hive stands and drainage now.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 77,
+          "color": "green",
+          "action": "Heavy, persistent rain. Bees cannot fly in it. Leave stores alone and do not open hives more than you must.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 71,
+          "color": "green",
+          "action": "Strong bloom, but expect fewer flying hours than the greenery suggests. Bait spare hives - swarms will move.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 60,
+          "color": "amber",
+          "action": "Bloom holding. Do NOT harvest wet - test moisture before extracting or the honey ferments.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 40,
+          "color": "red",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 55,
+          "color": "amber",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 75,
+          "color": "green",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 80,
+          "color": "green",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 70,
+          "color": "green",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 60,
+          "color": "amber",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 60,
+          "color": "amber",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    },
+    "central_highlands": {
+      "name": "Central highlands and Rift",
+      "regime": "Two clear seasons. Both the long and short rains carry real forage.",
+      "counties": [
+        "Embu",
+        "Kiambu",
+        "Kirinyaga",
+        "Laikipia",
+        "Meru",
+        "Murang'a",
+        "Nairobi",
+        "Nakuru",
+        "Narok",
+        "Nyandarua",
+        "Nyeri",
+        "Tharaka Nithi"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 62,
+          "color": "amber",
+          "action": "Short rains approaching, stronger than normal. Move hives off low ground and check stands and roofs.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 78,
+          "color": "green",
+          "action": "Heavy short rains. Inspect after every storm for flooding and damage. Bees fly little in continuous rain.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 82,
+          "color": "green",
+          "action": "Peak wet season and a strong bloom behind it. Clean and bait spare hives now - heavy flowering brings swarms.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 69,
+          "color": "green",
+          "action": "Bloom building. Keep bait hives out. Test moisture before extracting anything.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 40,
+          "color": "red",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 50,
+          "color": "amber",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 75,
+          "color": "green",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 75,
+          "color": "green",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 55,
+          "color": "amber",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    },
+    "eastern_lowlands": {
+      "name": "South-eastern semi-arid lowlands",
+      "regime": "Two seasons, but the short rains are usually the more dependable one. Long dry spell from June to October.",
+      "counties": [
+        "Kajiado",
+        "Kitui",
+        "Machakos",
+        "Makueni",
+        "Taita Taveta"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 55,
+          "color": "amber",
+          "action": "SHORT RAINS APPROACHING - stronger than normal expected. Move hives OFF flood-prone ground now. Check stands are above the flood line and roofs and ventilation are sound.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 80,
+          "color": "green",
+          "action": "HEAVY SHORT RAINS. Inspect apiaries after every storm for flooding and hive damage. Bees fly little in continuous rain - leave their stores alone.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 85,
+          "color": "green",
+          "action": "PEAK WET SEASON. A strong bloom follows this rain. Clean and bait spare hives NOW - heavy flowering brings swarming and free colonies to anyone who is ready.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 75,
+          "color": "green",
+          "action": "Bloom building. Keep bait hives out. Do NOT harvest wet - test moisture before extracting anything.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 60,
+          "color": "amber",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 55,
+          "color": "amber",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 70,
+          "color": "green",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 65,
+          "color": "green",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 35,
+          "color": "red",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 30,
+          "color": "red",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    },
+    "northern_arid": {
+      "name": "Northern arid and semi-arid",
+      "regime": "Dry for most of the year. When rain comes it decides the whole season's forage.",
+      "counties": [
+        "Baringo",
+        "Isiolo",
+        "Marsabit",
+        "Samburu",
+        "Turkana",
+        "West Pokot"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 47,
+          "color": "amber",
+          "action": "This rain decides your whole season. Get hives out of dry riverbeds and off flat ground that floods.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 69,
+          "color": "green",
+          "action": "Heavy rain in country that sheds it fast. Flash flooding is the danger - move anything sited near a luggah or drainage line.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 77,
+          "color": "green",
+          "action": "The big flush. This is the one month worth having every spare hive baited and ready.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 62,
+          "color": "amber",
+          "action": "Forage still strong. Harvest only what the colony can spare, and test moisture before extracting.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 30,
+          "color": "red",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 25,
+          "color": "red",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 35,
+          "color": "red",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 55,
+          "color": "amber",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 50,
+          "color": "amber",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 30,
+          "color": "red",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 25,
+          "color": "red",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 22,
+          "color": "red",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    },
+    "northeastern_arid": {
+      "name": "North-eastern arid",
+      "regime": "The short rains dominate almost completely. ICPAC puts the strongest enhanced-rainfall signal in the country here this season.",
+      "counties": [
+        "Garissa",
+        "Mandera",
+        "Tana River",
+        "Wajir"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 46,
+          "color": "amber",
+          "action": "ICPAC puts a 90% chance of enhanced rain over this region. Move hives to high ground BEFORE the rains break, not after.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 71,
+          "color": "green",
+          "action": "HIGHEST FLOOD RISK IN THE COUNTRY this season. Check apiaries after every storm. Do not site hives near seasonal watercourses.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 82,
+          "color": "green",
+          "action": "Peak rain and the strongest bloom this region gets. Bait every spare hive - but keep them above the flood line.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 68,
+          "color": "green",
+          "action": "Bloom holding. Wet-season honey ferments above 20% moisture - test every batch before extracting.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 35,
+          "color": "red",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 25,
+          "color": "red",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 30,
+          "color": "red",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 50,
+          "color": "amber",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 25,
+          "color": "red",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 20,
+          "color": "red",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 18,
+          "color": "red",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    },
+    "coastal": {
+      "name": "Coastal strip",
+      "regime": "Wettest around the long rains and just after. The short rains are a secondary season here.",
+      "counties": [
+        "Kilifi",
+        "Kwale",
+        "Lamu",
+        "Mombasa"
+      ],
+      "months": {
+        "2026-09": {
+          "label": "September 2026",
+          "prob": 59,
+          "color": "amber",
+          "action": "Short rains approaching, wetter than normal. Check that hives are off ground that holds water.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-10": {
+          "label": "October 2026",
+          "prob": 70,
+          "color": "green",
+          "action": "Steady rain. Humidity is the problem here as much as flooding - keep ventilation clear and roofs sound.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-11": {
+          "label": "November 2026",
+          "prob": 74,
+          "color": "green",
+          "action": "Good secondary bloom. Bait spare hives, and watch for swarming.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2026-12": {
+          "label": "December 2026",
+          "prob": 66,
+          "color": "green",
+          "action": "Bloom easing. Test moisture carefully before extracting - coastal humidity keeps honey wet.",
+          "basis": "outlook",
+          "source": "ICPAC OND 2026 outlook, 18 Aug 2026, weighted by zone sensitivity"
+        },
+        "2027-01": {
+          "label": "January 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-02": {
+          "label": "February 2027",
+          "prob": 40,
+          "color": "red",
+          "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-03": {
+          "label": "March 2027",
+          "prob": 50,
+          "color": "amber",
+          "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-04": {
+          "label": "April 2027",
+          "prob": 75,
+          "color": "green",
+          "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-05": {
+          "label": "May 2027",
+          "prob": 80,
+          "color": "green",
+          "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-06": {
+          "label": "June 2027",
+          "prob": 65,
+          "color": "green",
+          "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-07": {
+          "label": "July 2027",
+          "prob": 50,
+          "color": "amber",
+          "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        },
+        "2027-08": {
+          "label": "August 2027",
+          "prob": 45,
+          "color": "amber",
+          "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+          "basis": "climatology",
+          "source": "Zone rainfall climatology"
+        }
+      }
+    }
+  },
+  "counties": {
+    "Baringo": "northern_arid",
+    "Bomet": "western_highlands",
+    "Bungoma": "western_highlands",
+    "Busia": "western_highlands",
+    "Elgeyo Marakwet": "western_highlands",
+    "Embu": "central_highlands",
+    "Garissa": "northeastern_arid",
+    "Homa Bay": "western_highlands",
+    "Isiolo": "northern_arid",
+    "Kajiado": "eastern_lowlands",
+    "Kakamega": "western_highlands",
+    "Kericho": "western_highlands",
+    "Kiambu": "central_highlands",
+    "Kilifi": "coastal",
+    "Kirinyaga": "central_highlands",
+    "Kisii": "western_highlands",
+    "Kisumu": "western_highlands",
+    "Kitui": "eastern_lowlands",
+    "Kwale": "coastal",
+    "Laikipia": "central_highlands",
+    "Lamu": "coastal",
+    "Machakos": "eastern_lowlands",
+    "Makueni": "eastern_lowlands",
+    "Mandera": "northeastern_arid",
+    "Marsabit": "northern_arid",
+    "Meru": "central_highlands",
+    "Migori": "western_highlands",
+    "Mombasa": "coastal",
+    "Murang'a": "central_highlands",
+    "Nairobi": "central_highlands",
+    "Nakuru": "central_highlands",
+    "Nandi": "western_highlands",
+    "Narok": "central_highlands",
+    "Nyamira": "western_highlands",
+    "Nyandarua": "central_highlands",
+    "Nyeri": "central_highlands",
+    "Samburu": "northern_arid",
+    "Siaya": "western_highlands",
+    "Taita Taveta": "eastern_lowlands",
+    "Tana River": "northeastern_arid",
+    "Tharaka Nithi": "central_highlands",
+    "Trans Nzoia": "western_highlands",
+    "Turkana": "northern_arid",
+    "Uasin Gishu": "western_highlands",
+    "Vihiga": "western_highlands",
+    "Wajir": "northeastern_arid",
+    "West Pokot": "northern_arid"
+  },
+  "county_points": {
+    "Baringo": [
+      35.97,
+      0.47
+    ],
+    "Bomet": [
+      35.35,
+      -0.79
+    ],
+    "Bungoma": [
+      34.56,
+      0.57
+    ],
+    "Busia": [
+      34.11,
+      0.46
+    ],
+    "Elgeyo Marakwet": [
+      35.48,
+      0.8
+    ],
+    "Embu": [
+      37.65,
+      -0.54
+    ],
+    "Garissa": [
+      39.66,
+      -0.45
+    ],
+    "Homa Bay": [
+      34.46,
+      -0.53
+    ],
+    "Isiolo": [
+      38.49,
+      0.75
+    ],
+    "Kajiado": [
+      36.79,
+      -2.1
+    ],
+    "Kakamega": [
+      34.75,
+      0.28
+    ],
+    "Kericho": [
+      35.29,
+      -0.37
+    ],
+    "Kiambu": [
+      36.83,
+      -1.05
+    ],
+    "Kilifi": [
+      39.85,
+      -3.51
+    ],
+    "Kirinyaga": [
+      37.31,
+      -0.5
+    ],
+    "Kisii": [
+      34.77,
+      -0.68
+    ],
+    "Kisumu": [
+      34.76,
+      -0.09
+    ],
+    "Kitui": [
+      38.29,
+      -1.37
+    ],
+    "Kwale": [
+      39.22,
+      -4.18
+    ],
+    "Laikipia": [
+      36.78,
+      0.2
+    ],
+    "Lamu": [
+      40.9,
+      -2.27
+    ],
+    "Machakos": [
+      37.26,
+      -1.52
+    ],
+    "Makueni": [
+      37.62,
+      -2.18
+    ],
+    "Mandera": [
+      40.96,
+      3.66
+    ],
+    "Marsabit": [
+      37.98,
+      2.33
+    ],
+    "Meru": [
+      37.85,
+      0.05
+    ],
+    "Migori": [
+      34.47,
+      -1.06
+    ],
+    "Mombasa": [
+      39.66,
+      -4.05
+    ],
+    "Murang'a": [
+      37.15,
+      -0.78
+    ],
+    "Nairobi": [
+      36.82,
+      -1.29
+    ],
+    "Nakuru": [
+      36.07,
+      -0.3
+    ],
+    "Nandi": [
+      35.1,
+      0.18
+    ],
+    "Narok": [
+      35.87,
+      -1.3
+    ],
+    "Nyamira": [
+      34.94,
+      -0.56
+    ],
+    "Nyandarua": [
+      36.48,
+      -0.4
+    ],
+    "Nyeri": [
+      36.95,
+      -0.42
+    ],
+    "Samburu": [
+      37.11,
+      1.22
+    ],
+    "Siaya": [
+      34.29,
+      0.06
+    ],
+    "Taita Taveta": [
+      38.36,
+      -3.4
+    ],
+    "Tana River": [
+      39.65,
+      -1.5
+    ],
+    "Tharaka Nithi": [
+      37.9,
+      -0.3
+    ],
+    "Trans Nzoia": [
+      34.95,
+      1.02
+    ],
+    "Turkana": [
+      35.6,
+      3.12
+    ],
+    "Uasin Gishu": [
+      35.27,
+      0.55
+    ],
+    "Vihiga": [
+      34.72,
+      0.07
+    ],
+    "Wajir": [
+      39.94,
+      1.75
+    ],
+    "West Pokot": [
+      35.2,
+      1.75
+    ]
   }
 }
