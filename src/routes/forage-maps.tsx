@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 
 export const Route = createFileRoute("/forage-maps")({
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/forage-maps")({
       {
         name: "description",
         content:
-          "Satellite maps showing where bees can forage across Kenya — now, ahead, and long-term. Forage timeline and beekeeping suitability intelligence.",
+          "Satellite maps showing where bees can forage across Kenya — now, ahead, and long-term. Seasonal rainfall forecast, forage timeline and beekeeping suitability.",
       },
       { property: "og:title", content: "Bee Intelligence Maps — Beelove Farm" },
       {
@@ -26,26 +27,99 @@ export const Route = createFileRoute("/forage-maps")({
   component: ForageMapsPage,
 });
 
-const HOW_TO_READ = [
-  {
-    title: "Flowering",
-    body: "Where the food is now. Satellites detect blooming vegetation; the green areas are where bees are eating today.",
-  },
-  {
-    title: "Migratory route",
-    body: "The path to follow the flowers. Flowering moves across Kenya month by month; the yellow line shows where to move hives to stay in the bloom.",
-  },
-  {
-    title: "Forecast",
-    body: "A head start. Rain now means blooms soon, so the map predicts where flowering will be 1–3 months ahead — move hives before the bloom, not after.",
-  },
+type LegendItem = { color: string; label: string };
+
+const WET_LEGEND: LegendItem[] = [
+  { color: "#8c510a", label: "Drier than usual" },
+  { color: "#f5f0e6", label: "About usual" },
+  { color: "#7fcdbb", label: "Wetter" },
+  { color: "#08589e", label: "Much wetter" },
 ];
 
-function MapCaption() {
+const FORAGE_LEGEND: LegendItem[] = [
+  { color: "#d73027", label: "Very poor" },
+  { color: "#fee08b", label: "Moderate" },
+  { color: "#91cf60", label: "Good" },
+  { color: "#1a9850", label: "Excellent" },
+];
+
+function MapPanel({
+  title,
+  blurb,
+  image,
+  alt,
+  legend,
+  caption,
+  liveUrl,
+}: {
+  title: string;
+  blurb: string;
+  image: string;
+  alt: string;
+  legend: LegendItem[];
+  caption: string;
+  liveUrl?: string;
+}) {
+  const [live, setLive] = useState(false);
+
   return (
-    <p className="text-xs text-umber/60 mt-3">
-      This map may take a few seconds to load.
-    </p>
+    <section className="max-w-7xl mx-auto px-6 mt-10 md:mt-14">
+      <div className="max-w-3xl">
+        <h2 className="font-display text-3xl md:text-4xl text-umber mb-3">
+          {title}
+        </h2>
+        <p className="text-umber/75">{blurb}</p>
+      </div>
+
+      <div className="mt-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 bg-card">
+        {live && liveUrl ? (
+          <iframe
+            src={liveUrl}
+            title={title}
+            className="w-full block"
+            style={{ minHeight: 600, border: "none" }}
+          />
+        ) : (
+          <div className="p-6 md:p-10">
+            <img
+              src={image}
+              alt={alt}
+              width={823}
+              height={1000}
+              loading="lazy"
+              className="w-full max-w-[440px] mx-auto block"
+            />
+            <div className="mt-7 flex flex-wrap justify-center gap-x-5 gap-y-2">
+              {legend.map((l) => (
+                <span
+                  key={l.label}
+                  className="inline-flex items-center gap-2 text-xs text-umber/70"
+                >
+                  <span
+                    className="w-3.5 h-3.5 rounded-sm ring-1 ring-umber/15"
+                    style={{ background: l.color }}
+                  />
+                  {l.label}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-3 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+        <p className="text-xs text-umber/60">{caption}</p>
+        {liveUrl && !live && (
+          <button
+            type="button"
+            onClick={() => setLive(true)}
+            className="text-xs font-medium text-umber underline underline-offset-4 hover:text-honey"
+          >
+            Open the interactive map
+          </button>
+        )}
+      </div>
+    </section>
   );
 }
 
@@ -68,72 +142,84 @@ function ForageMapsPage() {
         </div>
       </section>
 
-      {/* Forage Timeline */}
-      <section className="max-w-7xl mx-auto px-6 mt-10 md:mt-14">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl text-umber mb-3">
-            Forage Timeline
-          </h2>
-          <p className="text-umber/75">
-            Where bees can forage across Kenya, month by month — the observed
-            past and a 1–3 month forecast, with the optimal migratory route.
-          </p>
-        </div>
-        <div className="mt-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 bg-card">
-          <iframe
-            src="https://project-8ed4c563-3539-4c49-9b3.projects.earthengine.app/view/beelove-forage-timeline"
-            title="Beelove Forage Timeline"
-            className="w-full block"
-            style={{ minHeight: 600, border: "none" }}
-            loading="lazy"
-          />
-        </div>
-        <MapCaption />
-      </section>
+      <MapPanel
+        title="Season Ahead — October to December 2026"
+        blurb="How this season's rainfall compares with the last 44 years, place by place. Fitted from four decades of satellite rainfall and sea-surface temperature. Rain is the biggest driver of forage in Kenya's drylands, so a wetter season usually means a stronger bloom behind it."
+        image="/images/map-forecast-ond-2026.png"
+        alt="Map of Kenya showing the chance of above-normal rainfall for October to December 2026. Every part of the country is above the usual one-in-three chance, strongest in the north and north-east."
+        legend={WET_LEGEND}
+        caption="Chance of above-normal rainfall, October–December 2026. Tested against every year since 1982: this forecast beats a long-term average across 97% of Kenya. Read it alongside the Kenya Meteorological Department forecast."
+      />
 
-      {/* Beekeeping Suitability */}
-      <section className="max-w-7xl mx-auto px-6 mt-10 md:mt-14">
-        <div className="max-w-3xl">
-          <h2 className="font-display text-3xl md:text-4xl text-umber mb-3">
-            Beekeeping Suitability
-          </h2>
-          <p className="text-umber/75">
-            Where bees thrive long-term across Kenya — from rainfall,
-            temperature, elevation and vegetation, adjusted for urbanisation,
-            farming, deforestation and light pollution.
-          </p>
-        </div>
-        <div className="mt-5 rounded-[24px] overflow-hidden ring-1 ring-umber/10 bg-card">
-          <iframe
-            src="https://project-8ed4c563-3539-4c49-9b3.projects.earthengine.app/view/beelove-suitability"
-            title="Beelove Beekeeping Suitability"
-            className="w-full block"
-            style={{ minHeight: 600, border: "none" }}
-            loading="lazy"
-          />
-        </div>
-        <MapCaption />
-      </section>
+      <MapPanel
+        title="Forage Timeline"
+        blurb="Where bees can forage across Kenya, month by month — satellite-observed greenness for months already past, and a modelled outlook for the months ahead. Red diamonds on the interactive version mark the strongest flush each month."
+        image="/images/map-forage-sep-2026.png"
+        alt="Map of Kenya showing modelled forage levels for September 2026, mostly amber and orange at the end of the dry season."
+        legend={FORAGE_LEGEND}
+        caption="September 2026, modelled. The interactive version has a 15-month slider but is slow, and may not load when the satellite service is busy."
+        liveUrl="https://project-8ed4c563-3539-4c49-9b3.projects.earthengine.app/view/beelove-forage-timeline"
+      />
 
-      {/* How to read the maps */}
-      <section className="max-w-7xl mx-auto px-6 mt-12 md:mt-16 mb-16">
-        <h2 className="font-display text-3xl md:text-4xl text-umber mb-6">
-          How to read the maps
-        </h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {HOW_TO_READ.map((c) => (
-            <div
-              key={c.title}
-              className="rounded-[24px] bg-olive/10 ring-1 ring-umber/10 p-6"
-            >
-              <h3 className="font-display text-xl text-umber mb-2">{c.title}</h3>
-              <p className="text-sm text-umber/75 leading-relaxed">{c.body}</p>
+      <MapPanel
+        title="Beekeeping Suitability"
+        blurb="Where bees thrive long-term across Kenya — from rainfall, temperature, elevation and vegetation, adjusted for urbanisation, farming, deforestation and light pollution. This is the map to check before deciding whether a place is worth putting hives in at all."
+        image="/images/map-suitability.png"
+        alt="Map of Kenya showing long-term beekeeping suitability, green through the south, west and coastal hinterland, orange across the arid north and north-east."
+        legend={FORAGE_LEGEND}
+        caption="Long-term baseline. It changes slowly, so it does not need refreshing each season."
+        liveUrl="https://project-8ed4c563-3539-4c49-9b3.projects.earthengine.app/view/beelove-suitability"
+      />
+
+      {/* How to read these */}
+      <section className="max-w-7xl mx-auto px-6 mt-14 md:mt-20 mb-16 md:mb-24">
+        <div className="rounded-[28px] bg-card ring-1 ring-umber/10 p-8 md:p-12">
+          <h2 className="font-display text-3xl md:text-4xl text-umber mb-6">
+            How to read these maps
+          </h2>
+          <div className="grid gap-8 md:grid-cols-3">
+            <div>
+              <h3 className="font-display text-xl text-umber mb-2">
+                Start with suitability
+              </h3>
+              <p className="text-sm text-umber/75">
+                It answers one question: is this place worth keeping bees in at
+                all? Long-run conditions, minus the things that spoil a site.
+                Check it before you invest in hives.
+              </p>
             </div>
-          ))}
+            <div>
+              <h3 className="font-display text-xl text-umber mb-2">
+                Then the season ahead
+              </h3>
+              <p className="text-sm text-umber/75">
+                Is the coming season better or worse than usual here? We can say
+                this roughly six weeks before the rains break — not earlier. We
+                tested it, and four months ahead there is no useful signal.
+              </p>
+            </div>
+            <div>
+              <h3 className="font-display text-xl text-umber mb-2">
+                Your own calendar still rules
+              </h3>
+              <p className="text-sm text-umber/75">
+                A wet season means different months in different places. On the
+                coast the main bloom follows the long rains around April; in the
+                south-east it follows the short rains. The Beelove app gives the
+                month-by-month version for your county.
+              </p>
+            </div>
+          </div>
+
+          <p className="text-xs text-umber/55 mt-8 max-w-3xl">
+            What we can and cannot claim: the rainfall forecast is tested
+            against 44 years of records and we publish how well it scores. The
+            step from rainfall to what a colony actually collects is not yet
+            measured — that work is underway with farmers keeping records.
+            Treat these maps as a guide alongside what you can see in your own
+            field, never as a replacement for it.
+          </p>
         </div>
-        <p className="text-sm text-umber/60 mt-6 italic">
-          The forecast is a model — use it alongside what you see in the field.
-        </p>
       </section>
     </SiteLayout>
   );
