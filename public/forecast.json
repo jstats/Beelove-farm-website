@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "generated": "2026-09-09",
+  "valid_through": "2027-08",
+  "scope": {
+    "type": "national",
+    "region": "Kenya"
+  },
+  "headline_source": "ICPAC OND 2026 outlook + Beelove climate model",
+  "disclaimer": "National outlook. Read it alongside the official Kenya Meteorological Department forecast and what you can see in your own field.",
+  "months": {
+    "2026-09": {
+      "label": "September 2026",
+      "prob": 55,
+      "color": "amber",
+      "action": "SHORT RAINS APPROACHING - stronger than normal expected. Move hives OFF flood-prone ground now. Check stands are above the flood line and roofs and ventilation are sound.",
+      "basis": "outlook",
+      "source": "ICPAC OND 2026 outlook 18 Aug 2026"
+    },
+    "2026-10": {
+      "label": "October 2026",
+      "prob": 80,
+      "color": "green",
+      "action": "HEAVY SHORT RAINS. Inspect apiaries after every storm for flooding and hive damage. Bees fly little in continuous rain - leave their stores alone.",
+      "basis": "outlook",
+      "source": "ICPAC OND 2026: 90% chance enhanced rainfall NE Kenya; >400mm central Kenya"
+    },
+    "2026-11": {
+      "label": "November 2026",
+      "prob": 85,
+      "color": "green",
+      "action": "PEAK WET SEASON. A strong bloom follows this rain. Clean and bait spare hives NOW - heavy flowering brings swarming and free colonies to anyone who is ready.",
+      "basis": "outlook",
+      "source": "ICPAC OND 2026 outlook; El Nino + positive IOD"
+    },
+    "2026-12": {
+      "label": "December 2026",
+      "prob": 75,
+      "color": "green",
+      "action": "Bloom building. Keep bait hives out. Do NOT harvest wet - test moisture before extracting anything.",
+      "basis": "outlook",
+      "source": "ICPAC OND 2026 outlook"
+    },
+    "2027-01": {
+      "label": "January 2027",
+      "prob": 60,
+      "color": "amber",
+      "action": "Main harvest window. Test EVERY batch with the refractometer - wet-season honey above 20% moisture will ferment and is not sellable.",
+      "basis": "climatology",
+      "source": "Seasonal normal; post-El Nino bloom"
+    },
+    "2027-02": {
+      "label": "February 2027",
+      "prob": 45,
+      "color": "amber",
+      "action": "Post-harvest. Consolidate weak colonies and treat empty boxes for wax moth while they are off the hives.",
+      "basis": "climatology",
+      "source": "Seasonal normal"
+    },
+    "2027-03": {
+      "label": "March 2027",
+      "prob": 55,
+      "color": "amber",
+      "action": "Long rains beginning. Re-check drainage and hive stands before the ground softens.",
+      "basis": "climatology",
+      "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
+    },
+    "2027-04": {
+      "label": "April 2027",
+      "prob": 70,
+      "color": "green",
+      "action": "Long rains bloom. Add supers to strong colonies and keep spare boxes ready.",
+      "basis": "climatology",
+      "source": "Seasonal normal; IOD/ENSO signal weak in MAM"
+    },
+    "2027-05": {
+      "label": "May 2027",
+      "prob": 65,
+      "color": "green",
+      "action": "Good forage. Watch for swarming - split strong colonies before they leave.",
+      "basis": "climatology",
+      "source": "Seasonal normal"
+    },
+    "2027-06": {
+      "label": "June 2027",
+      "prob": 45,
+      "color": "amber",
+      "action": "Forage declining. Leave enough stores in the hive; do not over-harvest.",
+      "basis": "climatology",
+      "source": "Seasonal normal"
+    },
+    "2027-07": {
+      "label": "July 2027",
+      "prob": 35,
+      "color": "red",
+      "action": "Dry season. Put clean water near the apiary and reduce entrances against robbing.",
+      "basis": "climatology",
+      "source": "Seasonal normal"
+    },
+    "2027-08": {
+      "label": "August 2027",
+      "prob": 30,
+      "color": "red",
+      "action": "Driest period. Monitor hive weight. Feed only colonies that are genuinely light.",
+      "basis": "climatology",
+      "source": "Seasonal normal"
+    }
+  }
+}
