@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete your Beelove account</title>
+<meta name="description" content="Ask The Beelove Farm Ltd to delete your Beelove app account and data.">
+<style>
+  :root { --green:#1F4128; --coral:#C2412A; --ink:#1C1F1A; --muted:#565D52; --cream:#FFF9EF; --line:#E8DFC9; }
+  * { box-sizing:border-box }
+  body { margin:0; font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; color:var(--ink); background:var(--cream) }
+  header { background:var(--green); color:#fff; padding:28px 16px }
+  header .in, main { max-width:640px; margin:0 auto }
+  header h1 { margin:0 0 4px; font-size:24px } header p { margin:0; color:#CFE3D3 }
+  main { padding:24px 16px 48px }
+  .box { background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px }
+  label { display:block; font-weight:700; margin:14px 0 6px }
+  input, textarea { width:100%; font:inherit; padding:12px; border:1.5px solid #CFD1C6; border-radius:12px; background:#fff }
+  button { margin-top:18px; width:100%; min-height:50px; border:0; border-radius:14px; background:var(--coral); color:#fff; font:inherit; font-weight:800; cursor:pointer }
+  .err { color:#B3261E; font-size:14px; min-height:20px }
+  .ok { background:#E7EFE8; color:var(--green); border-radius:12px; padding:14px; display:none }
+  a { color:#B4520A } small { color:var(--muted) }
+</style>
+</head>
+<body>
+<header><div class="in"><h1>Delete your Beelove account</h1><p>The Beelove Farm Ltd · Beelove farmer app</p></div></header>
+<main>
+<p><strong>Fastest way:</strong> in the Beelove app, tap the profile button on the Home screen, then <em>Delete my account and data</em>. Everything is removed straight away.</p>
+<p>No longer have the app? Fill in this form. We will call you on the number you give to confirm it is you, then delete your profile, apiaries, locations, questions and photos within 30 days. Your past check-in answers and swarm reports are kept only as anonymous records (no name, phone or exact location – just a 25 km area and the month) to improve forecasts for all farmers. <a href="privacy.html">Privacy policy</a>.</p>
+<p><em>Kiswahili:</em> Jaza fomu hii kuomba akaunti yako na data yako ifutwe. Tutakupigia simu kuthibitisha, kisha tufute ndani ya siku 30.</p>
+<div class="box">
+<form id="f" novalidate>
+<label for="name">Your name · Jina lako</label>
+<input id="name" name="name" autocomplete="name" required>
+<label for="phone">Phone number used in the app · Nambari ya simu</label>
+<input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="07XX XXX XXX" required>
+<label for="county">County · Kaunti</label>
+<input id="county" name="county" placeholder="Makueni">
+<label for="note">Anything else? (optional)</label>
+<textarea id="note" name="note" rows="3"></textarea>
+<div class="err" id="err" role="alert"></div>
+<button type="submit" id="btn">Request deletion · Omba kufutwa</button>
+</form>
+<div class="ok" id="ok" role="status">Thank you. Your request has been received. We will call you to confirm, then delete your data within 30 days.<br>Asante. Ombi lako limepokelewa.</div>
+</div>
+<p><small>Questions: <a href="mailto:beelovefarm25@gmail.com">beelovefarm25@gmail.com</a> · +254 729 396 897</small></p>
+</main>
+<script>
+const URL_ = 'https://script.google.com/macros/s/AKfycbyyzKrIr72UF_Q58YeAmmVyAVXBOYZI7H_K5N7c_QrekYPGwSDOc_9xWdzs1bygZc6mzg/exec';
+const $ = (id) => document.getElementById(id);
+const f = $('f'), err = document.getElementById('err'), btn = document.getElementById('btn');
+f.addEventListener('input', () => { err.textContent = ''; });
+f.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = $('name').value.trim(), phone = $('phone').value.trim();
+  if (name.length < 2) { err.textContent = 'Enter your name.'; $('name').focus(); return; }
+  if (phone.replace(/\D/g, '').length < 9) { err.textContent = 'Enter the phone number you used in the app.'; $('phone').focus(); return; }
+  btn.disabled = true; btn.textContent = 'Sending…';
+  try {
+    await fetch(URL_, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ deleteRequest: { name, phone, county: $('county').value.trim(), note: $('note').value.trim() } }) });
+    f.style.display = 'none'; $('ok').style.display = 'block';
+  } catch (_) {
+    err.textContent = 'Could not send. Check your internet connection and try again, or email us.';
+    btn.disabled = false; btn.textContent = 'Request deletion · Omba kufutwa';
+  }
+});
+</script>
+</body>
+</html>
