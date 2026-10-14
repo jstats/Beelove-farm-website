@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Get the Beelove app</title>
+<meta name="description" content="Free app for beekeepers: swarm alerts for your area, rain outlook and simple hive records. Join the test on Google Play in 3 steps.">
+<meta name="theme-color" content="#F58320">
+<meta property="og:title" content="Get the Beelove app">
+<meta property="og:description" content="Free app for beekeepers: swarm alerts, rain outlook and simple hive records.">
+<meta property="og:image" content="https://beelovefarm.org/images/og-cover.jpg">
+<meta property="og:url" content="https://beelovefarm.org/get">
+<style>
+  :root {
+    --cream:#FFF7EA; --card:#FFFFFF; --ink:#2B1A0C; --brown:#4D351C; --muted:#6B4A2A;
+    --orange:#F58320; --deep:#B4520A; --line:#F0D9B8; --wa:#1E6B3A;
+    color-scheme: light;
+  }
+  * { box-sizing:border-box }
+  html { -webkit-text-size-adjust:100% }
+  body { margin:0; background:var(--cream); color:var(--ink);
+    font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif }
+  a { color:var(--deep) }
+  .wrap { max-width:560px; margin:0 auto; padding:0 16px }
+
+  header { background:var(--orange) }
+  header .wrap { display:flex; align-items:center; justify-content:space-between; gap:12px; padding-top:14px; padding-bottom:14px; flex-wrap:wrap }
+  .brand { display:flex; align-items:center; gap:10px; font-weight:800; font-size:22px; letter-spacing:-.3px; color:var(--ink); text-decoration:none }
+  .brand svg { width:34px; height:34px; flex:0 0 auto }
+  .langs { display:flex; flex-wrap:wrap; gap:6px }
+  .langs button { font:inherit; font-size:14px; font-weight:600; min-height:36px; padding:4px 12px; border-radius:999px;
+    border:2px solid var(--ink); background:transparent; color:var(--ink); cursor:pointer }
+  .langs button[aria-pressed="true"] { background:var(--ink); color:#fff }
+
+  main.wrap { padding-top:24px; padding-bottom:40px }
+  h1 { font-size:32px; line-height:1.1; letter-spacing:-.5px; margin:0 0 10px }
+  .lede { margin:0 0 18px; font-size:18px; color:var(--brown) }
+  .note { background:var(--card); border:2px solid var(--line); border-radius:16px; padding:14px 16px; margin:0 0 22px }
+  .note p { margin:0 } .note p + p { margin-top:6px; color:var(--muted); font-size:16px }
+
+  ol.steps { list-style:none; margin:0; padding:0; display:grid; gap:14px }
+  .step { background:var(--card); border:2px solid var(--line); border-radius:18px; padding:16px; display:grid; grid-template-columns:44px 1fr; gap:4px 14px }
+  .num { grid-row:span 3; width:44px; height:44px; border-radius:50%; background:var(--orange); color:var(--ink);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:22px }
+  .step h2 { margin:0; font-size:19px; line-height:1.25 }
+  .step p { margin:0; color:var(--muted); font-size:16px }
+  .btn { display:flex; align-items:center; justify-content:center; text-align:center; margin-top:10px; min-height:52px; padding:10px 18px;
+    border-radius:14px; background:var(--ink); color:#fff; font-weight:700; font-size:17px; text-decoration:none }
+  .btn:active { transform:translateY(1px) }
+
+  .extra { margin-top:26px; display:grid; gap:12px }
+  .box { border-radius:16px; padding:14px 16px; background:var(--card); border:2px solid var(--line) }
+  .box h3 { margin:0 0 4px; font-size:17px }
+  .box p { margin:0; color:var(--muted); font-size:16px }
+  .ios { border-color:var(--orange) }
+  .is-ios .ios { order:-1 }
+  .wa { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px }
+  .wa a { flex:1 1 180px; display:flex; align-items:center; justify-content:center; min-height:46px; padding:8px 14px; border-radius:12px;
+    background:var(--wa); color:#fff; font-weight:700; text-decoration:none }
+
+  .live { display:none }
+  .is-live .live { display:block } .is-live .beta { display:none }
+
+  footer { border-top:2px solid var(--line); padding:18px 0 28px; color:var(--muted); font-size:14px }
+  footer p { margin:0 0 4px }
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 40 40" aria-hidden="true"><polygon points="20,2 36,11 36,29 20,38 4,29 4,11" fill="#FFF7EA" stroke="#2B1A0C" stroke-width="3"/><polygon points="20,11 28,15.5 28,24.5 20,29 12,24.5 12,15.5" fill="#2B1A0C"/></svg>
+      <span>Beelove</span>
+    </a>
+    <div class="langs" role="group" aria-label="Language">
+      <button type="button" data-lang="en" aria-pressed="true">English</button>
+      <button type="button" data-lang="fr" aria-pressed="false">Français</button>
+      <button type="button" data-lang="rw" aria-pressed="false">Kinyarwanda</button>
+      <button type="button" data-lang="sw" aria-pressed="false">Kiswahili</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 data-t="title">Get the Beelove app</h1>
+  <p class="lede" data-t="lede">Free app for beekeepers: swarm alerts for your area, rain outlook and simple hive records.</p>
+
+  <!-- Shown once the app is public on Google Play (set LIVE = true below) -->
+  <div class="live">
+    <a class="btn" id="play-live" href="https://play.google.com/store/apps/details?id=org.beelovefarm.app" data-t="liveBtn">Get it on Google Play</a>
+  </div>
+
+  <div class="beta">
+    <div class="note">
+      <p data-t="testing">The app is being tested on Google Play. Join the test in 3 steps, about 2 minutes.</p>
+      <p data-t="android">For Android phones. Use the same Google account as your phone's Play Store.</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step">
+        <span class="num" aria-hidden="true">1</span>
+        <h2 data-t="s1t">Join the Beelove testers group</h2>
+        <p data-t="s1d">Tap “Join group”. If asked, sign in with your Google account.</p>
+        <a class="btn" href="https://groups.google.com/g/beelove-testers" data-t="s1b">Join the group</a>
+      </li>
+      <li class="step">
+        <span class="num" aria-hidden="true">2</span>
+        <h2 data-t="s2t">Become a tester</h2>
+        <p data-t="s2d">Tap “Become a tester”.</p>
+        <a class="btn" href="https://play.google.com/apps/testing/org.beelovefarm.app" data-t="s2b">Become a tester</a>
+      </li>
+      <li class="step">
+        <span class="num" aria-hidden="true">3</span>
+        <h2 data-t="s3t">Install the app</h2>
+        <p data-t="s3d">Tap “Install” on Google Play, then open Beelove and sign up.</p>
+        <a class="btn" href="https://play.google.com/store/apps/details?id=org.beelovefarm.app" data-t="s3b">Open Google Play</a>
+      </li>
+    </ol>
+  </div>
+
+  <div class="extra">
+    <div class="box beta">
+      <h3 data-t="helpT">Google Play says the app is not available?</h3>
+      <p data-t="helpD">Check that steps 1 and 2 used the same Google account as your Play Store. Then wait a few minutes and try step 3 again.</p>
+    </div>
+    <div class="box">
+      <h3 data-t="outT">Outside Kenya?</h3>
+      <p data-t="outD">You are welcome to try the app. Rain outlooks cover Kenya for now; more countries are coming.</p>
+    </div>
+    <div class="box ios">
+      <h3 data-t="iosT">Using an iPhone?</h3>
+      <p data-t="iosD">The app is only on Android for now. Chat with us on WhatsApp and we will show you how it works.</p>
+      <div class="wa">
+        <a href="https://wa.me/254729396897" data-t="waKe">WhatsApp Kenya</a>
+        <a href="https://wa.me/250783159117" data-t="waRw">WhatsApp Rwanda</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Beelove Farm · Kiunduani, Makueni County, Kenya</p>
+    <p><a href="/">beelovefarm.org</a> · <a href="/privacy.html" data-t="privacy">Privacy policy</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  // ===== LAUNCH SWITCH =====
+  // When the app is public on Google Play, change false to true.
+  // The page then sends visitors straight to the Play Store, so the printed QR codes keep working.
+  var LIVE = false;
+  var PLAY = 'https://play.google.com/store/apps/details?id=org.beelovefarm.app';
+
+  var T = {
+    fr: {
+      title: "Téléchargez l’application Beelove",
+      lede: "Application gratuite pour les apiculteurs : alertes d’essaimage dans votre zone, prévisions de pluie et suivi simple des ruches.",
+      liveBtn: "Disponible sur Google Play",
+      testing: "L’application est en test sur Google Play. Rejoignez le test en 3 étapes, environ 2 minutes.",
+      android: "Pour téléphones Android. Utilisez le même compte Google que le Play Store de votre téléphone.",
+      s1t: "Rejoignez le groupe des testeurs Beelove",
+      s1d: "Appuyez sur « Rejoindre le groupe ». Si demandé, connectez-vous avec votre compte Google.",
+      s1b: "Rejoindre le groupe",
+      s2t: "Devenez testeur",
+      s2d: "Appuyez sur « Devenir testeur ».",
+      s2b: "Devenir testeur",
+      s3t: "Installez l’application",
+      s3d: "Appuyez sur « Installer » dans Google Play, puis ouvrez Beelove et inscrivez-vous.",
+      s3b: "Ouvrir Google Play",
+      helpT: "Google Play indique que l’application n’est pas disponible ?",
+      helpD: "Vérifiez que les étapes 1 et 2 ont été faites avec le même compte Google que votre Play Store. Attendez quelques minutes, puis refaites l’étape 3.",
+      outT: "Hors du Kenya ?",
+      outD: "Vous pouvez essayer l’application. Les prévisions de pluie couvrent le Kenya pour l’instant ; d’autres pays arrivent.",
+      iosT: "Vous avez un iPhone ?",
+      iosD: "L’application n’existe que sur Android pour l’instant. Écrivez-nous sur WhatsApp et nous vous montrerons comment elle fonctionne.",
+      waKe: "WhatsApp Kenya", waRw: "WhatsApp Rwanda",
+      privacy: "Politique de confidentialité"
+    },
+    rw: {
+      title: "Bona porogaramu ya Beelove",
+      lede: "Porogaramu y’ubuntu ku borozi b’inzuki: amakuru ku nzuki zimuka mu karere kawe, iteganyagihe ry’imvura, n’uburyo bworoshye bwo kwandika iby’imizinga.",
+      liveBtn: "Yibone kuri Google Play",
+      testing: "Porogaramu iracyageragezwa kuri Google Play. Injira mu igerageza mu ntambwe 3, iminota nka 2.",
+      android: "Ni iya telefoni za Android. Koresha konti ya Google imwe n’iyo ukoresha kuri Play Store.",
+      s1t: "Injira mu itsinda ry’abagerageza Beelove",
+      s1d: "Kanda “Join group”. Nibigusaba, injira ukoresheje konti yawe ya Google.",
+      s1b: "Injira mu itsinda",
+      s2t: "Ba umugerageza",
+      s2d: "Kanda “Become a tester”.",
+      s2b: "Ba umugerageza",
+      s3t: "Shyira porogaramu muri telefoni",
+      s3d: "Kanda “Install” kuri Google Play, hanyuma ufungure Beelove wiyandikishe.",
+      s3b: "Fungura Google Play",
+      helpT: "Google Play ivuga ko porogaramu itaboneka?",
+      helpD: "Reba ko intambwe ya 1 n’iya 2 wazikoze ukoresheje konti ya Google imwe n’iyo ukoresha kuri Play Store. Tegereza iminota mike, hanyuma wongere ukore intambwe ya 3.",
+      outT: "Uri hanze ya Kenya?",
+      outD: "Murakaza neza kugerageza porogaramu. Iteganyagihe ry’imvura ubu rireba Kenya gusa; ibindi bihugu biraza.",
+      iosT: "Ukoresha iPhone?",
+      iosD: "Ubu porogaramu iboneka kuri Android gusa. Tuvugishe kuri WhatsApp tukwereke uko ikora.",
+      waKe: "WhatsApp Kenya", waRw: "WhatsApp Rwanda",
+      privacy: "Politiki y’ibanga"
+    },
+    sw: {
+      title: "Pata programu ya Beelove",
+      lede: "Programu ya bure kwa wafugaji nyuki: tahadhari za makundi ya nyuki (swarm) katika eneo lako, utabiri wa mvua na rekodi rahisi za mizinga.",
+      liveBtn: "Ipate kwenye Google Play",
+      testing: "Programu inajaribiwa kwenye Google Play. Jiunge na majaribio kwa hatua 3, kama dakika 2.",
+      android: "Kwa simu za Android. Tumia akaunti ile ile ya Google iliyo kwenye Play Store ya simu yako.",
+      s1t: "Jiunge na kikundi cha wajaribu wa Beelove",
+      s1d: "Bonyeza “Join group”. Ukiulizwa, ingia kwa akaunti yako ya Google.",
+      s1b: "Jiunge na kikundi",
+      s2t: "Kuwa mjaribu",
+      s2d: "Bonyeza “Become a tester”.",
+      s2b: "Kuwa mjaribu",
+      s3t: "Sakinisha programu",
+      s3d: "Bonyeza “Install” kwenye Google Play, kisha fungua Beelove na ujisajili.",
+      s3b: "Fungua Google Play",
+      helpT: "Google Play inasema programu haipatikani?",
+      helpD: "Hakikisha hatua ya 1 na 2 zilifanywa kwa akaunti ile ile ya Google iliyo kwenye Play Store yako. Kisha subiri dakika chache, ujaribu hatua ya 3 tena.",
+      outT: "Uko nje ya Kenya?",
+      outD: "Karibu ujaribu programu. Utabiri wa mvua kwa sasa ni wa Kenya; nchi nyingine zinakuja.",
+      iosT: "Unatumia iPhone?",
+      iosD: "Programu inapatikana kwenye Android pekee kwa sasa. Tuandikie WhatsApp tukuonyeshe jinsi inavyofanya kazi.",
+      waKe: "WhatsApp Kenya", waRw: "WhatsApp Rwanda",
+      privacy: "Sera ya faragha"
+    }
+  };
+
+  var nodes = document.querySelectorAll('[data-t]');
+  var EN = {};
+  for (var i = 0; i < nodes.length; i++) EN[nodes[i].getAttribute('data-t')] = nodes[i].textContent;
+  T.en = EN;
+
+  function setLang(lang) {
+    var d = T[lang] || EN;
+    for (var i = 0; i < nodes.length; i++) {
+      var k = nodes[i].getAttribute('data-t');
+      var s = d[k] || EN[k];
+      // French typography: keep : ; ? ! » with the word before them, « with the word after
+      if (lang === 'fr') s = s.replace(/ ([:;?!»])/g, ' $1').replace(/« /g, '« ');
+      nodes[i].textContent = s;
+    }
+    document.documentElement.lang = lang;
+    document.title = d.title || EN.title;
+    var btns = document.querySelectorAll('.langs button');
+    for (var j = 0; j < btns.length; j++) btns[j].setAttribute('aria-pressed', btns[j].getAttribute('data-lang') === lang ? 'true' : 'false');
+    try { localStorage.setItem('beelove-get-lang', lang); } catch (e) {}
+  }
+
+  function guessLang() {
+    var saved = null;
+    try { saved = localStorage.getItem('beelove-get-lang'); } catch (e) {}
+    if (saved && T[saved]) return saved;
+    var q = (location.search.match(/[?&]lang=(en|fr|rw|sw)/) || [])[1];
+    if (q) return q;
+    var list = navigator.languages || [navigator.language || 'en'];
+    for (var i = 0; i < list.length; i++) {
+      var c = String(list[i]).slice(0, 2).toLowerCase();
+      if (c === 'en' || c === 'fr' || c === 'rw' || c === 'sw') return c;
+    }
+    return 'en';
+  }
+
+  var btns = document.querySelectorAll('.langs button');
+  for (var b = 0; b < btns.length; b++) {
+    btns[b].addEventListener('click', function () { setLang(this.getAttribute('data-lang')); });
+  }
+
+  if (/iPhone|iPad|iPod/.test(navigator.userAgent)) document.body.classList.add('is-ios');
+
+  setLang(guessLang());
+
+  if (LIVE) {
+    document.body.classList.add('is-live');
+    if (!/iPhone|iPad|iPod/.test(navigator.userAgent)) location.replace(PLAY);
+  }
+})();
+</script>
+</body>
+</html>

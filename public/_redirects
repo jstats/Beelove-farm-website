@@ -4,5 +4,9 @@
 /manifest.json          /manifest.json          200
 /sw.js                  /sw.js                  200
 
+# Beelove app download page (QR codes on banners point here)
+/get                    /get.html               200
+/get/                   /get.html               200
+
 # React app handles everything else
 /*                      /index.html             200
