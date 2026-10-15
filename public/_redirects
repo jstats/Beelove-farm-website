@@ -8,5 +8,9 @@
 /get                    /get.html               200
 /get/                   /get.html               200
 
+# Rwanda maps moved under Bee Maps (old links on shared maps)
+/rwanda                 /forage-maps?country=rwanda   301
+/rwanda/                /forage-maps?country=rwanda   301
+
 # React app handles everything else
 /*                      /index.html             200
