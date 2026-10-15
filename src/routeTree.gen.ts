@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RwandaRouteImport } from './routes/rwanda'
 import { Route as MapRouteImport } from './routes/map'
 import { Route as JournalRouteImport } from './routes/journal'
 import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
@@ -26,6 +27,11 @@ import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RwandaRoute = RwandaRouteImport.update({
+  id: '/rwanda',
+  path: '/rwanda',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MapRoute = MapRouteImport.update({
@@ -97,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -112,6 +119,7 @@ export interface FileRoutesByTo {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -128,6 +136,7 @@ export interface FileRoutesById {
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
   '/shop/fish': typeof ShopFishRoute
@@ -145,6 +154,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
     | '/shop/fish'
@@ -191,6 +203,7 @@ export interface RootRouteChildren {
   HiveSensorsRoute: typeof HiveSensorsRoute
   JournalRoute: typeof JournalRoute
   MapRoute: typeof MapRoute
+  RwandaRoute: typeof RwandaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ShopBeekeepingRoute: typeof ShopBeekeepingRoute
   ShopFishRoute: typeof ShopFishRoute
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rwanda': {
+      id: '/rwanda'
+      path: '/rwanda'
+      fullPath: '/rwanda'
+      preLoaderRoute: typeof RwandaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/map': {
@@ -303,6 +323,7 @@ const rootRouteChildren: RootRouteChildren = {
   HiveSensorsRoute: HiveSensorsRoute,
   JournalRoute: JournalRoute,
   MapRoute: MapRoute,
+  RwandaRoute: RwandaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ShopBeekeepingRoute: ShopBeekeepingRoute,
   ShopFishRoute: ShopFishRoute,

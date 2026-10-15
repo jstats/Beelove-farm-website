@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 
@@ -139,6 +139,12 @@ function ForageMapsPage() {
             Satellite maps showing where bees can forage across Kenya — now,
             ahead, and long-term.
           </p>
+          <Link
+            to="/rwanda"
+            className="mt-6 inline-flex items-center gap-2 rounded-full bg-honey text-umber px-4 py-2 text-sm font-medium hover:bg-cream"
+          >
+            New: Rwanda rain outlook, October–December 2026 →
+          </Link>
         </div>
       </section>
 
