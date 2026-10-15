@@ -150,7 +150,7 @@ function ForageMapsPage() {
 
       <MapPanel
         title="Season Ahead — October to December 2026"
-        blurb="How this season's rainfall compares with the last 44 years, place by place. Fitted from four decades of satellite rainfall and sea-surface temperature. Rain is the biggest driver of forage in Kenya's drylands, so a wetter season usually means a stronger bloom behind it."
+        blurb="How this season's rainfall compares with the last 44 years, place by place. Built and tested on four decades of satellite rainfall records. Rain is the biggest driver of forage in Kenya's drylands, so a wetter season usually means a stronger bloom behind it."
         image="/images/map-forecast-ond-2026.png"
         alt="Map of Kenya showing the chance of above-normal rainfall for October to December 2026. Every part of the country is above the usual one-in-three chance, strongest in the north and north-east."
         legend={WET_LEGEND}

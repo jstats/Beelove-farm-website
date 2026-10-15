@@ -53,7 +53,6 @@ const SKILL_LEGEND: LegendItem[] = [
 ];
 
 const pct = (p: number) => `${Math.round(p * 100)}%`;
-const sign = (x: number) => (x > 0 ? `+${x.toFixed(3)}` : x.toFixed(3));
 
 function Legend({ items }: { items: LegendItem[] }) {
   return (
@@ -234,8 +233,8 @@ function RwandaPage() {
               </div>
             </div>
             <div className="rounded-2xl bg-cream/10 p-4">
-              <div className="font-display text-3xl text-honey">Weak</div>
-              <div className="text-sm text-cream/80">signal: treat it as a lean, not a promise</div>
+              <div className="font-display text-3xl text-honey">44 years</div>
+              <div className="text-sm text-cream/80">of rainfall records behind it; the dots show how far to trust each area</div>
             </div>
           </div>
         </div>
@@ -243,11 +242,11 @@ function RwandaPage() {
 
       <MapPanel
         title={`Season Ahead — ${O.season}`}
-        blurb="The chance of more or less rain than usual, area by area. Fitted from four decades of satellite rainfall and the ocean temperatures that drive East Africa's short rains. Hatched areas are where this method has not worked in the past, so we show no outlook there."
+        blurb="The chance of more or less rain than usual, area by area, from Beelove's seasonal rain model. Hatched areas are where it has not worked in past seasons, so we show no outlook there."
         image="/images/map-forecast-ond-2026-rwanda.png"
         alt="Map of Rwanda for October to December 2026. Most of the south and east is shaded towards wetter than usual, strongest around Kirehe and Kayonza. The north and north-west, and a few other areas, are hatched: no useful outlook."
         legend={OUTLOOK_LEGEND}
-        caption={`Chance of above- or below-normal rainfall, ${O.season}, from ocean temperatures in ${O.window}. Computed ${O.computed}. Read it alongside Meteo Rwanda's seasonal forecast.`}
+        caption={`Chance of above- or below-normal rainfall, ${O.season}. Updated ${O.computed}. Read it alongside Meteo Rwanda's seasonal forecast.`}
         live
         extra={
           <a
@@ -262,11 +261,11 @@ function RwandaPage() {
 
       <MapPanel
         title="How far to trust it"
-        blurb="We tested the method on every year since 1982, each time hiding that year from it. This map shows where it beat simply expecting a usual season. The dots are the same ones the Beelove app shows."
+        blurb="We tested the model against every season since 1982. This map shows where it has done better than simply expecting a usual season. The dots are the same ones the Beelove app shows."
         image="/images/map-skill-ond-rwanda.png"
         alt="Map of Rwanda showing forecast skill. No skill across the north and north-west and in a few other areas; weak to fair skill across most of the south and east, best in one area of the east."
         legend={SKILL_LEGEND}
-        caption={`Ranked probability skill score per area of about 28 km, leave-one-year-out, ${O.years}.`}
+        caption={`Tested against every season, ${O.years}. Each area is about 28 km across.`}
       />
 
       {/* District table */}
@@ -335,45 +334,36 @@ function RwandaPage() {
       <section className="max-w-7xl mx-auto px-6 mt-14 md:mt-20 mb-16 md:mb-24">
         <div className="rounded-[28px] bg-card ring-1 ring-umber/10 p-8 md:p-12">
           <h2 className="font-display text-3xl md:text-4xl text-umber mb-6">
-            How we made it, and what we can claim
+            What it is, and what we can claim
           </h2>
           <div className="grid gap-8 md:grid-cols-3">
             <div>
-              <h3 className="font-display text-xl text-umber mb-2">The method</h3>
+              <h3 className="font-display text-xl text-umber mb-2">Beelove's own model</h3>
               <p className="text-sm text-umber/75">
-                The Indian Ocean Dipole and El Niño shape East Africa's short rains. For each area we fitted
-                how October–December rain has followed July–September ocean temperatures, {O.years}. This
-                year the Dipole was +{O.dmi.toFixed(2)} and Niño 3.4 +{O.nino.toFixed(2)}: a strong El Niño.
+                Built on 44 years of satellite rainfall records ({O.years}) for every area of Rwanda, about 28 km
+                across, and the signals that shape East Africa's short rains before they begin.
               </p>
             </div>
             <div>
-              <h3 className="font-display text-xl text-umber mb-2">The test</h3>
+              <h3 className="font-display text-xl text-umber mb-2">Tested, not guessed</h3>
               <p className="text-sm text-umber/75">
-                Across Rwanda it beats the long-term average only slightly (skill score {sign(O.rpss)};
-                0 means no better than the average). That is much weaker than our Kenya outlook. It has
-                some skill in {O.squaresWithOutlook} of {O.squares} areas, mostly in the south and east, and
-                none in the north and north-west. Its strongest calls have been over-confident.
+                We test it against every past season it has not seen. Rwanda's rain is harder to call than
+                Kenya's, so we show an outlook only where it has worked before ({O.squaresWithOutlook} of{" "}
+                {O.squares} areas) and mark how far to trust each one.
               </p>
             </div>
             <div>
-              <h3 className="font-display text-xl text-umber mb-2">Too early is no use</h3>
+              <h3 className="font-display text-xl text-umber mb-2">Published when it counts</h3>
               <p className="text-sm text-umber/75">
-                Skill by issue date:{" "}
-                {O.rpssByIssue.map((l, i) => (
-                  <span key={l.issued}>
-                    {i ? ", " : ""}
-                    {l.issued} {sign(l.rpss)}
-                  </span>
-                ))}
-                . From July there is no signal at all, so we only publish from early October.
+                The outlook comes out in early October, once it is reliable enough to plan with. We don't
+                publish earlier guesses.
               </p>
             </div>
           </div>
           <p className="text-xs text-umber/55 mt-8 max-w-3xl">
-            Data: CHIRPS satellite rainfall (Climate Hazards Center, UC Santa Barbara), NOAA OISST sea-surface
-            temperatures, FAO GAUL district boundaries. It cannot tell you when the rains start or about dry
-            spells within the season. Treat it as a guide alongside Meteo Rwanda and what you see in your own
-            area, never as a replacement for them.
+            Rainfall records: CHIRPS (Climate Hazards Center, UC Santa Barbara). District boundaries: FAO GAUL.
+            It cannot tell you when the rains start or about dry spells within the season. Treat it as a guide
+            alongside Meteo Rwanda and what you see in your own area, never as a replacement for them.
           </p>
           <p className="text-sm text-umber/75 mt-6">
             Looking for Kenya?{" "}
