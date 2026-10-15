@@ -1,21 +1,30 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
+import { RwandaMaps } from "@/components/RwandaMaps";
+
+const COUNTRIES = [
+  { id: "kenya", label: "Kenya" },
+  { id: "rwanda", label: "Rwanda" },
+] as const;
+type Country = (typeof COUNTRIES)[number]["id"];
 
 export const Route = createFileRoute("/forage-maps")({
+  validateSearch: (s: Record<string, unknown>): { country?: Country } =>
+    COUNTRIES.some((c) => c.id === s.country) && s.country !== "kenya" ? { country: s.country as Country } : {},
   head: () => ({
     meta: [
       { title: "Bee Intelligence Maps — Beelove Farm" },
       {
         name: "description",
         content:
-          "Satellite maps showing where bees can forage across Kenya — now, ahead, and long-term. Seasonal rainfall forecast, forage timeline and beekeeping suitability.",
+          "Bee maps for Kenya and Rwanda: seasonal rain outlook, forage timeline and beekeeping suitability. Pick your country.",
       },
       { property: "og:title", content: "Bee Intelligence Maps — Beelove Farm" },
       {
         property: "og:description",
         content:
-          "Satellite maps showing where bees can forage across Kenya — now, ahead, and long-term.",
+          "Bee maps for Kenya and Rwanda — rain outlook, forage and suitability.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -124,6 +133,8 @@ function MapPanel({
 }
 
 function ForageMapsPage() {
+  const country: Country = Route.useSearch().country ?? "kenya";
+  const navigate = useNavigate({ from: "/forage-maps" });
   return (
     <SiteLayout>
       {/* Intro */}
@@ -136,21 +147,32 @@ function ForageMapsPage() {
             Beelove Bee Intelligence Maps
           </h1>
           <p className="max-w-2xl text-cream/85 text-lg">
-            Satellite maps showing where bees can forage across Kenya — now,
-            ahead, and long-term.
+            {country === "kenya"
+              ? "Satellite maps showing where bees can forage across Kenya — now, ahead, and long-term."
+              : "Will this season's rains be wetter or drier than usual where your bees are, and how far can you trust that?"}
           </p>
-          <Link
-            to="/rwanda"
-            className="mt-6 inline-flex items-center gap-2 rounded-full bg-honey text-umber px-4 py-2 text-sm font-medium hover:bg-cream"
-          >
-            New: Rwanda rain outlook, October–December 2026 →
-          </Link>
+          <label className="mt-6 inline-flex items-center gap-3 text-sm text-cream/85">
+            Country
+            <select
+              value={country}
+              onChange={(e) =>
+                navigate({ search: e.target.value === "kenya" ? {} : { country: e.target.value as Country }, replace: true })
+              }
+              className="rounded-full bg-honey text-umber font-medium px-4 py-2 pr-8 cursor-pointer focus:outline-none focus:ring-2 focus:ring-cream"
+            >
+              {COUNTRIES.map((c) => (
+                <option key={c.id} value={c.id}>{c.label}</option>
+              ))}
+            </select>
+          </label>
         </div>
       </section>
 
+      {country === "rwanda" ? <RwandaMaps /> : (<>
+
       <MapPanel
         title="Season Ahead — October to December 2026"
-        blurb="How this season's rainfall compares with the last 44 years, place by place. Fitted from four decades of satellite rainfall and sea-surface temperature. Rain is the biggest driver of forage in Kenya's drylands, so a wetter season usually means a stronger bloom behind it."
+        blurb="How this season's rainfall compares with the last 44 years, place by place. Built and tested on four decades of satellite rainfall records. Rain is the biggest driver of forage in Kenya's drylands, so a wetter season usually means a stronger bloom behind it."
         image="/images/map-forecast-ond-2026.png"
         alt="Map of Kenya showing the chance of above-normal rainfall for October to December 2026. Every part of the country is above the usual one-in-three chance, strongest in the north and north-east."
         legend={WET_LEGEND}
@@ -227,6 +249,7 @@ function ForageMapsPage() {
           </p>
         </div>
       </section>
+      </>)}
     </SiteLayout>
   );
 }

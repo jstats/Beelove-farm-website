@@ -15,14 +15,9 @@ export type RwandaDistrict = {
 export const RWANDA_OUTLOOK = {
   season: "October–December 2026",
   computed: "15 Oct 2026",
-  window: "July–September",
   years: "1982–2025",
-  rpss: 0.025,
-  rpssByIssue: [{"issued": "1 Jul", "rpss": -0.015}, {"issued": "1 Sep", "rpss": 0.016}, {"issued": "1 Oct", "rpss": 0.025}, {"issued": "1 Nov (check only)", "rpss": 0.042}],
   squares: 50,
   squaresWithOutlook: 34,
-  dmi: 0.36,
-  nino: 2.62,
 } as const;
 
 export const RWANDA_DISTRICTS: RwandaDistrict[] = [

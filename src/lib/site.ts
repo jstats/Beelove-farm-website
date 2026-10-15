@@ -39,8 +39,7 @@ export const NAV_LINKS: readonly NavItem[] = [
     to: "/map",
     label: "Farm Intelligence",
     children: [
-      { to: "/forage-maps", label: "Bee Maps", desc: "Satellite forage timeline and beekeeping suitability maps" },
-      { to: "/rwanda", label: "Rwanda Rain Outlook", desc: "October–December rain outlook for Rwanda, district by district" },
+      { to: "/forage-maps", label: "Bee Maps", desc: "Rain outlook, forage and suitability maps — Kenya and Rwanda" },
       { to: "/dashboard.html", label: "Field Dashboard", desc: "Field monitoring dashboard for hive and farm data" },
       { to: "/map", label: "Suitability Map", desc: "Find where your land suits bees, fish or Azolla" },
       { to: "/hive-sensors", label: "Hive Sensors", desc: "IoT monitoring for traditional beekeepers" },
