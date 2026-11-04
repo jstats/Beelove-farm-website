@@ -2,19 +2,16 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import { ArrowRight, ChevronDown, Sparkles, Smartphone, TrendingUp, ShieldCheck } from "lucide-react";
+import { ArrowRight, Smartphone, CheckCircle, ShieldCheck } from "lucide-react";
+
 import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
-
 import fishImg from "@/assets/fish-farmer-tilapia.jpg";
 import catfishHeroImg from "@/assets/fish-catfish-large-hero-sharp.jpg";
 import tilapiaPlatterImg from "@/assets/fish-tilapia-platter.jpg";
 import hiveStandImg from "@/assets/hive-stand.jpg";
 import honeycombImg from "@/assets/honeycomb-closeup.jpg";
-import honeyProductsImg from "@/assets/honey-products.jpg";
-import training2 from "@/assets/training2.jpg";
-import prodHoney1kg from "@/assets/prod-honey-1kg.jpg";
 import mapLandscapeImg from "@/assets/map-acacia-landscape.jpg";
 import trainingCommunity from "@/assets/training-community.jpg";
 import trainingCircle from "@/assets/training-circle.jpg";
@@ -30,10 +27,10 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Beelove Farm produces premium raw honey, catfish & tilapia fingerlings, beekeeping equipment, training and aquaculture products — shipped worldwide.",
+          "Beelove Farm produces premium raw honey, catfish & tilapia fingerlings, beekeeping equipment, training and aquaculture products — shipped worldwide from Kiunduani, Kenya.",
       },
       { property: "og:title", content: "Beelove Farm — Raw Honey, Hives & Fish Farming Supplies" },
-      { property: "og:description", content: "Climate-smart beekeeping & fish farming, delivered worldwide." },
+      { property: "og:description", content: "Climate-smart beekeeping & fish farming in Kiunduani, Kenya. Delivered worldwide." },
       { property: "og:url", content: "https://beelovefarm.org/" },
     ],
     links: [
@@ -45,14 +42,14 @@ export const Route = createFileRoute("/")({
 });
 
 const SLIDES = [
-  { src: "/images/beelove-app-v12-mockup.jpg", alt: "BeeLove Farmer App v1.2 on smartphone in an African apiary" },
-  { src: hero1, alt: "Fresh Beelove honeycomb harvest" },
-  { src: fishImg, alt: "Fresh tilapia harvest" },
+  { src: hero1, alt: "Fresh Beelove honeycomb harvest at Kiunduani" },
+  { src: beekeeperApiary, alt: "Beelove beekeeper inspecting colonized hives in Makueni" },
+  { src: fishImg, alt: "Fresh tilapia harvest from aquaculture ponds" },
   { src: catfishHeroImg, alt: "Farmer holding a large African catfish" },
-  { src: hero2, alt: "Beelove branded hive" },
+  { src: hero2, alt: "Beelove branded Kenya Top Bar Hive" },
   { src: tilapiaPlatterImg, alt: "Fresh tilapia served on a platter" },
-  { src: hiveStandImg, alt: "Hive stand in apiary" },
-   { src: hero3, alt: "Beelove farm landscape" },
+  { src: hiveStandImg, alt: "Hive stand in acacia woodland apiary" },
+  { src: hero3, alt: "Beelove farm landscape in Makueni County, Kenya" },
 ];
 
 const STATS = [
@@ -84,6 +81,7 @@ const VIDEOS = [
 
 function HomePage() {
   const [slide, setSlide] = useState(0);
+
   useEffect(() => {
     const t = setInterval(() => setSlide((s) => (s + 1) % SLIDES.length), 5000);
     return () => clearInterval(t);
@@ -93,6 +91,7 @@ function HomePage() {
     <SiteLayout>
       {/* HERO SLIDESHOW */}
       <section
+        id="welcome"
         className="relative h-[88vh] min-h-[560px] overflow-hidden bg-honey"
         style={{ backgroundColor: "#e8b84a" }}
       >
@@ -106,91 +105,200 @@ function HomePage() {
             className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1500ms] ${i === slide ? "opacity-100" : "opacity-0"}`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-umber/60 via-umber/40 to-umber/80" />
+
+        <div className="absolute inset-0 bg-gradient-to-b from-umber/70 via-umber/50 to-umber/85" />
+
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 text-cream">
-          <a
-            href="#mobile-app"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#164936]/90 border border-[#A3E7C1]/50 text-[#A3E7C1] text-xs font-bold uppercase tracking-[0.16em] mb-4 hover:bg-[#164936] transition-all shadow-xl backdrop-blur-md"
-          >
-            <span>📱</span>
-            <span>New: BeeLove Farmer App v1.2 &bull; On Google Play</span>
-            <ArrowRight className="size-3.5" />
-          </a>
+          {/* Farm Location Pill - Highly Visible at Top */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber/25 border border-amber/40 text-honey text-xs font-semibold tracking-wide mb-6 backdrop-blur-md shadow-md">
+            <span>📍</span>
+            <span>Kiunduani, Makueni County, Kenya &bull; Shipping Worldwide</span>
+          </div>
 
           <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
-            Beelove Farm —<br />
-            <em className="text-honey">Honey, Hives & Fish Farming</em>
+            Beelove Farm &mdash;<br />
+            <em className="text-honey">Honey, Hives &amp; Fish Farming</em>
           </h1>
+
           <p className="max-w-2xl text-base md:text-lg text-cream/90 text-pretty mb-8">
-            Where honey meets the harvest. Modern climate-smart apiculture, satellite rainfall onset intelligence, and sustainable aquaculture — built for African smallholders.
+            Sustainable apiculture, healthy fingerlings, and climate-smart farm tools &mdash; working with nature to nourish families, train farmers, and build a thriving future.
           </p>
+
           <div className="flex flex-wrap gap-3.5 justify-center items-center">
             <a
               href="#mobile-app"
-              className="bg-[#164936] text-cream border-2 border-honey text-sm font-bold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-[#1E5D45] transition-all shadow-xl inline-flex items-center gap-2"
+              className="bg-amber text-umber font-bold text-sm uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-honey transition-all shadow-xl inline-flex items-center gap-2"
             >
-              <Smartphone className="size-4 text-honey" />
-              <span>Get Mobile App v1.2</span>
+              <Smartphone className="size-4" />
+              <span>Farmer App</span>
             </a>
+
             <a
-              href="#welcome"
-              className="bg-amber text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-honey hover:text-umber transition-colors"
+              href="#enterprise-cards"
+              className="bg-cream/15 text-cream border border-cream/30 text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-cream/25 transition-all shadow-lg"
             >
-              Discover Our Farm
+              Shop &amp; Training
             </a>
+
             <Link
-              to="/farmer-dashboard"
-              className="border border-cream/40 text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-cream/10 transition-colors inline-flex items-center gap-2"
+              to="/contact"
+              className="border border-cream/40 text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-cream/10 transition-colors"
             >
-              <span>Farmer Dashboard</span>
+              Get in Touch
             </Link>
           </div>
         </div>
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-cream/70 text-[10px] uppercase tracking-[0.2em]">
-          <span>Scroll</span>
-          <ChevronDown className="size-4 animate-bounce" />
-        </div>
-        <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10 flex gap-2">
-          {SLIDES.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Slide ${i + 1}`}
-              onClick={() => setSlide(i)}
-              className={`h-1.5 rounded-full transition-all ${i === slide ? "w-8 bg-honey" : "w-1.5 bg-cream/50"}`}
-            />
+      </section>
+
+      {/* STATS STRIP */}
+      <section className="bg-umber text-cream py-10 border-b border-cream/10">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          {STATS.map((s) => (
+            <div key={s.label}>
+              <div
+                className={`font-display text-4xl md:text-5xl font-bold ${
+                  s.tone === "amber" ? "text-honey" : "text-teal-300"
+                }`}
+              >
+                {s.value}
+              </div>
+              <div className="text-xs uppercase tracking-widest text-cream/70 mt-1">
+                {s.label}
+              </div>
+            </div>
           ))}
         </div>
       </section>
 
-      {/* STATS BAR */}
-      <div className="bg-umber text-cream">
-        <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-          {STATS.map((s) => (
-            <div key={s.label}>
-              <div className={`font-display text-4xl md:text-5xl ${s.tone === "teal" ? "text-teal" : "text-honey"}`}>{s.value}</div>
-              <div className="text-[10px] font-medium uppercase tracking-[0.18em] text-cream/70 mt-2">{s.label}</div>
+      {/* BEELOVE FARMER APP SHOWCASE (PROMINENT TOP POSITION) */}
+      <section id="mobile-app" className="bg-[#0D2218] text-cream py-16 md:py-20 border-b border-amber/20 relative">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <div className="inline-flex items-center gap-2 bg-amber/20 border border-amber/40 text-honey text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
+              <Smartphone className="size-3.5" />
+              <span>Mobile Technology for Smallholders</span>
             </div>
-          ))}
-        </div>
-      </div>
-
-      {/* WELCOME + PHILOSOPHY */}
-      <section id="welcome" className="bg-cream">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-start">
-          <div>
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">🌱 Our Philosophy</span>
-            <h2 className="font-display text-4xl md:text-5xl mt-3 mb-6 leading-tight">
-              Farming With Nature,<br />Not Against It
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-cream mt-2 mb-4 leading-tight">
+              BeeLove Farmer App
             </h2>
-            <div className="space-y-4 text-umber/80 text-pretty">
-              <p>At Beelove Farm, sustainability is not a slogan — it is how we work every day. Our bees pollinate the land, our fish enrich the ecosystem, and our farmers learn to produce more while taking less from the earth.</p>
-              <p>We believe the healthiest food comes from the healthiest land. That is why every hive is placed where bees can forage freely, and every pond is fed with Azolla — a natural, protein-rich plant that replaces expensive commercial feeds and keeps our water clean.</p>
-              <p>From our home farm to growers around the world, Beelove Farm is proving that sustainable agriculture is not just better for the planet — it is better for business too.</p>
+            <p className="text-cream/80 text-base md:text-lg">
+              Simple 4-question monthly check-ins, radial colony occupancy gauges, and offline swarm-season guidance &mdash; designed for African apiaries.
+            </p>
+          </div>
+
+          {/* Authentic App Preview Banner with Brand Logo */}
+          <div className="max-w-4xl mx-auto bg-forest/90 border border-amber/30 rounded-3xl p-8 mb-12 shadow-2xl">
+            <div className="flex flex-col md:flex-row items-center gap-8 justify-between">
+              <div className="flex items-center gap-5">
+                <img
+                  src="/images/beelove-logo.png"
+                  alt="BeeLove Farm Authentic Logo"
+                  width={80}
+                  height={80}
+                  className="size-20 object-contain rounded-2xl bg-cream/10 p-2 border border-cream/20 shadow-md shrink-0"
+                />
+                <div>
+                  <div className="inline-flex items-center gap-1.5 text-xs text-honey font-bold uppercase tracking-wider mb-1">
+                    <CheckCircle className="size-3.5" />
+                    <span>Android Applet &bull; Google Play Ready</span>
+                  </div>
+                  <h3 className="font-display text-2xl md:text-3xl font-bold text-cream">
+                    BeeLove Farmer Mobile
+                  </h3>
+                  <p className="text-cream/70 text-sm mt-1">
+                    Built for remote rural apiaries with zero network dependence.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  to="/farmer-dashboard"
+                  className="bg-amber text-umber font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-honey transition-colors shadow-lg"
+                >
+                  Farmer Portal &rarr;
+                </Link>
+                <Link
+                  to="/org-dashboard"
+                  className="bg-cream/10 border border-cream/25 text-cream font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-cream/20 transition-colors"
+                >
+                  Co-op Portal (Demo)
+                </Link>
+              </div>
             </div>
           </div>
+
+          {/* Core Feature Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-forest/70 border border-cream/15 rounded-3xl p-6 shadow-lg">
+              <div className="size-12 rounded-2xl bg-amber/20 flex items-center justify-center text-2xl mb-4">
+                📊
+              </div>
+              <h4 className="font-display text-xl font-bold text-cream mb-2">
+                Radial Occupancy &amp; Empty Hives
+              </h4>
+              <p className="text-cream/75 text-sm leading-relaxed mb-3">
+                Glanceable radial gauges show colonized versus empty boxes instantly. Realistic valuation alerts you when empty hives are primed for baiting ahead of the rains.
+              </p>
+              <div className="text-xs font-semibold text-honey">
+                ✓ 85% Colonization Goal Tracking
+              </div>
+            </div>
+
+            <div className="bg-forest/70 border border-cream/15 rounded-3xl p-6 shadow-lg">
+              <div className="size-12 rounded-2xl bg-amber/20 flex items-center justify-center text-2xl mb-4">
+                🐝
+              </div>
+              <h4 className="font-display text-xl font-bold text-cream mb-2">
+                BeeLove Advisor
+              </h4>
+              <p className="text-cream/75 text-sm leading-relaxed mb-3">
+                Practical rule engine evaluates inspection recency and seasonal floral nectar flow to recommend timely inspections and swarm-season box baiting.
+              </p>
+              <div className="text-xs font-semibold text-honey">
+                ✓ 100% Offline &bull; Explainable Rules
+              </div>
+            </div>
+
+            <div className="bg-forest/70 border border-cream/15 rounded-3xl p-6 shadow-lg">
+              <div className="size-12 rounded-2xl bg-teal/20 flex items-center justify-center text-2xl mb-4">
+                📝
+              </div>
+              <h4 className="font-display text-xl font-bold text-cream mb-2">
+                Simple Monthly Check-In
+              </h4>
+              <p className="text-cream/75 text-sm leading-relaxed mb-3">
+                Fast 4-question check-in logging occupied hives, colony departures, catches, and harvest volume (kg) in seconds.
+              </p>
+              <div className="text-xs font-semibold text-honey">
+                ✓ Tap-to-type number entry
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FOUR PILLARS */}
+      <section className="bg-cream py-16 md:py-24">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">Our Philosophy</span>
+            <h2 className="font-display text-4xl md:text-5xl mt-3 mb-6 leading-tight">
+              Farming in Harmony<br />with the Land
+            </h2>
+            <p className="text-umber/80 leading-relaxed mb-6 text-pretty">
+              At Beelove Farm in Kiunduani, we combine traditional wisdom with modern agricultural practices. From pesticide-free apiaries to low-cost Azolla aquaculture, everything is designed to be sustainable, profitable, and replicable for smallholder farmers.
+            </p>
+            <div className="flex gap-4">
+              <Link to="/about" className="inline-flex items-center gap-2 bg-amber text-cream text-sm font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-honey hover:text-umber transition-colors">
+                Learn About Us <ArrowRight className="size-4" />
+              </Link>
+            </div>
+          </div>
+
           <div className="grid sm:grid-cols-2 gap-4">
             {PILLARS.map((p) => (
-              <div key={p.title} className="bg-card ring-1 ring-umber/10 rounded-[20px] p-6">
+              <div key={p.title} className="bg-card ring-1 ring-umber/10 rounded-[20px] p-6 shadow-sm">
                 <span className="text-3xl block mb-3">{p.icon}</span>
                 <h4 className="font-display text-lg mb-2">{p.title}</h4>
                 <p className="text-sm text-umber/70 leading-relaxed">{p.copy}</p>
@@ -201,13 +309,16 @@ function HomePage() {
       </section>
 
       {/* ENTERPRISE CARDS */}
-      <section className="bg-umber/95 py-16 md:py-24">
+      <section id="enterprise-cards" className="bg-umber/95 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12 text-cream">
             <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-honey">Choose Your Path</span>
             <h2 className="font-display text-4xl md:text-5xl mt-3 mb-4">What Brings You Here Today?</h2>
-            <p className="text-cream/80 max-w-2xl mx-auto">Whether you're drawn to the world of bees or the promise of fish farming — we have the products, training, and expertise to help you succeed.</p>
+            <p className="text-cream/80 max-w-2xl mx-auto">
+              Whether you're drawn to the world of bees or aquaculture — we have the products, training, and expertise to help you succeed.
+            </p>
           </div>
+
           <div className="grid md:grid-cols-2 gap-6">
             <EnterpriseCard
               tone="amber"
@@ -237,136 +348,6 @@ function HomePage() {
         </div>
       </section>
 
-      {/* BEELOVE FARMER APP (v1.2) FLAGSHIP SHOWCASE */}
-      <section id="mobile-app" className="bg-[#0F261C] text-cream py-16 md:py-24 border-y border-amber/20 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center max-w-3xl mx-auto mb-14">
-            <div className="inline-flex items-center gap-2 bg-amber/20 border border-amber/40 text-honey text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
-              <Sparkles className="size-3.5" />
-              <span>Flagship Mobile Experience &bull; Version 1.2</span>
-            </div>
-            <h2 className="font-display text-4xl md:text-5xl font-bold text-cream mt-2 mb-4 leading-tight">
-              The Climate-Smart Beekeeping App<br className="hidden sm:inline" /> Built for African Smallholders
-            </h2>
-            <p className="text-cream/80 text-base md:text-lg">
-              From real-time radial colony occupancy gauges to autonomous on-device AI advisors, 
-              BeeLove Mobile equips beekeepers with satellite precision and offline resilience.
-            </p>
-          </div>
-
-          {/* App v1.2 Hero Image Showcase */}
-          <div className="mb-14 relative max-w-4xl mx-auto rounded-3xl overflow-hidden border border-amber/30 shadow-2xl group bg-black/40">
-            <img 
-              src="/images/beelove-app-v12-mockup.jpg" 
-              alt="BeeLove Farmer App v1.2 displayed on a smartphone in an African savannah apiary" 
-              className="w-full h-auto object-cover max-h-[500px] transform group-hover:scale-[1.02] transition-transform duration-500"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0F261C] via-transparent to-transparent opacity-60 pointer-events-none" />
-            <div className="absolute bottom-4 left-6 right-6 flex flex-wrap items-center justify-between gap-4 pointer-events-none">
-              <span className="bg-forest/90 backdrop-blur-md border border-cream/20 text-cream text-xs font-semibold px-4 py-2 rounded-full shadow-lg">
-                📱 BeeLove Farmer v1.2 &bull; On-Device AI &bull; Radial Colonization Gauge
-              </span>
-              <span className="bg-amber text-umber font-bold text-xs px-3.5 py-1.5 rounded-full shadow-md">
-                Google Play Ready
-              </span>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8 items-stretch">
-            {/* Feature 1 */}
-            <div className="bg-forest/80 border border-cream/15 rounded-3xl p-7 flex flex-col justify-between hover:border-amber/50 transition-all shadow-xl">
-              <div>
-                <div className="size-12 rounded-2xl bg-amber/20 flex items-center justify-center text-2xl mb-5">
-                  📊
-                </div>
-                <h3 className="font-display text-2xl font-bold text-cream mb-2">
-                  Radial Occupancy &amp; Empty Hives
-                </h3>
-                <p className="text-cream/75 text-sm leading-relaxed mb-4">
-                  Glanceable SVG sweep gauges show colonized hives instantly. High-contrast opportunity callouts alert you when uncolonized boxes are ready for baiting ahead of seasonal rains.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
-                ✓ 85% Colonization Goal Tracking
-              </div>
-            </div>
-
-            {/* Feature 2: On-Device AI */}
-            <div className="bg-gradient-to-b from-forest to-[#1A3D2D] border-2 border-amber rounded-3xl p-7 flex flex-col justify-between relative shadow-2xl">
-              <div className="absolute top-4 right-4 bg-[#0F172A] text-[#38BDF8] text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">
-                NEW IN 1.2
-              </div>
-              <div>
-                <div className="size-12 rounded-2xl bg-amber flex items-center justify-center text-2xl mb-5 text-umber">
-                  🤖
-                </div>
-                <h3 className="font-display text-2xl font-bold text-cream mb-2">
-                  On-Device AI Hive Advisor
-                </h3>
-                <p className="text-cream/75 text-sm leading-relaxed mb-4">
-                  Evaluates inspection recency, rainfall anomalies, and pest departure records locally on the phone. Proactively schedules morning push notifications with 1-tap directives.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
-                ✓ 100% Offline &bull; Zero Network Required
-              </div>
-            </div>
-
-            {/* Feature 3: Time Series */}
-            <div className="bg-forest/80 border border-cream/15 rounded-3xl p-7 flex flex-col justify-between hover:border-amber/50 transition-all shadow-xl">
-              <div>
-                <div className="size-12 rounded-2xl bg-teal/20 flex items-center justify-center text-2xl mb-5">
-                  📈
-                </div>
-                <h3 className="font-display text-2xl font-bold text-cream mb-2">
-                  Monthly KPI Time-Series
-                </h3>
-                <p className="text-cream/75 text-sm leading-relaxed mb-4">
-                  Multi-month telemetry curves tracking colony expansion, cumulative honey harvest (kg), and savannah flora bloom correlation over 40-year climate baselines.
-                </p>
-              </div>
-              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
-                ✓ Seasonal Trajectory &amp; Yield Forecasts
-              </div>
-            </div>
-          </div>
-
-          {/* Action CTAs */}
-          <div className="mt-12 bg-cream/5 border border-cream/15 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="space-y-1 text-center md:text-left">
-              <div className="font-display text-xl font-bold text-cream">
-                Experience the BeeLove Intelligence Ecosystem
-              </div>
-              <p className="text-sm text-cream/70">
-                Try the interactive mobile simulator or access the live cooperative management portals.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap gap-3 justify-center">
-              <Link
-                to="/farmer-dashboard"
-                className="bg-amber text-umber font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-honey transition-colors shadow-lg"
-              >
-                Farmer Dashboard &rarr;
-              </Link>
-              <Link
-                to="/org-dashboard"
-                className="bg-forest border border-honey text-honey font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-forest/80 transition-colors"
-              >
-                Cooperative Portal &rarr;
-              </Link>
-              <a
-                href="/beelove_v3_visuals.html"
-                target="_blank"
-                className="border border-cream/30 text-cream font-medium text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-cream/10 transition-colors"
-              >
-                📱 Live Mobile Demo
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ABOUT STORY */}
       <section className="bg-cream py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
@@ -376,36 +357,30 @@ function HomePage() {
               Rooted in the Land,<br />Guided by the Bee
             </h2>
             <div className="space-y-4 text-umber/80 text-pretty">
-              <p>Beelove Farm was born from a deep respect for nature and a passion for sustainable farming. We work with the land — not against it — to produce raw honey of exceptional quality and raise healthy catfish fingerlings for a growing global aquaculture sector.</p>
-              <p>Every jar of honey tells a story of diverse flora, clean water, and bees allowed to thrive on their own terms. Every fingerling is raised in clean water, ready to grow strong on your farm.</p>
+              <p>Beelove Farm was born from a deep respect for nature and a passion for sustainable farming in Kiunduani, Makueni County. We work with the land — not against it — to produce pure raw honey of exceptional quality and raise healthy catfish and tilapia fingerlings.</p>
+              <p>Every jar of honey tells a story of diverse dryland flora, clean water, and bees allowed to thrive on their own terms. Every fingerling is raised in clean water, ready to grow strong on your farm.</p>
             </div>
             <Link to="/contact" className="inline-flex items-center gap-2 mt-6 bg-teal text-cream text-sm font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-amber transition-colors">
               Get in Touch <ArrowRight className="size-4" />
             </Link>
           </div>
+
           <div className="relative">
-            <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10">
+            <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10 shadow-lg">
               <img src={hero1} alt="Fresh Beelove honeycomb frame" className="w-full h-[420px] object-cover" />
             </div>
-            <div className="absolute -bottom-4 -left-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-sm">
+            <div className="absolute -bottom-4 -left-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-md">
               <span className="text-2xl">🐟</span>
               <div>
                 <div className="font-semibold">Aquaculture</div>
                 <div className="text-umber/60">Catfish · Azolla</div>
               </div>
             </div>
-            <div className="absolute top-6 -right-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-sm">
+            <div className="absolute top-6 -right-4 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-md">
               <span className="text-2xl">🎓</span>
               <div>
                 <div className="font-semibold">Training</div>
                 <div className="text-umber/60">Hands-on Programs</div>
-              </div>
-            </div>
-            <div className="absolute -bottom-4 right-12 bg-card ring-1 ring-umber/10 rounded-2xl px-4 py-3 text-xs flex items-center gap-3 shadow-sm">
-              <span className="text-2xl">🗺️</span>
-              <div>
-                <div className="font-semibold">Research</div>
-                <div className="text-umber/60">Suitability Mapping</div>
               </div>
             </div>
           </div>
@@ -415,7 +390,7 @@ function HomePage() {
       {/* MAP TEASER */}
       <section className="bg-honey/20 py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
-          <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10 order-2 md:order-1">
+          <div className="rounded-[24px] overflow-hidden ring-1 ring-umber/10 order-2 md:order-1 shadow-md">
             <img src={mapLandscapeImg} alt="Beelove farm landscape" className="w-full h-[360px] object-cover" />
           </div>
           <div className="order-1 md:order-2">
@@ -423,8 +398,12 @@ function HomePage() {
             <h2 className="font-display text-4xl md:text-5xl mt-3 mb-6 leading-tight">
               Hive Suitability<br />Mapping
             </h2>
-            <p className="text-umber/80 mb-4">Beelove Farm developed a data-driven suitability map — visualising vegetation density, flora, water sources, and existing hive locations to help identify the best sites for new apiaries.</p>
-            <p className="text-umber/80 mb-6">Field data is collected by our team using GPS-enabled forms and synced live to the map. Open to farmers, NGOs, and county extension officers.</p>
+            <p className="text-umber/80 mb-4">
+              Beelove Farm developed a data-driven suitability map — visualising vegetation density, flora, water sources, and existing hive locations to help identify the best sites for new apiaries.
+            </p>
+            <p className="text-umber/80 mb-6">
+              Field data is collected by our team using GPS-enabled forms and synced live to the map. Open to farmers, NGOs, and county extension officers.
+            </p>
             <Link to="/map" className="inline-flex items-center gap-2 bg-teal text-cream text-sm font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-amber transition-colors">
               Open the Map <ArrowRight className="size-4" />
             </Link>
@@ -441,7 +420,7 @@ function HomePage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="bg-card ring-1 ring-umber/10 rounded-[24px] p-8">
+              <div key={t.name} className="bg-card ring-1 ring-umber/10 rounded-[24px] p-8 shadow-sm">
                 <p className="text-umber/85 italic mb-6 text-pretty">"{t.quote}"</p>
                 <div className="flex items-center gap-3 pt-4 border-t border-umber/10">
                   <div className="size-11 rounded-full bg-amber/20 grid place-items-center font-display text-amber">{t.initials}</div>
@@ -480,7 +459,7 @@ function HomePage() {
       <section className="bg-cream py-16 md:py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">Watch & Learn</span>
+            <span className="text-[10px] font-medium uppercase tracking-[0.2em] text-amber">Watch &amp; Learn</span>
             <h2 className="font-display text-4xl md:text-5xl mt-3 mb-3">From Our YouTube Channel</h2>
             <p className="text-umber/75 max-w-2xl mx-auto">Practical beekeeping guides and farm stories — straight from Beelove Apiaries.</p>
           </div>
@@ -549,22 +528,33 @@ function EnterpriseCard({
   const bg = tone === "amber" ? "bg-amber" : "bg-teal";
   const accent = tone === "amber" ? "text-amber" : "text-teal";
   return (
-    <div className={`${bg} text-cream rounded-[28px] overflow-hidden ring-1 ring-black/5 flex flex-col`}>
-      <div className="aspect-[4/3] overflow-hidden">
-        <img src={image} alt={imageAlt} className="w-full h-full object-cover object-center" />
-      </div>
-      <div className="p-8 flex flex-col flex-1">
-        <span className="text-4xl mb-3">{icon}</span>
-        <h3 className="font-display text-3xl mb-3">{title}</h3>
-        <p className="text-sm text-cream/90 mb-6 flex-1">{copy}</p>
-        <div className="flex flex-wrap gap-3">
-          <Link to={shopHref} className={`bg-cream ${accent} text-xs font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full hover:bg-umber hover:text-cream transition-colors`}>
-            {shopLabel}
-          </Link>
-          <Link to={trainHref} className="border border-cream/50 text-cream text-xs font-semibold uppercase tracking-widest px-4 py-2.5 rounded-full hover:bg-cream/10 transition-colors">
-            {trainLabel}
-          </Link>
+    <div className="bg-card text-umber ring-1 ring-umber/10 rounded-[28px] overflow-hidden flex flex-col justify-between">
+      <div>
+        <div className="relative h-64 overflow-hidden">
+          <img src={image} alt={imageAlt} className="w-full h-full object-cover" />
+          <div className="absolute top-4 left-4 bg-cream/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-semibold flex items-center gap-1.5 shadow-sm">
+            <span>{icon}</span>
+            <span className={accent}>{title}</span>
+          </div>
         </div>
+        <div className="p-8">
+          <h3 className="font-display text-2xl font-bold mb-3">{title}</h3>
+          <p className="text-umber/75 text-sm leading-relaxed">{copy}</p>
+        </div>
+      </div>
+      <div className="p-8 pt-0 flex flex-wrap gap-3">
+        <Link
+          to={shopHref}
+          className={`${bg} text-cream text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:opacity-90 transition-opacity`}
+        >
+          {shopLabel}
+        </Link>
+        <Link
+          to={trainHref}
+          className="border border-umber/20 text-umber text-xs font-semibold uppercase tracking-widest px-5 py-3 rounded-full hover:bg-umber/5 transition-colors"
+        >
+          {trainLabel}
+        </Link>
       </div>
     </div>
   );

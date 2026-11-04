@@ -1,13 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, X, Smartphone } from "lucide-react";
+import { ChevronDown, Menu, X } from "lucide-react";
 import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
 function isAnchorLink(to: string): boolean {
-  return to.startsWith("http") || to.endsWith(".html");
+  return to.startsWith("http") || to.endsWith(".html") || to.includes("#");
 }
-
 
 export function SiteNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -32,21 +31,21 @@ export function SiteNav() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-40 bg-cream/90 backdrop-blur-md border-b border-umber/10">
+    <nav className="sticky top-0 z-40 bg-cream/95 backdrop-blur-md border-b border-umber/10">
       <div
         ref={navRef}
         className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between"
       >
         <Link
           to="/"
-          className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors inline-flex items-center gap-2"
+          className="font-display text-2xl text-umber tracking-tight hover:text-amber transition-colors inline-flex items-center gap-2.5"
         >
           <img
             src="/images/beelove-logo.png"
             alt="BeeLove Farm logo"
             width={40}
             height={40}
-            className="size-10 object-contain"
+            className="size-10 object-contain rounded-md"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).style.display = "none";
             }}
@@ -56,16 +55,6 @@ export function SiteNav() {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-1 text-sm font-medium">
-          <div className="pb-2 border-b border-umber/10">
-            <a
-              href="/#mobile-app"
-              onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center justify-center gap-2 w-full bg-[#164936] text-[#A3E7C1] font-bold text-sm py-2.5 rounded-xl shadow-sm"
-            >
-              <Smartphone className="size-4 text-honey" />
-              <span>BeeLove Farmer App v1.2</span>
-            </a>
-          </div>
           {NAV_LINKS.map((item) =>
             item.children ? (
               <DesktopDropdown
@@ -91,24 +80,17 @@ export function SiteNav() {
           )}
         </div>
 
-        <div className="hidden md:flex items-center gap-2">
+        <div className="hidden sm:flex items-center gap-3">
           <a
-            href="/#mobile-app"
-            className="inline-flex items-center gap-1.5 bg-[#164936] text-[#A3E7C1] text-xs font-bold uppercase tracking-wider px-3.5 py-2 rounded-full ring-1 ring-[#164936] hover:bg-[#1E5D45] transition-all shadow-sm"
+            href={wa("Hello Beelove Farm, I'd like to make an enquiry.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-amber text-cream text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full ring-1 ring-amber hover:bg-umber hover:ring-umber transition-colors shadow-sm"
           >
-            <Smartphone className="size-3.5 text-honey" />
-            <span>App v1.2</span>
+            <span className="size-1.5 rounded-full bg-cream" />
+            Order via WhatsApp
           </a>
         </div>
-        <a
-          href={wa("Hello Beelove Farm, I'd like to make an enquiry.")}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="hidden sm:inline-flex items-center gap-2 bg-amber text-cream text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full ring-1 ring-amber hover:bg-umber hover:ring-umber transition-colors"
-        >
-          <span className="size-1.5 rounded-full bg-cream" />
-          Order via WhatsApp
-        </a>
 
         <button
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -122,21 +104,11 @@ export function SiteNav() {
       {/* Mobile nav */}
       <div
         className={cn(
-          "lg:hidden border-t border-umber/10 overflow-hidden transition-[max-height] duration-300",
+          "lg:hidden border-t border-umber/10 overflow-hidden transition-[max-height] duration-300 bg-cream",
           mobileOpen ? "max-h-[600px]" : "max-h-0"
         )}
       >
         <div className="px-6 py-4 flex flex-col gap-1 text-sm font-medium">
-          <div className="pb-2 border-b border-umber/10">
-            <a
-              href="/#mobile-app"
-              onClick={() => setMobileOpen(false)}
-              className="inline-flex items-center justify-center gap-2 w-full bg-[#164936] text-[#A3E7C1] font-bold text-sm py-2.5 rounded-xl shadow-sm"
-            >
-              <Smartphone className="size-4 text-honey" />
-              <span>BeeLove Farmer App v1.2</span>
-            </a>
-          </div>
           {NAV_LINKS.map((item) =>
             item.children ? (
               <div key={item.label} className="border-b border-umber/5 last:border-0 py-1">
@@ -215,7 +187,7 @@ function DesktopDropdown({
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  // Open on hover (desktop pattern), close on mouse leave
+
   return (
     <div
       ref={ref}

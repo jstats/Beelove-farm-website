@@ -137,7 +137,7 @@ function FarmerDashboardPage() {
                 My Apiaries &amp; Live Telemetry
               </h1>
               <p className="text-cream/70 text-sm mt-1">
-                Connected to BeeLove Farmer Mobile App (Build 1.2) &bull; Offline sync enabled
+                Connected to BeeLove Farmer Mobile App Offline sync enabled
               </p>
             </div>
 

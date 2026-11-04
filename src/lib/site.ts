@@ -35,6 +35,7 @@ export const NAV_LINKS: readonly NavItem[] = [
     to: "/farmer-dashboard",
     label: "Farm Intelligence",
     children: [
+      { to: "/#mobile-app", label: "Farmer Mobile App", desc: "Inspection logs, colonization tracking & offline swarm advice" },
       { to: "/farmer-dashboard", label: "Farmer Dashboard", desc: "Individual apiary telemetry, hive check-ins & AI advice" },
       { to: "/org-dashboard", label: "Cooperative & Org Portal", desc: "Multi-farmer census, swarm broadcast & honey harvest forecasts" },
       { to: "/forage-maps", label: "Bee Maps", desc: "Rain outlook, forage and suitability maps — Kenya and Rwanda" },
