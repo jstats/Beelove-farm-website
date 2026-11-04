@@ -9,56 +9,26 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RwandaRouteImport } from './routes/rwanda'
-import { Route as MapRouteImport } from './routes/map'
-import { Route as JournalRouteImport } from './routes/journal'
-import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
-import { Route as ForageMapsRouteImport } from './routes/forage-maps'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as ShopIndexRouteImport } from './routes/shop.index'
-import { Route as TrainingFishRouteImport } from './routes/training.fish'
-import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekeeping'
-import { Route as ShopFishRouteImport } from './routes/shop.fish'
-import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FarmerDashboardRouteImport } from './routes/farmer-dashboard'
+import { Route as ForageMapsRouteImport } from './routes/forage-maps'
+import { Route as HiveSensorsRouteImport } from './routes/hive-sensors'
+import { Route as JournalRouteImport } from './routes/journal'
+import { Route as MapRouteImport } from './routes/map'
 import { Route as OrgDashboardRouteImport } from './routes/org-dashboard'
+import { Route as RwandaRouteImport } from './routes/rwanda'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
+import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
+import { Route as ShopFishRouteImport } from './routes/shop.fish'
+import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekeeping'
+import { Route as TrainingFishRouteImport } from './routes/training.fish'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RwandaRoute = RwandaRouteImport.update({
-  id: '/rwanda',
-  path: '/rwanda',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MapRoute = MapRouteImport.update({
-  id: '/map',
-  path: '/map',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const JournalRoute = JournalRouteImport.update({
-  id: '/journal',
-  path: '/journal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HiveSensorsRoute = HiveSensorsRouteImport.update({
-  id: '/hive-sensors',
-  path: '/hive-sensors',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ForageMapsRoute = ForageMapsRouteImport.update({
-  id: '/forage-maps',
-  path: '/forage-maps',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -66,9 +36,49 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FarmerDashboardRoute = FarmerDashboardRouteImport.update({
+  id: '/farmer-dashboard',
+  path: '/farmer-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForageMapsRoute = ForageMapsRouteImport.update({
+  id: '/forage-maps',
+  path: '/forage-maps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HiveSensorsRoute = HiveSensorsRouteImport.update({
+  id: '/hive-sensors',
+  path: '/hive-sensors',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const JournalRoute = JournalRouteImport.update({
+  id: '/journal',
+  path: '/journal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MapRoute = MapRouteImport.update({
+  id: '/map',
+  path: '/map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrgDashboardRoute = OrgDashboardRouteImport.update({
+  id: '/org-dashboard',
+  path: '/org-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RwandaRoute = RwandaRouteImport.update({
+  id: '/rwanda',
+  path: '/rwanda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopIndexRoute = ShopIndexRouteImport.update({
@@ -76,14 +86,9 @@ const ShopIndexRoute = ShopIndexRouteImport.update({
   path: '/shop/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const TrainingFishRoute = TrainingFishRouteImport.update({
-  id: '/training/fish',
-  path: '/training/fish',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const TrainingBeekeepingRoute = TrainingBeekeepingRouteImport.update({
-  id: '/training/beekeeping',
-  path: '/training/beekeeping',
+const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
+  id: '/shop/beekeeping',
+  path: '/shop/beekeeping',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ShopFishRoute = ShopFishRouteImport.update({
@@ -91,21 +96,14 @@ const ShopFishRoute = ShopFishRouteImport.update({
   path: '/shop/fish',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
-  id: '/shop/beekeeping',
-  path: '/shop/beekeeping',
+const TrainingBeekeepingRoute = TrainingBeekeepingRouteImport.update({
+  id: '/training/beekeeping',
+  path: '/training/beekeeping',
   getParentRoute: () => rootRouteImport,
 } as any)
-
-const FarmerDashboardRoute = FarmerDashboardRouteImport.update({
-  id: '/farmer-dashboard',
-  path: '/farmer-dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-
-const OrgDashboardRoute = OrgDashboardRouteImport.update({
-  id: '/org-dashboard',
-  path: '/org-dashboard',
+const TrainingFishRoute = TrainingFishRouteImport.update({
+  id: '/training/fish',
+  path: '/training/fish',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -113,10 +111,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
   '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/org-dashboard': typeof OrgDashboardRoute
   '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
@@ -124,17 +124,17 @@ export interface FileRoutesByFullPath {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop/': typeof ShopIndexRoute
-  '/farmer-dashboard': typeof FarmerDashboardRoute
-  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
   '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/org-dashboard': typeof OrgDashboardRoute
   '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
@@ -142,18 +142,18 @@ export interface FileRoutesByTo {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop': typeof ShopIndexRoute
-  '/farmer-dashboard': typeof FarmerDashboardRoute
-  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
   '/forage-maps': typeof ForageMapsRoute
   '/hive-sensors': typeof HiveSensorsRoute
   '/journal': typeof JournalRoute
   '/map': typeof MapRoute
+  '/org-dashboard': typeof OrgDashboardRoute
   '/rwanda': typeof RwandaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/shop/beekeeping': typeof ShopBeekeepingRoute
@@ -161,8 +161,6 @@ export interface FileRoutesById {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop/': typeof ShopIndexRoute
-  '/farmer-dashboard': typeof FarmerDashboardRoute
-  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -170,10 +168,12 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/farmer-dashboard'
     | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/org-dashboard'
     | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
@@ -181,17 +181,17 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop/'
-    | '/farmer-dashboard'
-    | '/org-dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/farmer-dashboard'
     | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/org-dashboard'
     | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
@@ -199,17 +199,17 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop'
-    | '/farmer-dashboard'
-    | '/org-dashboard'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/farmer-dashboard'
     | '/forage-maps'
     | '/hive-sensors'
     | '/journal'
     | '/map'
+    | '/org-dashboard'
     | '/rwanda'
     | '/sitemap.xml'
     | '/shop/beekeeping'
@@ -217,18 +217,18 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop/'
-    | '/farmer-dashboard'
-    | '/org-dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  FarmerDashboardRoute: typeof FarmerDashboardRoute
   ForageMapsRoute: typeof ForageMapsRoute
   HiveSensorsRoute: typeof HiveSensorsRoute
   JournalRoute: typeof JournalRoute
   MapRoute: typeof MapRoute
+  OrgDashboardRoute: typeof OrgDashboardRoute
   RwandaRoute: typeof RwandaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ShopBeekeepingRoute: typeof ShopBeekeepingRoute
@@ -236,73 +236,15 @@ export interface RootRouteChildren {
   TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
   TrainingFishRoute: typeof TrainingFishRoute
   ShopIndexRoute: typeof ShopIndexRoute
-  FarmerDashboardRoute: typeof FarmerDashboardRoute
-  OrgDashboardRoute: typeof OrgDashboardRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/farmer-dashboard': {
-      id: '/farmer-dashboard'
-      path: '/farmer-dashboard'
-      fullPath: '/farmer-dashboard'
-      preLoaderRoute: typeof FarmerDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/org-dashboard': {
-      id: '/org-dashboard'
-      path: '/org-dashboard'
-      fullPath: '/org-dashboard'
-      preLoaderRoute: typeof OrgDashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rwanda': {
-      id: '/rwanda'
-      path: '/rwanda'
-      fullPath: '/rwanda'
-      preLoaderRoute: typeof RwandaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/map': {
-      id: '/map'
-      path: '/map'
-      fullPath: '/map'
-      preLoaderRoute: typeof MapRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/journal': {
-      id: '/journal'
-      path: '/journal'
-      fullPath: '/journal'
-      preLoaderRoute: typeof JournalRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hive-sensors': {
-      id: '/hive-sensors'
-      path: '/hive-sensors'
-      fullPath: '/hive-sensors'
-      preLoaderRoute: typeof HiveSensorsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/forage-maps': {
-      id: '/forage-maps'
-      path: '/forage-maps'
-      fullPath: '/forage-maps'
-      preLoaderRoute: typeof ForageMapsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -312,11 +254,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/farmer-dashboard': {
+      id: '/farmer-dashboard'
+      path: '/farmer-dashboard'
+      fullPath: '/farmer-dashboard'
+      preLoaderRoute: typeof FarmerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forage-maps': {
+      id: '/forage-maps'
+      path: '/forage-maps'
+      fullPath: '/forage-maps'
+      preLoaderRoute: typeof ForageMapsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hive-sensors': {
+      id: '/hive-sensors'
+      path: '/hive-sensors'
+      fullPath: '/hive-sensors'
+      preLoaderRoute: typeof HiveSensorsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/journal': {
+      id: '/journal'
+      path: '/journal'
+      fullPath: '/journal'
+      preLoaderRoute: typeof JournalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/map': {
+      id: '/map'
+      path: '/map'
+      fullPath: '/map'
+      preLoaderRoute: typeof MapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/org-dashboard': {
+      id: '/org-dashboard'
+      path: '/org-dashboard'
+      fullPath: '/org-dashboard'
+      preLoaderRoute: typeof OrgDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rwanda': {
+      id: '/rwanda'
+      path: '/rwanda'
+      fullPath: '/rwanda'
+      preLoaderRoute: typeof RwandaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop/': {
@@ -326,18 +324,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/training/fish': {
-      id: '/training/fish'
-      path: '/training/fish'
-      fullPath: '/training/fish'
-      preLoaderRoute: typeof TrainingFishRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/training/beekeeping': {
-      id: '/training/beekeeping'
-      path: '/training/beekeeping'
-      fullPath: '/training/beekeeping'
-      preLoaderRoute: typeof TrainingBeekeepingRouteImport
+    '/shop/beekeeping': {
+      id: '/shop/beekeeping'
+      path: '/shop/beekeeping'
+      fullPath: '/shop/beekeeping'
+      preLoaderRoute: typeof ShopBeekeepingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/shop/fish': {
@@ -347,11 +338,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopFishRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/shop/beekeeping': {
-      id: '/shop/beekeeping'
-      path: '/shop/beekeeping'
-      fullPath: '/shop/beekeeping'
-      preLoaderRoute: typeof ShopBeekeepingRouteImport
+    '/training/beekeeping': {
+      id: '/training/beekeeping'
+      path: '/training/beekeeping'
+      fullPath: '/training/beekeeping'
+      preLoaderRoute: typeof TrainingBeekeepingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/training/fish': {
+      id: '/training/fish'
+      path: '/training/fish'
+      fullPath: '/training/fish'
+      preLoaderRoute: typeof TrainingFishRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -361,10 +359,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  FarmerDashboardRoute: FarmerDashboardRoute,
   ForageMapsRoute: ForageMapsRoute,
   HiveSensorsRoute: HiveSensorsRoute,
   JournalRoute: JournalRoute,
   MapRoute: MapRoute,
+  OrgDashboardRoute: OrgDashboardRoute,
   RwandaRoute: RwandaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ShopBeekeepingRoute: ShopBeekeepingRoute,
@@ -372,9 +372,17 @@ const rootRouteChildren: RootRouteChildren = {
   TrainingBeekeepingRoute: TrainingBeekeepingRoute,
   TrainingFishRoute: TrainingFishRoute,
   ShopIndexRoute: ShopIndexRoute,
-  FarmerDashboardRoute: FarmerDashboardRoute,
-  OrgDashboardRoute: OrgDashboardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
