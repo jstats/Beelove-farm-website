@@ -45,6 +45,7 @@ export const Route = createFileRoute("/")({
 });
 
 const SLIDES = [
+  { src: "/images/beelove-app-v12-mockup.jpg", alt: "BeeLove Farmer App v1.2 on smartphone in an African apiary" },
   { src: hero1, alt: "Fresh Beelove honeycomb harvest" },
   { src: fishImg, alt: "Fresh tilapia harvest" },
   { src: catfishHeroImg, alt: "Farmer holding a large African catfish" },
@@ -107,23 +108,41 @@ function HomePage() {
         ))}
         <div className="absolute inset-0 bg-gradient-to-b from-umber/60 via-umber/40 to-umber/80" />
         <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 text-cream">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber/25 border border-amber/40 text-honey text-xs font-medium uppercase tracking-[0.18em] mb-6">
-            🌿 Climate-smart farming · Worldwide
-          </span>
+          <a
+            href="#mobile-app"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#164936]/90 border border-[#A3E7C1]/50 text-[#A3E7C1] text-xs font-bold uppercase tracking-[0.16em] mb-4 hover:bg-[#164936] transition-all shadow-xl backdrop-blur-md"
+          >
+            <span>📱</span>
+            <span>New: BeeLove Farmer App v1.2 &bull; On Google Play</span>
+            <ArrowRight className="size-3.5" />
+          </a>
+
           <h1 className="font-display text-5xl md:text-7xl leading-[1.05] mb-6 max-w-4xl text-balance">
             Beelove Farm —<br />
             <em className="text-honey">Honey, Hives & Fish Farming</em>
           </h1>
           <p className="max-w-2xl text-base md:text-lg text-cream/90 text-pretty mb-8">
-            Where honey meets the harvest. We practice sustainable beekeeping and fish farming —
-            working with nature to nourish families, train farmers, and build a better future for agriculture.
+            Where honey meets the harvest. Modern climate-smart apiculture, satellite rainfall onset intelligence, and sustainable aquaculture — built for African smallholders.
           </p>
-          <div className="flex flex-wrap gap-3 justify-center">
-            <a href="#welcome" className="bg-amber text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3 rounded-full hover:bg-honey hover:text-umber transition-colors">
+          <div className="flex flex-wrap gap-3.5 justify-center items-center">
+            <a
+              href="#mobile-app"
+              className="bg-[#164936] text-cream border-2 border-honey text-sm font-bold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-[#1E5D45] transition-all shadow-xl inline-flex items-center gap-2"
+            >
+              <Smartphone className="size-4 text-honey" />
+              <span>Get Mobile App v1.2</span>
+            </a>
+            <a
+              href="#welcome"
+              className="bg-amber text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-honey hover:text-umber transition-colors"
+            >
               Discover Our Farm
             </a>
-            <Link to="/contact" className="border border-cream/40 text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3 rounded-full hover:bg-cream/10 transition-colors">
-              Get in Touch
+            <Link
+              to="/farmer-dashboard"
+              className="border border-cream/40 text-cream text-sm font-semibold uppercase tracking-widest px-6 py-3.5 rounded-full hover:bg-cream/10 transition-colors inline-flex items-center gap-2"
+            >
+              <span>Farmer Dashboard</span>
             </Link>
           </div>
         </div>
@@ -227,7 +246,7 @@ function HomePage() {
               <span>Flagship Mobile Experience &bull; Version 1.2</span>
             </div>
             <h2 className="font-display text-4xl md:text-5xl font-bold text-cream mt-2 mb-4 leading-tight">
-              The AI-Powered Beekeeping App<br className="hidden sm:inline" /> Built for African Smallholders
+              The Climate-Smart Beekeeping App<br className="hidden sm:inline" /> Built for African Smallholders
             </h2>
             <p className="text-cream/80 text-base md:text-lg">
               From real-time radial colony occupancy gauges to autonomous on-device AI advisors, 

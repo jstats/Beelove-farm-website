@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { ChevronDown, Menu, X, Smartphone } from "lucide-react";
 import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
 import { cn } from "@/lib/utils";
 
@@ -56,6 +56,16 @@ export function SiteNav() {
 
         {/* Desktop nav */}
         <div className="hidden lg:flex items-center gap-1 text-sm font-medium">
+          <div className="pb-2 border-b border-umber/10">
+            <a
+              href="/#mobile-app"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex items-center justify-center gap-2 w-full bg-[#164936] text-[#A3E7C1] font-bold text-sm py-2.5 rounded-xl shadow-sm"
+            >
+              <Smartphone className="size-4 text-honey" />
+              <span>BeeLove Farmer App v1.2</span>
+            </a>
+          </div>
           {NAV_LINKS.map((item) =>
             item.children ? (
               <DesktopDropdown
@@ -81,6 +91,15 @@ export function SiteNav() {
           )}
         </div>
 
+        <div className="hidden md:flex items-center gap-2">
+          <a
+            href="/#mobile-app"
+            className="inline-flex items-center gap-1.5 bg-[#164936] text-[#A3E7C1] text-xs font-bold uppercase tracking-wider px-3.5 py-2 rounded-full ring-1 ring-[#164936] hover:bg-[#1E5D45] transition-all shadow-sm"
+          >
+            <Smartphone className="size-3.5 text-honey" />
+            <span>App v1.2</span>
+          </a>
+        </div>
         <a
           href={wa("Hello Beelove Farm, I'd like to make an enquiry.")}
           target="_blank"
@@ -108,6 +127,16 @@ export function SiteNav() {
         )}
       >
         <div className="px-6 py-4 flex flex-col gap-1 text-sm font-medium">
+          <div className="pb-2 border-b border-umber/10">
+            <a
+              href="/#mobile-app"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex items-center justify-center gap-2 w-full bg-[#164936] text-[#A3E7C1] font-bold text-sm py-2.5 rounded-xl shadow-sm"
+            >
+              <Smartphone className="size-4 text-honey" />
+              <span>BeeLove Farmer App v1.2</span>
+            </a>
+          </div>
           {NAV_LINKS.map((item) =>
             item.children ? (
               <div key={item.label} className="border-b border-umber/5 last:border-0 py-1">

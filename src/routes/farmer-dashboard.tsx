@@ -20,6 +20,7 @@ export const Route = createFileRoute("/farmer-dashboard")({
   head: () => ({
     meta: [
       { title: "Farmer Dashboard — BeeLove Farm Intelligence" },
+      { name: "robots", content: "noindex, nofollow" },
       {
         name: "description",
         content:
@@ -119,6 +120,11 @@ function FarmerDashboardPage() {
 
   return (
     <SiteLayout>
+      {/* Privacy & Concept Demo Watermark */}
+      <div className="bg-amber/15 border-b border-amber/30 px-6 py-2.5 text-xs text-umber font-semibold flex items-center justify-center gap-2">
+        <Sparkles className="size-4 text-honey" />
+        <span>Interactive Concept Demo &bull; Illustrating upcoming cloud sync &amp; satellite telemetry for BeeLove Farmer mobile users</span>
+      </div>
       <div className="bg-[#0D1E16] text-cream min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-8">
           {/* Header */}
@@ -284,7 +290,7 @@ function FarmerDashboardPage() {
             </div>
           </div>
 
-          {/* On-Device AI Directive Banner */}
+          {/* BeeLove Advisor Directive Banner */}
           <div className="bg-card text-umber rounded-3xl p-6 border-2 border-amber shadow-2xl relative overflow-hidden">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
               <div className="flex items-center gap-2.5">

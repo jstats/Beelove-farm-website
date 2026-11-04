@@ -21,6 +21,7 @@ export const Route = createFileRoute("/org-dashboard")({
   head: () => ({
     meta: [
       { title: "Cooperative & Org Portal — BeeLove Farm Intelligence" },
+      { name: "robots", content: "noindex, nofollow" },
       {
         name: "description",
         content:
@@ -44,13 +45,13 @@ type FarmerRecord = {
 };
 
 const SAMPLE_FARMERS: FarmerRecord[] = [
-  { id: "F-101", name: "James Mutua", phone: "+254722110022", county: "Makueni", subCounty: "Kibwezi East", totalHives: 45, occupiedHives: 38, lastCheckin: "2026-11-02", projectedKg: 570 },
-  { id: "F-102", name: "Grace Wambua", phone: "+254721445566", county: "Makueni", subCounty: "Mbooni", totalHives: 60, occupiedHives: 52, lastCheckin: "2026-10-30", projectedKg: 780 },
-  { id: "F-103", name: "Peter Nzomo", phone: "+254710889900", county: "Kitui", subCounty: "Kitui South", totalHives: 30, occupiedHives: 22, lastCheckin: "2026-10-25", projectedKg: 330 },
-  { id: "F-104", name: "Agnes Ndinda", phone: "+254728334411", county: "Kitui", subCounty: "Mwingi Central", totalHives: 80, occupiedHives: 64, lastCheckin: "2026-11-01", projectedKg: 960 },
-  { id: "F-105", name: "Samuel Kimani", phone: "+254733556677", county: "Kajiado", subCounty: "Kajiado North", totalHives: 50, occupiedHives: 36, lastCheckin: "2026-10-28", projectedKg: 540 },
-  { id: "F-106", name: "Beatrice Achieng", phone: "+254712998877", county: "Nairobi", subCounty: "Karura", totalHives: 24, occupiedHives: 20, lastCheckin: "2026-11-03", projectedKg: 300 },
-  { id: "F-107", name: "Emmanuel Nkurunziza", phone: "+250788123456", county: "Bugesera (Rwanda)", subCounty: "Nyamata", totalHives: 70, occupiedHives: 58, lastCheckin: "2026-10-29", projectedKg: 870 },
+  { id: "F-101", name: "James Mutua", phone: "+254 722 ••• 022", county: "Makueni", subCounty: "Kibwezi East", totalHives: 45, occupiedHives: 38, lastCheckin: "2026-11-02", projectedKg: 570 },
+  { id: "F-102", name: "Grace Wambua", phone: "+254 721 ••• 566", county: "Makueni", subCounty: "Mbooni", totalHives: 60, occupiedHives: 52, lastCheckin: "2026-10-30", projectedKg: 780 },
+  { id: "F-103", name: "Peter Nzomo", phone: "+254 710 ••• 900", county: "Kitui", subCounty: "Kitui South", totalHives: 30, occupiedHives: 22, lastCheckin: "2026-10-25", projectedKg: 330 },
+  { id: "F-104", name: "Agnes Ndinda", phone: "+254 728 ••• 411", county: "Kitui", subCounty: "Mwingi Central", totalHives: 80, occupiedHives: 64, lastCheckin: "2026-11-01", projectedKg: 960 },
+  { id: "F-105", name: "Samuel Kimani", phone: "+254 733 ••• 677", county: "Kajiado", subCounty: "Kajiado North", totalHives: 50, occupiedHives: 36, lastCheckin: "2026-10-28", projectedKg: 540 },
+  { id: "F-106", name: "Beatrice Achieng", phone: "+254 712 ••• 877", county: "Nairobi", subCounty: "Karura", totalHives: 24, occupiedHives: 20, lastCheckin: "2026-11-03", projectedKg: 300 },
+  { id: "F-107", name: "Emmanuel Nkurunziza", phone: "+250 788 ••• 456", county: "Bugesera (Rwanda)", subCounty: "Nyamata", totalHives: 70, occupiedHives: 58, lastCheckin: "2026-10-29", projectedKg: 870 },
 ];
 
 function OrgDashboardPage() {
@@ -88,6 +89,11 @@ function OrgDashboardPage() {
 
   return (
     <SiteLayout>
+      {/* Privacy & Concept Demo Watermark */}
+      <div className="bg-amber/15 border-b border-amber/30 px-6 py-2.5 text-xs text-umber font-semibold flex items-center justify-center gap-2">
+        <Building2 className="size-4 text-amber" />
+        <span>Interactive Concept Demo &bull; Showing Aggregate Census &amp; Co-op Coordination (Farmer Coordinates Redacted for Security)</span>
+      </div>
       <div className="bg-[#0B1713] text-cream min-h-screen py-10 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto space-y-8">
           {/* Header */}
