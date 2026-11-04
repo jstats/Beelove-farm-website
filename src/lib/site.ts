@@ -7,11 +7,7 @@ export function wa(message: string): string {
 }
 
 /**
- * 6-item top nav. Three of the items are dropdown groups so we collapse
- * Shop + Training (and the two intelligence tools) into a single label each.
- *
- * `children` is undefined for plain links, or an array of {to, label, desc}
- * for dropdown groups.
+ * Top navigation with dropdown groups for Shop, Training, and Farm Intelligence dashboards.
  */
 export type NavChild = { to: string; label: string; desc: string };
 export type NavItem = { to: string; label: string; children?: NavChild[] };
@@ -36,11 +32,12 @@ export const NAV_LINKS: readonly NavItem[] = [
     ],
   },
   {
-    to: "/map",
+    to: "/farmer-dashboard",
     label: "Farm Intelligence",
     children: [
+      { to: "/farmer-dashboard", label: "Farmer Dashboard", desc: "Individual apiary telemetry, hive check-ins & AI advice" },
+      { to: "/org-dashboard", label: "Cooperative & Org Portal", desc: "Multi-farmer census, swarm broadcast & honey harvest forecasts" },
       { to: "/forage-maps", label: "Bee Maps", desc: "Rain outlook, forage and suitability maps — Kenya and Rwanda" },
-      { to: "/dashboard.html", label: "Field Dashboard", desc: "Field monitoring dashboard for hive and farm data" },
       { to: "/map", label: "Suitability Map", desc: "Find where your land suits bees, fish or Azolla" },
       { to: "/hive-sensors", label: "Hive Sensors", desc: "IoT monitoring for traditional beekeepers" },
     ],

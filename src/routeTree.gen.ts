@@ -23,6 +23,8 @@ import { Route as TrainingFishRouteImport } from './routes/training.fish'
 import { Route as TrainingBeekeepingRouteImport } from './routes/training.beekeeping'
 import { Route as ShopFishRouteImport } from './routes/shop.fish'
 import { Route as ShopBeekeepingRouteImport } from './routes/shop.beekeeping'
+import { Route as FarmerDashboardRouteImport } from './routes/farmer-dashboard'
+import { Route as OrgDashboardRouteImport } from './routes/org-dashboard'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -95,6 +97,18 @@ const ShopBeekeepingRoute = ShopBeekeepingRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 
+const FarmerDashboardRoute = FarmerDashboardRouteImport.update({
+  id: '/farmer-dashboard',
+  path: '/farmer-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
+const OrgDashboardRoute = OrgDashboardRouteImport.update({
+  id: '/org-dashboard',
+  path: '/org-dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
@@ -110,6 +124,8 @@ export interface FileRoutesByFullPath {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop/': typeof ShopIndexRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
+  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +142,8 @@ export interface FileRoutesByTo {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop': typeof ShopIndexRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
+  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +161,8 @@ export interface FileRoutesById {
   '/training/beekeeping': typeof TrainingBeekeepingRoute
   '/training/fish': typeof TrainingFishRoute
   '/shop/': typeof ShopIndexRoute
+  '/farmer-dashboard': typeof FarmerDashboardRoute
+  '/org-dashboard': typeof OrgDashboardRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +181,8 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop/'
+    | '/farmer-dashboard'
+    | '/org-dashboard'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +199,8 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop'
+    | '/farmer-dashboard'
+    | '/org-dashboard'
   id:
     | '__root__'
     | '/'
@@ -193,6 +217,8 @@ export interface FileRouteTypes {
     | '/training/beekeeping'
     | '/training/fish'
     | '/shop/'
+    | '/farmer-dashboard'
+    | '/org-dashboard'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,10 +236,26 @@ export interface RootRouteChildren {
   TrainingBeekeepingRoute: typeof TrainingBeekeepingRoute
   TrainingFishRoute: typeof TrainingFishRoute
   ShopIndexRoute: typeof ShopIndexRoute
+  FarmerDashboardRoute: typeof FarmerDashboardRoute
+  OrgDashboardRoute: typeof OrgDashboardRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/farmer-dashboard': {
+      id: '/farmer-dashboard'
+      path: '/farmer-dashboard'
+      fullPath: '/farmer-dashboard'
+      preLoaderRoute: typeof FarmerDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/org-dashboard': {
+      id: '/org-dashboard'
+      path: '/org-dashboard'
+      fullPath: '/org-dashboard'
+      preLoaderRoute: typeof OrgDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -330,6 +372,8 @@ const rootRouteChildren: RootRouteChildren = {
   TrainingBeekeepingRoute: TrainingBeekeepingRoute,
   TrainingFishRoute: TrainingFishRoute,
   ShopIndexRoute: ShopIndexRoute,
+  FarmerDashboardRoute: FarmerDashboardRoute,
+  OrgDashboardRoute: OrgDashboardRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

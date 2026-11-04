@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { SiteLayout } from "@/components/SiteLayout";
 import { wa } from "@/lib/site";
-import { ArrowRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown, Sparkles, Smartphone, TrendingUp, ShieldCheck } from "lucide-react";
 import hero1 from "@/assets/beelove-honey-comb.jpg";
 import hero2 from "@/assets/hero2.jpg";
 import hero3 from "@/assets/hero3.jpg";
@@ -214,6 +214,118 @@ function HomePage() {
               shopLabel="🛒 Shop Fish Products"
               trainLabel="🎓 Attend Training"
             />
+          </div>
+        </div>
+      </section>
+
+      {/* BEELOVE FARMER APP (v1.2) FLAGSHIP SHOWCASE */}
+      <section id="mobile-app" className="bg-[#0F261C] text-cream py-16 md:py-24 border-y border-amber/20 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center max-w-3xl mx-auto mb-14">
+            <div className="inline-flex items-center gap-2 bg-amber/20 border border-amber/40 text-honey text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full mb-3">
+              <Sparkles className="size-3.5" />
+              <span>Flagship Mobile Experience &bull; Version 1.2</span>
+            </div>
+            <h2 className="font-display text-4xl md:text-5xl font-bold text-cream mt-2 mb-4 leading-tight">
+              The AI-Powered Beekeeping App<br className="hidden sm:inline" /> Built for African Smallholders
+            </h2>
+            <p className="text-cream/80 text-base md:text-lg">
+              From real-time radial colony occupancy gauges to autonomous on-device AI advisors, 
+              BeeLove Mobile equips beekeepers with satellite precision and offline resilience.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8 items-stretch">
+            {/* Feature 1 */}
+            <div className="bg-forest/80 border border-cream/15 rounded-3xl p-7 flex flex-col justify-between hover:border-amber/50 transition-all shadow-xl">
+              <div>
+                <div className="size-12 rounded-2xl bg-amber/20 flex items-center justify-center text-2xl mb-5">
+                  📊
+                </div>
+                <h3 className="font-display text-2xl font-bold text-cream mb-2">
+                  Radial Occupancy &amp; Empty Hives
+                </h3>
+                <p className="text-cream/75 text-sm leading-relaxed mb-4">
+                  Glanceable SVG sweep gauges show colonized hives instantly. High-contrast opportunity callouts alert you when uncolonized boxes are ready for baiting ahead of seasonal rains.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
+                ✓ 85% Colonization Goal Tracking
+              </div>
+            </div>
+
+            {/* Feature 2: On-Device AI */}
+            <div className="bg-gradient-to-b from-forest to-[#1A3D2D] border-2 border-amber rounded-3xl p-7 flex flex-col justify-between relative shadow-2xl">
+              <div className="absolute top-4 right-4 bg-[#0F172A] text-[#38BDF8] text-[10px] font-black px-2.5 py-1 rounded-md tracking-wider">
+                NEW IN 1.2
+              </div>
+              <div>
+                <div className="size-12 rounded-2xl bg-amber flex items-center justify-center text-2xl mb-5 text-umber">
+                  🤖
+                </div>
+                <h3 className="font-display text-2xl font-bold text-cream mb-2">
+                  On-Device AI Hive Advisor
+                </h3>
+                <p className="text-cream/75 text-sm leading-relaxed mb-4">
+                  Evaluates inspection recency, rainfall anomalies, and pest departure records locally on the phone. Proactively schedules morning push notifications with 1-tap directives.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
+                ✓ 100% Offline &bull; Zero Network Required
+              </div>
+            </div>
+
+            {/* Feature 3: Time Series */}
+            <div className="bg-forest/80 border border-cream/15 rounded-3xl p-7 flex flex-col justify-between hover:border-amber/50 transition-all shadow-xl">
+              <div>
+                <div className="size-12 rounded-2xl bg-teal/20 flex items-center justify-center text-2xl mb-5">
+                  📈
+                </div>
+                <h3 className="font-display text-2xl font-bold text-cream mb-2">
+                  Monthly KPI Time-Series
+                </h3>
+                <p className="text-cream/75 text-sm leading-relaxed mb-4">
+                  Multi-month telemetry curves tracking colony expansion, cumulative honey harvest (kg), and savannah flora bloom correlation over 40-year climate baselines.
+                </p>
+              </div>
+              <div className="pt-4 border-t border-cream/10 text-xs font-semibold text-honey">
+                ✓ Seasonal Trajectory &amp; Yield Forecasts
+              </div>
+            </div>
+          </div>
+
+          {/* Action CTAs */}
+          <div className="mt-12 bg-cream/5 border border-cream/15 rounded-3xl p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1 text-center md:text-left">
+              <div className="font-display text-xl font-bold text-cream">
+                Experience the BeeLove Intelligence Ecosystem
+              </div>
+              <p className="text-sm text-cream/70">
+                Try the interactive mobile simulator or access the live cooperative management portals.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3 justify-center">
+              <Link
+                to="/farmer-dashboard"
+                className="bg-amber text-umber font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-honey transition-colors shadow-lg"
+              >
+                Farmer Dashboard &rarr;
+              </Link>
+              <Link
+                to="/org-dashboard"
+                className="bg-forest border border-honey text-honey font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-forest/80 transition-colors"
+              >
+                Cooperative Portal &rarr;
+              </Link>
+              <a
+                href="/beelove_v3_visuals.html"
+                target="_blank"
+                className="border border-cream/30 text-cream font-medium text-xs uppercase tracking-wider px-5 py-3 rounded-full hover:bg-cream/10 transition-colors"
+              >
+                📱 Live Mobile Demo
+              </a>
+            </div>
           </div>
         </div>
       </section>
