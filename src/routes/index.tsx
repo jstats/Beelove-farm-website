@@ -235,6 +235,24 @@ function HomePage() {
             </p>
           </div>
 
+          {/* App v1.2 Hero Image Showcase */}
+          <div className="mb-14 relative max-w-4xl mx-auto rounded-3xl overflow-hidden border border-amber/30 shadow-2xl group bg-black/40">
+            <img 
+              src="/images/beelove-app-v12-mockup.jpg" 
+              alt="BeeLove Farmer App v1.2 displayed on a smartphone in an African savannah apiary" 
+              className="w-full h-auto object-cover max-h-[500px] transform group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0F261C] via-transparent to-transparent opacity-60 pointer-events-none" />
+            <div className="absolute bottom-4 left-6 right-6 flex flex-wrap items-center justify-between gap-4 pointer-events-none">
+              <span className="bg-forest/90 backdrop-blur-md border border-cream/20 text-cream text-xs font-semibold px-4 py-2 rounded-full shadow-lg">
+                📱 BeeLove Farmer v1.2 &bull; On-Device AI &bull; Radial Colonization Gauge
+              </span>
+              <span className="bg-amber text-umber font-bold text-xs px-3.5 py-1.5 rounded-full shadow-md">
+                Google Play Ready
+              </span>
+            </div>
+          </div>
+
           <div className="grid lg:grid-cols-3 gap-8 items-stretch">
             {/* Feature 1 */}
             <div className="bg-forest/80 border border-cream/15 rounded-3xl p-7 flex flex-col justify-between hover:border-amber/50 transition-all shadow-xl">
