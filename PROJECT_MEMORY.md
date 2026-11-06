@@ -56,6 +56,15 @@
 - **Dummy Simulation Safeguards:** Explicitly branded `/org-dashboard` as a dummy prototype with sample smallholder records, masked phone numbers, and privacy notices.
 - **Committed & Pushed:** Commits `08ba74b`, `aba4b76`, and `6b030ad`.
 
+
+### Website Dashboards Authentication & GCP Data Integration (6 Nov 2026)
+- **Role-Based Authentication (`src/lib/dashboard-auth.ts`):** Implemented username and password protection for all farm intelligence dashboards. Supports `farmer`, `organization`, and `admin` roles with session persistence.
+- **GCP Data Layer (`src/lib/gcp-data.ts`):** Connected real smallholder data from GCP/Apps Script backend (`https://script.google.com/macros/s/...`) and BigQuery models. Integrated BeeLove Farm (Kiunduani Main Apiary, Makueni) with real Langstroth, KTBH, and traditional log hive counts.
+- **Login Modal (`src/components/DashboardLoginModal.tsx`):** Branded dual-tab portal with 1-click quick login for BeeLove Farm (Owner), Smallholder (Zeb Mwandi), and Cooperative (Makueni Co-op).
+- **Upgraded Farmer Dashboard (`src/routes/farmer-dashboard.tsx`):** Authenticated view with live colony occupancy radial gauge, canonical KES 4,000 empty-hive opportunity valuation, localized 40-year CHIRPS rain normals, and interactive hive inspection logger.
+- **Upgraded Organization Hub (`src/routes/org-dashboard.tsx`):** Authenticated cooperative portal with aggregated hive totals, projected harvest yield (kg), regional county/sub-county filtering, privacy-safe masked phone numbers, coarsened coordinates, and swarm advisory broadcast tool.
+- **Farmers App Safeguard:** Preserved farmer mobile app completely untouched.
+
 ### Native Android Applet (`/app/applet`)
 - **Applet Metadata:** Synced `metadata.json` and `res/values/strings.xml` to `"Beelove Farm"`.
 - **Direct Hive Entry:** `AddApiaryDialog` in `ApiaryScreen.kt` supports direct typing via `KeyboardType.Number` and Kenyan county dropdown selection.
